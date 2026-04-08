@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberPulse | Neural Access Terminal</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Open+Sans:wght@400;600&family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    
+    <!-- AOS Animation CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+
+    <style>
+        :root {
+            --bg-color: #0a0a0f;
+            --text-color: #e0e0e0;
+            --card-bg: rgba(10, 10, 20, 0.85);
+            --card-border: rgba(255, 0, 255, 0.15);
+            --input-bg: rgba(0, 0, 0, 0.5);
+            --input-text: #ffffff;
+            --primary: #FF00FF;
+            --accent: #00FF9F;
+            --glow-primary: 0 0 15px rgba(255, 0, 255, 0.5), 0 0 30px rgba(255, 0, 255, 0.2);
+            --glow-accent: 0 0 15px rgba(0, 255, 159, 0.5), 0 0 30px rgba(0, 255, 159, 0.2);
+            --font-heading: 'Nunito', sans-serif;
+            --font-body: 'Ubuntu', sans-serif;
+            --font-form: 'Open Sans', sans-serif;
+        }
+
+        [data-theme="light"] {
+            --bg-color: #f5f0ff;
+            --text-color: #1a0a2e;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --card-border: rgba(255, 0, 255, 0.2);
+            --input-bg: rgba(245, 240, 255, 0.9);
+            --input-text: #1a0a2e;
+            --primary: #cc00cc;
+            --accent: #00cc7f;
+            --glow-primary: 0 2px 10px rgba(204, 0, 204, 0.2);
+            --glow-accent: 0 2px 10px rgba(0, 204, 127, 0.2);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: var(--font-body);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        /* Scanline Overlay */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 0, 0, 0.08) 2px,
+                rgba(0, 0, 0, 0.08) 4px
+            );
+            animation: scanlineMove 0.1s linear infinite;
+        }
+
+        @keyframes scanlineMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 4px; }
+        }
+
+        [data-theme="light"] .scanlines {
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 0, 0, 0.03) 2px,
+                rgba(0, 0, 0, 0.03) 4px
+            );
+        }
+
+        /* Grid Background */
+        .cyber-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                linear-gradient(rgba(255, 0, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 0, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridPulse 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes gridPulse {
+            0% { opacity: 0.3; }
+            100% { opacity: 0.7; }
+        }
+
+        /* Glitch Effect */
+        .glitch {
+            position: relative;
+            animation: glitchText 3s infinite;
+        }
+
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .glitch::before {
+            left: 2px;
+            text-shadow: -2px 0 var(--primary);
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+
+        .glitch::after {
+            left: -2px;
+            text-shadow: -2px 0 var(--accent);
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim2 5s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% { clip: rect(10px, 9999px, 85px, 0); }
+            20% { clip: rect(63px, 9999px, 130px, 0); }
+            40% { clip: rect(25px, 9999px, 15px, 0); }
+            60% { clip: rect(88px, 9999px, 95px, 0); }
+            80% { clip: rect(43px, 9999px, 70px, 0); }
+            100% { clip: rect(15px, 9999px, 110px, 0); }
+        }
+
+        @keyframes glitch-anim2 {
+            0% { clip: rect(65px, 9999px, 100px, 0); }
+            20% { clip: rect(15px, 9999px, 60px, 0); }
+            40% { clip: rect(85px, 9999px, 140px, 0); }
+            60% { clip: rect(35px, 9999px, 80px, 0); }
+            80% { clip: rect(95px, 9999px, 120px, 0); }
+            100% { clip: rect(5px, 9999px, 45px, 0); }
+        }
+
+        @keyframes glitchText {
+            0%, 100% { transform: translate(0); }
+            2% { transform: translate(2px, -1px); }
+            4% { transform: translate(-2px, 1px); }
+            6% { transform: translate(0); }
+        }
+
+        /* Main Layout */
+        .main-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 20px;
+        }
+
+        /* Cyberpunk Card */
+        .cyber-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+            border-radius: 2px;
+            box-shadow: var(--glow-primary), 0 0 60px rgba(255, 0, 255, 0.1);
+            width: 100%;
+            max-width: 950px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: row;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+
+        .cyber-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), var(--accent), transparent);
+            animation: borderGlow 3s linear infinite;
+        }
+
+        @keyframes borderGlow {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        [data-theme="light"] .cyber-card {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15), var(--glow-primary);
+        }
+
+        /* Left Side */
+        .cyber-visual {
+            width: 45%;
+            background: linear-gradient(135deg, rgba(255, 0, 255, 0.1), rgba(0, 255, 159, 0.05));
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            border-right: 1px solid var(--card-border);
+        }
+
+        .cyber-visual::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(255, 0, 255, 0.03) 10px,
+                rgba(255, 0, 255, 0.03) 20px
+            );
+        }
+
+        .visual-content { z-index: 2; }
+
+        .cyber-logo {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--primary);
+            text-shadow: var(--glow-primary);
+            margin-bottom: 10px;
+            letter-spacing: 3px;
+        }
+
+        .cyber-subtitle {
+            font-size: 0.85rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            opacity: 0.8;
+            margin-bottom: 30px;
+        }
+
+        /* Right Side */
+        .cyber-forms {
+            width: 55%;
+            padding: 45px 40px 40px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Header Actions */
+        .header-actions {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            gap: 15px;
+        }
+
+        .action-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            color: var(--text-color);
+            width: 44px;
+            height: 44px;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 0, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .action-btn:hover::before {
+            left: 100%;
+        }
+
+        .action-btn:hover {
+            background: var(--primary);
+            color: white;
+            box-shadow: var(--glow-primary);
+            transform: scale(1.1);
+            border-color: var(--primary);
+        }
+
+        /* Tabs */
+        .auth-tabs-wrapper {
+            margin-bottom: 30px;
+        }
+
+        .nav-tabs.cyber-tabs {
+            border: none;
+            background: rgba(255, 0, 255, 0.05);
+            border-radius: 2px;
+            padding: 4px;
+            gap: 4px;
+            display: flex;
+            position: relative;
+        }
+
+        .nav-tabs.cyber-tabs .nav-item {
+            flex: 1;
+        }
+
+        .nav-tabs.cyber-tabs .nav-link {
+            color: var(--text-color);
+            border: none;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 0.9rem;
+            padding: 12px 8px;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 2px;
+            text-align: center;
+            background: transparent;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            opacity: 0.6;
+        }
+
+        .nav-tabs.cyber-tabs .nav-link:hover {
+            opacity: 1;
+            background: rgba(255, 0, 255, 0.1);
+        }
+
+        .nav-tabs.cyber-tabs .nav-link.active {
+            opacity: 1;
+            background: linear-gradient(135deg, rgba(255, 0, 255, 0.2), rgba(0, 255, 159, 0.1));
+            border: 1px solid var(--primary);
+            box-shadow: var(--glow-primary);
+            color: var(--primary);
+        }
+
+        [data-theme="light"] .nav-tabs.cyber-tabs .nav-link.active {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .nav-tabs.cyber-tabs .nav-link i {
+            margin-right: 6px;
+            font-size: 0.8rem;
+        }
+
+        /* Input Groups */
+        .cyber-input-group {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .cyber-input-group label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-color);
+            opacity: 0.7;
+            margin-bottom: 8px;
+            margin-left: 2px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-family: var(--font-form);
+            display: block;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 2px;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+
+        .input-wrapper:hover {
+            border-color: rgba(255, 0, 255, 0.3);
+        }
+
+        .input-wrapper:focus-within {
+            border-color: var(--primary);
+            box-shadow: var(--glow-primary);
+        }
+
+        .input-wrapper .input-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            min-width: 48px;
+            height: 100%;
+            color: var(--primary);
+            font-size: 0.95rem;
+            opacity: 0.5;
+            transition: all 0.35s;
+            padding: 14px 0 14px 16px;
+        }
+
+        .input-wrapper:focus-within .input-icon {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .input-wrapper .form-control {
+            background: transparent;
+            border: none;
+            color: var(--input-text);
+            border-radius: 0;
+            padding: 14px 16px 14px 8px;
+            font-family: var(--font-form);
+            font-size: 0.95rem;
+            box-shadow: none;
+            flex: 1;
+        }
+
+        .input-wrapper .form-control:focus {
+            background: transparent;
+            color: var(--input-text);
+            border: none;
+            box-shadow: none;
+        }
+
+        .input-wrapper .form-control::placeholder {
+            color: var(--text-color);
+            opacity: 0.3;
+        }
+
+        .input-wrapper .toggle-password {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            min-width: 44px;
+            background: transparent;
+            border: none;
+            color: var(--text-color);
+            opacity: 0.35;
+            cursor: pointer;
+            transition: all 0.3s;
+            padding: 0;
+            font-size: 0.9rem;
+        }
+
+        .input-wrapper .toggle-password:hover {
+            opacity: 0.8;
+            color: var(--accent);
+        }
+
+        /* Password Strength */
+        .password-strength {
+            display: flex;
+            gap: 4px;
+            margin-top: 8px;
+        }
+
+        .strength-bar {
+            height: 3px;
+            flex: 1;
+            border-radius: 2px;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+
+        .strength-bar.active { background: #ff0040; }
+        .strength-bar.active.medium { background: #ffaa00; }
+        .strength-bar.active.strong { background: var(--accent); }
+
+        /* Buttons */
+        .btn-cyber {
+            background: linear-gradient(135deg, var(--primary), #cc00cc);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 2px;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: 2px;
+            width: 100%;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--glow-primary);
+            text-transform: uppercase;
+        }
+
+        .btn-cyber::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-cyber:hover::before {
+            left: 100%;
+        }
+
+        .btn-cyber:hover {
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.6), 0 0 60px rgba(255, 0, 255, 0.3);
+            transform: translateY(-2px);
+            color: white;
+        }
+
+        .btn-cyber:active {
+            transform: translateY(1px);
+        }
+
+        /* Social Buttons */
+        .cyber-divider {
+            display: flex;
+            align-items: center;
+            margin: 24px 0 20px;
+            gap: 16px;
+        }
+
+        .cyber-divider::before,
+        .cyber-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--card-border), transparent);
+        }
+
+        .cyber-divider span {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-color);
+            opacity: 0.4;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-family: var(--font-form);
+        }
+
+        .social-login-group {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .social-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--card-border);
+            color: var(--text-color);
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+        }
+
+        .social-btn:hover {
+            background: rgba(255, 0, 255, 0.15);
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: var(--glow-primary);
+        }
+
+        /* Links */
+        .cyber-link {
+            font-size: 0.8rem;
+            color: var(--accent);
+            text-decoration: none;
+            transition: all 0.3s;
+            opacity: 0.7;
+        }
+
+        .cyber-link:hover {
+            opacity: 1;
+            color: var(--accent);
+            text-shadow: var(--glow-accent);
+        }
+
+        .back-link {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 0.85rem;
+            opacity: 0.6;
+            transition: all 0.3s;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+            color: var(--accent);
+        }
+
+        /* Forgot Icon */
+        .forgot-icon-wrapper {
+            width: 72px;
+            height: 72px;
+            border-radius: 2px;
+            background: linear-gradient(135deg, var(--primary), rgba(255, 0, 255, 0.3));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            box-shadow: var(--glow-primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .forgot-icon-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: rotate 3s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .forgot-icon-wrapper i {
+            font-size: 1.8rem;
+            color: white;
+            z-index: 2;
+        }
+
+        /* Checkbox */
+        .cyber-check {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cyber-check input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            border-radius: 2px;
+            border: 1px solid var(--card-border);
+            background: var(--input-bg);
+            cursor: pointer;
+            appearance: none;
+            -webkit-appearance: none;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .cyber-check input[type="checkbox"]:checked {
+            background: var(--primary);
+            border-color: var(--primary);
+            box-shadow: var(--glow-primary);
+        }
+
+        .cyber-check input[type="checkbox"]:checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        .cyber-check label {
+            font-size: 0.82rem;
+            color: var(--text-color);
+            opacity: 0.6;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        /* Settings Modal */
+        .settings-modal {
+            position: fixed;
+            top: 0;
+            right: -350px;
+            width: 300px;
+            height: 100vh;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-left: 1px solid var(--card-border);
+            z-index: 2000;
+            padding: 30px;
+            transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+            box-shadow: -5px 0 25px rgba(0,0,0,0.5);
+        }
+
+        .settings-modal.open { right: 0; }
+
+        .settings-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 1999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s;
+            backdrop-filter: blur(3px);
+        }
+
+        .settings-overlay.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .color-picker-group { margin-bottom: 25px; }
+
+        .color-input-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        input[type="color"] {
+            -webkit-appearance: none;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 2px;
+            cursor: pointer;
+            overflow: hidden;
+            padding: 0;
+            background: none;
+        }
+
+        input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+        input[type="color"]::-webkit-color-swatch {
+            border: 2px solid var(--card-border);
+            border-radius: 2px;
+        }
+
+        /* Swiper */
+        .swiper {
+            width: 100%;
+            height: 180px;
+            margin-top: 20px;
+        }
+
+        .swiper-slide {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            color: rgba(255,255,255,0.8);
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        .slide-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--accent);
+            text-shadow: var(--glow-accent);
+        }
+
+        /* Tab Content Animation */
+        .tab-pane.show.active {
+            animation: cyberSlideIn 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes cyberSlideIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(15px) scale(0.98); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1); 
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .cyber-card {
+                flex-direction: column;
+                max-width: 420px;
+            }
+            .cyber-visual {
+                width: 100%;
+                height: 150px;
+                padding: 20px;
+                border-right: none;
+                border-bottom: 1px solid var(--card-border);
+            }
+            .cyber-logo { font-size: 1.8rem; }
+            .swiper { display: none; }
+            .cyber-forms {
+                width: 100%;
+                padding: 30px 24px;
+            }
+            .nav-tabs.cyber-tabs .nav-link {
+                font-size: 0.8rem;
+                padding: 10px 6px;
+                letter-spacing: 0.5px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Scanlines -->
+    <div class="scanlines"></div>
+
+    <!-- Grid Background -->
+    <div class="cyber-grid"></div>
+
+    <!-- Header Actions -->
+    <div class="header-actions">
+        <div class="action-btn" id="theme-toggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </div>
+        <div class="action-btn" id="settings-toggle" title="Settings">
+            <i class="fas fa-cog"></i>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <div class="cyber-card" data-aos="zoom-in" data-aos-duration="1000">
+            
+            <!-- Left Visual Side -->
+            <div class="cyber-visual">
+                <div class="visual-content">
+                    <div class="cyber-logo glitch" data-text="CYBERPULSE">CYBERPULSE</div>
+                    <div class="cyber-subtitle">Neural Access Terminal</div>
+                    
+                    <div class="swiper mySwiper">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <i class="fas fa-shield-halved slide-icon"></i>
+                                <h5>Quantum Encryption</h5>
+                                <p class="small">Military-grade neural encryption protocols</p>
+                            </div>
+                            <div class="swiper-slide">
+                                <i class="fas fa-bolt slide-icon"></i>
+                                <h5>Instant Sync</h5>
+                                <p class="small">Zero-latency data synchronization</p>
+                            </div>
+                            <div class="swiper-slide">
+                                <i class="fas fa-network-wired slide-icon"></i>
+                                <h5>Mesh Network</h5>
+                                <p class="small">Decentralized node architecture</p>
+                            </div>
+                        </div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Form Side -->
+            <div class="cyber-forms">
+                
+                <!-- Tabs -->
+                <div class="auth-tabs-wrapper">
+                    <ul class="nav nav-tabs cyber-tabs" id="authTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#login-pane" type="button" role="tab">
+                                <i class="fas fa-right-to-bracket"></i>Login
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="signup-tab" data-bs-toggle="tab" data-bs-target="#signup-pane" type="button" role="tab">
+                                <i class="fas fa-user-plus"></i>Signup
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="forgot-tab" data-bs-toggle="tab" data-bs-target="#forgot-pane" type="button" role="tab">
+                                <i class="fas fa-key"></i>Recover
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="tab-content" id="authTabContent">
+                    
+                    <!-- Login Form -->
+                    <div class="tab-pane fade show active" id="login-pane" role="tabpanel">
+                        <form onsubmit="event.preventDefault(); showToast('Access granted. Welcome back, Runner.');">
+                            
+                            <div class="cyber-input-group">
+                                <label>Email Address</label>
+                                <div class="input-wrapper">
+                                    <span class="input-icon"><i class="fas fa-envelope"></i></span>
+                                    <input type="email" class="form-control" id="loginEmail" placeholder="runner@cyberpulse.net" required>
+                                </div>
+                            </div>
+
+                            <div class="cyber-input-group">
+                                <label>Password</label>
+                                <div class="input-wrapper">
+                                    <span class="input-icon"><i class="fas fa-lock"></i></span>
+                                    <input type="password" class="form-control" id="loginPassword" placeholder="••••••••" required>
+                                    <button type="button" class="toggle-password" onclick="togglePasswordVisibility('loginPassword', this)">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <div class="cyber-check">
+                                    <input type="checkbox" id="rememberMe">
+                                    <label for="rememberMe">Remember me</label>
+                                </div>
+                                <a href="#" class="cyber-link" onclick="switchTab('forgot-tab')">Forgot Password?</a>
+                            </div>
+
+                            <button type="submit" class="btn btn-cyber">
+                                <i class="fas fa-rocket me-2"></i>Initialize Access
+                            </button>
+
+                            <div class="cyber-divider">
+                                <span>or connect via</span>
+                            </div>
+
+                            <div class="social-login-group">
+                                <button type="button" class="social-btn" title="Google">
+                                    <i class="fab fa-google"></i>
+                                </button>
+                                <button type="button" class="social-btn" title="GitHub">
+                                    <i class="fab fa-github"></i>
+                                </button>
+                                <button type="button" class="social-btn" title="Discord">
+                                    <i class="fab fa-discord"></i>
+                                </button>
+                                <button type="button" class="social-btn" title="Apple">
+                                    <i class="fab fa-apple"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Signup Form -->
+                    <div class="tab-pane fade" id="signup-pane" role="tabpanel">
+                        <form onsubmit="event.preventDefault(); showToast('Identity created. Welcome to the grid.');">
+                            
+                            <div class="cyber-input-group">
+                                <label>Full Name</label>
+                                <div class="input-wrapper">
+                                    <span class="input-icon"><i class="fas fa-user-astronaut"></i></span>
+                                    <input type="text" class="form-control" id="signupName" placeholder="John Doe" required>
+                                </div>
+                            </div>
+
+                            <div class="cyber-input-group">
+                                <label>Email Address</label>
+                                <div class="input-wrapper">
+                                    <span class="input-icon"><i class="fas fa-envelope"></i></span>
+                                    <input type="email" class="form-control" id="signupEmail" placeholder="runner@cyberpulse.net" required>
+                                </div>
+                            </div>
+
+                            <div class="cyber-input-group">
+                                <label>Create Password</label>
+                                <div class="input-wrapper">
+                                    <span class="input-icon"><i class="fas fa-shield-halved"></i></span>
+                                    <input type="password" class="form-control" id="signupPassword" placeholder="••••••••" required oninput="updateStrength(this.value)">
+                                    <button type="button" class="toggle-password" onclick="togglePasswordVisibility('signupPassword', this)">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                <div class="password-strength">
+                                    <div class="strength-bar" id="str1"></div>
+                                    <div class="strength-bar" id="str2"></div>
+                                    <div class="strength-bar" id="str3"></div>
+                                    <div class="strength-bar" id="str4"></div>
+                                </div>
+                            </div>
+
+                            <div class="cyber-check mb-4">
+                                <input type="checkbox" id="agreeTerms" required>
+                                <label for="agreeTerms">I agree to the <a href="#" class="cyber-link">Neural Protocol</a></label>
+                            </div>
+
+                            <button type="submit" class="btn btn-cyber">
+                                <i class="fas fa-user-plus me-2"></i>Register Identity
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Forgot Password Form -->
+                    <div class="tab-pane fade" id="forgot-pane" role="tabpanel">
+                        <form onsubmit="event.preventDefault(); showToast('Recovery signal transmitted.');">
+                            <div class="text-center mb-4">
+                                <div class="forgot-icon-wrapper">
+                                    <i class="fas fa-satellite-dish"></i>
+                                </div>
+                                <h5 class="mt-3 mb-2" style="font-family: var(--font-heading); font-weight: 800;">Recovery Protocol</h5>
+                                <p class="small" style="color: var(--text-color); opacity: 0.5;">Enter your registered email to receive recovery coordinates.</p>
+                            </div>
+
+                            <div class="cyber-input-group">
+                                <label>Email Address</label>
+                                <div class="input-wrapper">
+                                    <span class="input-icon"><i class="fas fa-envelope"></i></span>
+                                    <input type="email" class="form-control" id="forgotEmail" placeholder="runner@cyberpulse.net" required>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-cyber mb-3">
+                                <i class="fas fa-paper-plane me-2"></i>Transmit Recovery
+                            </button>
+
+                            <div class="text-center">
+                                <a href="#" class="back-link" onclick="switchTab('login-tab')">
+                                    <i class="fas fa-arrow-left me-1"></i>Back to Login
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Popup -->
+    <div class="settings-overlay" id="settings-overlay"></div>
+    <div class="settings-modal" id="settings-modal">
+        <div class="d-flex justify-content-between align-items-center mb-5">
+            <h4 style="font-family: var(--font-heading); font-weight: 800;">System Config</h4>
+            <button class="btn btn-sm btn-link text-decoration-none" id="close-settings" style="color: var(--text-color);"><i class="fas fa-times"></i></button>
+        </div>
+
+        <div class="color-picker-group">
+            <label class="form-label d-block" style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Primary Color</label>
+            <div class="color-input-wrapper">
+                <input type="color" id="primary-picker" value="#FF00FF">
+                <span class="small" id="primary-val" style="opacity: 0.6;">#FF00FF</span>
+            </div>
+        </div>
+
+        <div class="color-picker-group">
+            <label class="form-label d-block" style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Accent Color</label>
+            <div class="color-input-wrapper">
+                <input type="color" id="accent-picker" value="#00FF9F">
+                <span class="small" id="accent-val" style="opacity: 0.6;">#00FF9F</span>
+            </div>
+        </div>
+
+        <div class="mt-5">
+            <button class="btn btn-outline-light w-100 rounded-0" id="reset-colors" style="border-radius: 2px;">Reset to Default</button>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div style="position: fixed; bottom: 20px; right: 20px; z-index: 3000;">
+        <div id="liveToast" class="toast align-items-center text-white border-0" role="alert" style="background: var(--primary); box-shadow: var(--glow-primary); border-radius: 2px;">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <i class="fas fa-check-circle me-2"></i> <span id="toast-msg">Notification</span>
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+
+    <script>
+        AOS.init();
+
+        const swiper = new Swiper(".mySwiper", {
+            direction: "vertical",
+            autoplay: { delay: 3500, disableOnInteraction: false },
+            pagination: { el: ".swiper-pagination", clickable: true },
+            loop: true
+        });
+
+        // Theme Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const icon = themeToggle.querySelector('i');
+        let isDark = true;
+
+        themeToggle.addEventListener('click', () => {
+            isDark = !isDark;
+            document.body.setAttribute('data-theme', isDark ? 'dark' : 'light');
+            icon.className = isDark ? 'fas fa-moon' : 'fas fa-sun';
+        });
+
+        // Settings Modal
+        const settingsToggle = document.getElementById('settings-toggle');
+        const settingsModal = document.getElementById('settings-modal');
+        const settingsOverlay = document.getElementById('settings-overlay');
+        const closeSettings = document.getElementById('close-settings');
+
+        function toggleSettings() {
+            settingsModal.classList.toggle('open');
+            settingsOverlay.classList.toggle('open');
+        }
+
+        settingsToggle.addEventListener('click', toggleSettings);
+        closeSettings.addEventListener('click', toggleSettings);
+        settingsOverlay.addEventListener('click', toggleSettings);
+
+        // Color Picker
+        const root = document.documentElement;
+        const primaryPicker = document.getElementById('primary-picker');
+        const accentPicker = document.getElementById('accent-picker');
+        const primaryVal = document.getElementById('primary-val');
+        const accentVal = document.getElementById('accent-val');
+        const resetBtn = document.getElementById('reset-colors');
+
+        function updateColors() {
+            root.style.setProperty('--primary', primaryPicker.value);
+            root.style.setProperty('--accent', accentPicker.value);
+            primaryVal.textContent = primaryPicker.value;
+            accentVal.textContent = accentPicker.value;
+        }
+
+        primaryPicker.addEventListener('input', updateColors);
+        accentPicker.addEventListener('input', updateColors);
+
+        resetBtn.addEventListener('click', () => {
+            primaryPicker.value = '#FF00FF';
+            accentPicker.value = '#00FF9F';
+            updateColors();
+            showToast('Colors reset to default.');
+        });
+
+        // Tab Switcher
+        function switchTab(tabId) {
+            const tabEl = document.querySelector(`#${tabId}`);
+            const tab = new bootstrap.Tab(tabEl);
+            tab.show();
+        }
+
+        // Toast
+        function showToast(message) {
+            document.getElementById('toast-msg').innerText = message;
+            const toast = new bootstrap.Toast(document.getElementById('liveToast'), { delay: 3000 });
+            toast.show();
+        }
+
+        // Password Visibility Toggle
+        function togglePasswordVisibility(inputId, btn) {
+            const input = document.getElementById(inputId);
+            const icon = btn.querySelector('i');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'fas fa-eye-slash';
+            } else {
+                input.type = 'password';
+                icon.className = 'fas fa-eye';
+            }
+        }
+
+        // Password Strength Indicator
+        function updateStrength(val) {
+            const bars = [document.getElementById('str1'), document.getElementById('str2'), document.getElementById('str3'), document.getElementById('str4')];
+            bars.forEach(b => { b.className = 'strength-bar'; });
+
+            if (val.length === 0) return;
+
+            let score = 0;
+            if (val.length >= 4) score++;
+            if (val.length >= 8) score++;
+            if (/[A-Z]/.test(val) && /[a-z]/.test(val) && /[0-9]/.test(val)) score++;
+            if (/[^A-Za-z0-9]/.test(val) && val.length >= 10) score++;
+
+            for (let i = 0; i < score; i++) {
+                bars[i].classList.add('active');
+                if (score >= 3) bars[i].classList.add('strong');
+                else if (score >= 2) bars[i].classList.add('medium');
+            }
+        }
+    </script>
+</body>
+</html>
