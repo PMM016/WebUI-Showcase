@@ -1,0 +1,1783 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuantumShield — Secure Login</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Open+Sans:wght@300;400;500;600&family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- AOS -->
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <!-- Swiper -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+
+    <style>
+        :root {
+            --primary: #BFFF00;
+            --accent: #BFFF00;
+            --bg-dark: #0a0a0a;
+            --bg-light: #f5f5f5;
+            --card-dark: rgba(255, 255, 255, 0.03);
+            --card-light: rgba(0, 0, 0, 0.03);
+            --border-dark: rgba(191, 255, 0, 0.15);
+            --border-light: rgba(0, 0, 0, 0.1);
+            --text-dark: #e0e0e0;
+            --text-light: #1a1a1a;
+            --glass-dark: rgba(10, 10, 10, 0.75);
+            --glass-light: rgba(255, 255, 255, 0.75);
+            --input-bg-dark: rgba(255, 255, 255, 0.05);
+            --input-bg-light: rgba(0, 0, 0, 0.04);
+            --glow-primary: 0 0 20px rgba(191, 255, 0, 0.3);
+            --glow-soft: 0 0 40px rgba(191, 255, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Ubuntu', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-dark);
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background 0.5s ease, color 0.5s ease;
+        }
+
+        body.light-mode {
+            background: var(--bg-light);
+            color: var(--text-light);
+        }
+
+        /* ── Animated Background Grid ── */
+        .bg-grid {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .bg-grid::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background-image:
+                linear-gradient(rgba(191, 255, 0, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(191, 255, 0, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            animation: gridMove 20s linear infinite;
+        }
+
+        body.light-mode .bg-grid::before {
+            background-image:
+                linear-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(60px, 60px); }
+        }
+
+        /* ── Floating Orbs ── */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 0;
+            pointer-events: none;
+            animation: orbFloat 8s ease-in-out infinite alternate;
+        }
+
+        .orb-1 {
+            width: 300px; height: 300px;
+            background: rgba(191, 255, 0, 0.08);
+            top: -100px; right: -50px;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 250px; height: 250px;
+            background: rgba(191, 255, 0, 0.05);
+            bottom: -80px; left: -60px;
+            animation-delay: -3s;
+        }
+
+        .orb-3 {
+            width: 200px; height: 200px;
+            background: rgba(191, 255, 0, 0.06);
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: -5s;
+        }
+
+        body.light-mode .orb { opacity: 0.4; }
+
+        @keyframes orbFloat {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(30px, -30px) scale(1.1); }
+        }
+
+        /* ── Header ── */
+        .header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            backdrop-filter: blur(20px);
+            background: var(--glass-dark);
+            border-bottom: 1px solid var(--border-dark);
+            padding: 12px 0;
+            transition: all 0.5s ease;
+        }
+
+        body.light-mode .header {
+            background: var(--glass-light);
+            border-bottom-color: var(--border-light);
+        }
+
+        .header .logo {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 900;
+            font-size: 1.5rem;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .header .logo .shield-icon {
+            width: 32px;
+            height: 32px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            border: 1px solid var(--border-dark);
+            background: var(--input-bg-dark);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-icon:hover {
+            background: rgba(191, 255, 0, 0.1);
+            box-shadow: var(--glow-primary);
+            transform: translateY(-2px);
+        }
+
+        body.light-mode .btn-icon {
+            border-color: var(--border-light);
+            background: var(--input-bg-light);
+        }
+
+        /* ── Main Content ── */
+        .main-content {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 80px;
+        }
+
+        /* ── Glassmorphic Card ── */
+        .glass-card {
+            background: var(--card-dark);
+            backdrop-filter: blur(30px);
+            border: 1px solid var(--border-dark);
+            border-radius: 24px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        body.light-mode .glass-card {
+            background: var(--card-light);
+            border-color: var(--border-light);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(191, 255, 0, 0.3), transparent);
+        }
+
+        .glass-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 20%, rgba(191, 255, 0, 0.02), transparent 50%);
+            pointer-events: none;
+        }
+
+        /* ── Holographic Shimmer ── */
+        .holo-shimmer {
+            position: absolute;
+            top: 0; left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(191, 255, 0, 0.03),
+                rgba(191, 255, 0, 0.06),
+                rgba(191, 255, 0, 0.03),
+                transparent
+            );
+            animation: shimmer 6s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            50% { left: 150%; }
+            100% { left: 150%; }
+        }
+
+        /* ── Tabs ── */
+        .auth-tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 32px;
+            background: var(--input-bg-dark);
+            border-radius: 14px;
+            padding: 4px;
+            position: relative;
+            z-index: 1;
+        }
+
+        body.light-mode .auth-tabs {
+            background: var(--input-bg-light);
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 10px 16px;
+            border: none;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.4);
+            font-family: 'Ubuntu', sans-serif;
+            font-weight: 500;
+            font-size: 0.9rem;
+            border-radius: 11px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        body.light-mode .auth-tab {
+            color: rgba(0, 0, 0, 0.4);
+        }
+
+        .auth-tab.active {
+            background: rgba(191, 255, 0, 0.1);
+            color: var(--primary);
+            box-shadow: 0 0 15px rgba(191, 255, 0, 0.1);
+        }
+
+        .auth-tab:hover:not(.active) {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        body.light-mode .auth-tab:hover:not(.active) {
+            color: rgba(0, 0, 0, 0.7);
+        }
+
+        /* ── Section Panels ── */
+        .tab-panel {
+            display: none;
+            position: relative;
+            z-index: 1;
+        }
+
+        .tab-panel.active {
+            display: block;
+            animation: fadeSlideIn 0.4s ease forwards;
+        }
+
+        @keyframes fadeSlideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── Typography ── */
+        .section-title {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
+            font-size: 1.6rem;
+            margin-bottom: 6px;
+            color: var(--primary);
+        }
+
+        .section-subtitle {
+            font-family: 'Ubuntu', sans-serif;
+            font-weight: 300;
+            font-size: 0.85rem;
+            opacity: 0.5;
+            margin-bottom: 28px;
+        }
+
+        /* ── Form Elements ── */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            font-family: 'Ubuntu', sans-serif;
+            font-weight: 500;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--primary);
+            opacity: 0.7;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .form-control-custom {
+            width: 100%;
+            padding: 14px 16px 14px 44px;
+            background: var(--input-bg-dark);
+            border: 1px solid var(--border-dark);
+            border-radius: 12px;
+            color: var(--text-dark);
+            font-family: 'Open Sans', sans-serif;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        body.light-mode .form-control-custom {
+            background: var(--input-bg-light);
+            border-color: var(--border-light);
+            color: var(--text-light);
+        }
+
+        .form-control-custom::placeholder {
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        body.light-mode .form-control-custom::placeholder {
+            color: rgba(0, 0, 0, 0.25);
+        }
+
+        .form-control-custom:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(191, 255, 0, 0.1);
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+            opacity: 0.5;
+            font-size: 0.95rem;
+            transition: opacity 0.3s;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper .form-control-custom:focus + .input-icon,
+        .input-wrapper .form-control-custom:focus ~ .input-icon {
+            opacity: 1;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--primary);
+            opacity: 0.4;
+            cursor: pointer;
+            padding: 4px;
+            transition: opacity 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .toggle-password:hover {
+            opacity: 1;
+        }
+
+        /* ── Buttons ── */
+        .btn-primary-custom {
+            width: 100%;
+            padding: 14px 24px;
+            background: var(--primary);
+            color: #0a0a0a;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary-custom::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-primary-custom:hover {
+            box-shadow: var(--glow-primary);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary-custom:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary-custom:active {
+            transform: translateY(0);
+        }
+
+        /* ── Divider ── */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 24px 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border-dark), transparent);
+        }
+
+        body.light-mode .divider::before,
+        body.light-mode .divider::after {
+            background: linear-gradient(90deg, transparent, var(--border-light), transparent);
+        }
+
+        .divider span {
+            font-family: 'Ubuntu', sans-serif;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.3;
+        }
+
+        /* ── Social Buttons ── */
+        .social-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .social-btn {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid var(--border-dark);
+            background: var(--input-bg-dark);
+            border-radius: 12px;
+            color: var(--text-dark);
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        body.light-mode .social-btn {
+            border-color: var(--border-light);
+            background: var(--input-bg-light);
+            color: var(--text-light);
+        }
+
+        .social-btn:hover {
+            border-color: var(--primary);
+            background: rgba(191, 255, 0, 0.05);
+            transform: translateY(-2px);
+        }
+
+        /* ── Links ── */
+        .auth-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-family: 'Ubuntu', sans-serif;
+            font-weight: 500;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .auth-link:hover {
+            text-decoration: underline;
+            text-shadow: 0 0 10px rgba(191, 255, 0, 0.3);
+        }
+
+        .text-center-custom {
+            text-align: center;
+            margin-top: 20px;
+            position: relative;
+            z-index: 1;
+            font-size: 0.85rem;
+        }
+
+        /* ── Checkbox Custom ── */
+        .custom-check {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            position: relative;
+            z-index: 1;
+        }
+
+        .custom-check input[type="checkbox"] {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 1px solid var(--border-dark);
+            border-radius: 6px;
+            background: var(--input-bg-dark);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+
+        body.light-mode .custom-check input[type="checkbox"] {
+            border-color: var(--border-light);
+            background: var(--input-bg-light);
+        }
+
+        .custom-check input[type="checkbox"]:checked {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .custom-check input[type="checkbox"]:checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #0a0a0a;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .custom-check span {
+            font-family: 'Ubuntu', sans-serif;
+            font-size: 0.82rem;
+            opacity: 0.6;
+        }
+
+        .check-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        /* ── Right Side - SVG Animation Area ── */
+        .brand-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .shield-svg-container {
+            width: 280px;
+            height: 280px;
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .shield-svg-container svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .brand-title {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 900;
+            font-size: 2.2rem;
+            color: var(--primary);
+            text-shadow: 0 0 30px rgba(191, 255, 0, 0.2);
+            margin-bottom: 12px;
+        }
+
+        .brand-subtitle {
+            font-family: 'Ubuntu', sans-serif;
+            font-weight: 300;
+            font-size: 0.95rem;
+            opacity: 0.4;
+            max-width: 320px;
+            line-height: 1.7;
+        }
+
+        /* ── Security Badge ── */
+        .security-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(191, 255, 0, 0.06);
+            border: 1px solid rgba(191, 255, 0, 0.12);
+            border-radius: 100px;
+            font-family: 'Ubuntu', sans-serif;
+            font-size: 0.75rem;
+            color: var(--primary);
+            margin-top: 20px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .security-badge i {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* ── Swiper Features ── */
+        .features-swiper {
+            width: 100%;
+            max-width: 500px;
+            margin-top: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .feature-slide {
+            text-align: center;
+            padding: 20px 10px;
+        }
+
+        .feature-slide i {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .feature-slide h5 {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            margin-bottom: 6px;
+        }
+
+        body.light-mode .feature-slide h5 {
+            color: var(--text-light);
+        }
+
+        .feature-slide p {
+            font-family: 'Ubuntu', sans-serif;
+            font-size: 0.8rem;
+            opacity: 0.4;
+            line-height: 1.5;
+        }
+
+        /* ── Settings Popup ── */
+        .settings-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .settings-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .settings-panel {
+            position: fixed;
+            top: 0;
+            right: -380px;
+            width: 360px;
+            max-width: 90vw;
+            height: 100%;
+            background: var(--glass-dark);
+            backdrop-filter: blur(30px);
+            border-left: 1px solid var(--border-dark);
+            z-index: 2001;
+            padding: 30px;
+            transition: right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            overflow-y: auto;
+        }
+
+        body.light-mode .settings-panel {
+            background: var(--glass-light);
+            border-left-color: var(--border-light);
+        }
+
+        .settings-panel.active {
+            right: 0;
+        }
+
+        .settings-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .settings-header h3 {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin: 0;
+        }
+
+        .settings-close {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            border: 1px solid var(--border-dark);
+            background: var(--input-bg-dark);
+            color: var(--primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        body.light-mode .settings-close {
+            border-color: var(--border-light);
+            background: var(--input-bg-light);
+        }
+
+        .settings-close:hover {
+            background: rgba(191, 255, 0, 0.1);
+        }
+
+        .color-manipulator {
+            background: var(--input-bg-dark);
+            border: 1px solid var(--border-dark);
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        body.light-mode .color-manipulator {
+            background: var(--input-bg-light);
+            border-color: var(--border-light);
+        }
+
+        .color-manipulator h4 {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .color-picker-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: 1px solid var(--border-dark);
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        body.light-mode .color-picker-group {
+            border-color: var(--border-light);
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .color-picker-group label {
+            font-family: 'Ubuntu', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        body.light-mode .color-picker-group label {
+            color: var(--text-light);
+        }
+
+        .color-picker-group input[type="color"] {
+            appearance: none;
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--border-dark);
+            border-radius: 10px;
+            cursor: pointer;
+            background: none;
+            padding: 2px;
+        }
+
+        body.light-mode .color-picker-group input[type="color"] {
+            border-color: var(--border-light);
+        }
+
+        .color-picker-group input[type="color"]::-webkit-color-swatch-wrapper {
+            padding: 0;
+        }
+
+        .color-picker-group input[type="color"]::-webkit-color-swatch {
+            border: none;
+            border-radius: 7px;
+        }
+
+        .btn-reset {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-dark);
+            background: transparent;
+            color: var(--primary);
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        body.light-mode .btn-reset {
+            border-color: var(--border-light);
+        }
+
+        .btn-reset:hover {
+            background: rgba(191, 255, 0, 0.08);
+            box-shadow: 0 0 15px rgba(191, 255, 0, 0.1);
+        }
+
+        /* ── Toast Notification ── */
+        .toast-custom {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--glass-dark);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-dark);
+            border-radius: 14px;
+            padding: 14px 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 3000;
+            font-family: 'Ubuntu', sans-serif;
+            font-size: 0.85rem;
+            color: var(--primary);
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        body.light-mode .toast-custom {
+            background: var(--glass-light);
+            border-color: var(--border-light);
+            color: var(--text-light);
+        }
+
+        .toast-custom.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast-custom i {
+            font-size: 1.1rem;
+        }
+
+        /* ── SVG Shield Animations ── */
+        @keyframes shieldGlow {
+            0%, 100% { filter: drop-shadow(0 0 8px rgba(191, 255, 0, 0.3)); }
+            50% { filter: drop-shadow(0 0 20px rgba(191, 255, 0, 0.6)); }
+        }
+
+        @keyframes ringRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes ringRotateReverse {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(-360deg); }
+        }
+
+        @keyframes scanPulse {
+            0%, 100% { opacity: 0; transform: translateY(-10px); }
+            50% { opacity: 1; transform: translateY(10px); }
+        }
+
+        @keyframes dataFlow {
+            0% { stroke-dashoffset: 20; }
+            100% { stroke-dashoffset: 0; }
+        }
+
+        @keyframes particleFloat {
+            0%, 100% { transform: translateY(0px) scale(1); opacity: 0.3; }
+            50% { transform: translateY(-15px) scale(1.2); opacity: 0.8; }
+        }
+
+        .shield-glow {
+            animation: shieldGlow 3s ease-in-out infinite;
+        }
+
+        .ring-1 {
+            transform-origin: center;
+            animation: ringRotate 15s linear infinite;
+        }
+
+        .ring-2 {
+            transform-origin: center;
+            animation: ringRotateReverse 20s linear infinite;
+        }
+
+        .ring-3 {
+            transform-origin: center;
+            animation: ringRotate 25s linear infinite;
+        }
+
+        .data-line {
+            stroke-dasharray: 4 6;
+            animation: dataFlow 1.5s linear infinite;
+        }
+
+        .particle {
+            animation: particleFloat 3s ease-in-out infinite;
+        }
+
+        .particle:nth-child(2) { animation-delay: -0.5s; animation-duration: 3.5s; }
+        .particle:nth-child(3) { animation-delay: -1s; animation-duration: 2.5s; }
+        .particle:nth-child(4) { animation-delay: -1.5s; animation-duration: 4s; }
+        .particle:nth-child(5) { animation-delay: -2s; animation-duration: 3s; }
+        .particle:nth-child(6) { animation-delay: -0.8s; animation-duration: 3.8s; }
+
+        /* ── Footer ── */
+        .footer {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 20px;
+            font-family: 'Ubuntu', sans-serif;
+            font-size: 0.72rem;
+            opacity: 0.25;
+            letter-spacing: 1px;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 991px) {
+            .brand-section {
+                padding: 30px 20px 10px;
+            }
+
+            .shield-svg-container {
+                width: 200px;
+                height: 200px;
+            }
+
+            .brand-title {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .glass-card {
+                padding: 28px 22px;
+                margin: 16px;
+            }
+
+            .brand-section {
+                order: -1;
+            }
+
+            .main-content {
+                padding-top: 70px;
+            }
+
+            .auth-tab {
+                font-size: 0.78rem;
+                padding: 8px 10px;
+            }
+        }
+
+        /* ── Strength Meter ── */
+        .strength-meter {
+            display: flex;
+            gap: 4px;
+            margin-top: 8px;
+        }
+
+        .strength-bar {
+            height: 3px;
+            flex: 1;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 3px;
+            transition: background 0.3s;
+        }
+
+        body.light-mode .strength-bar {
+            background: rgba(0, 0, 0, 0.08);
+        }
+
+        .strength-bar.active-weak { background: #ff4444; }
+        .strength-bar.active-medium { background: #ffaa00; }
+        .strength-bar.active-strong { background: var(--primary); }
+
+        .strength-text {
+            font-family: 'Ubuntu', sans-serif;
+            font-size: 0.7rem;
+            margin-top: 4px;
+            opacity: 0.4;
+        }
+
+        /* ── Vanilla Counter Section ── */
+        .counter-section {
+            margin-top: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .counter-item {
+            text-align: center;
+        }
+
+        .counter-number {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 900;
+            font-size: 1.6rem;
+            color: var(--primary);
+        }
+
+        .counter-label {
+            font-family: 'Ubuntu', sans-serif;
+            font-size: 0.68rem;
+            opacity: 0.35;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Elements -->
+    <div class="bg-grid"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <!-- Header -->
+    <header class="header" data-aos="fade-down" data-aos-duration="600">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="#" class="logo">
+                    <svg class="shield-icon" viewBox="0 0 40 40" fill="none">
+                        <path d="M20 2L4 10V20C4 29 11.2 36.7 20 38C28.8 36.7 36 29 36 20V10L20 2Z" fill="none" stroke="currentColor" stroke-width="2"/>
+                        <path d="M15 20L18 23L25 16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    QuantumShield
+                </a>
+                <div class="header-actions">
+                    <button class="btn-icon" id="themeToggle" title="Toggle Theme">
+                        <i class="bi bi-sun-fill"></i>
+                    </button>
+                    <button class="btn-icon" id="settingsToggle" title="Settings">
+                        <i class="bi bi-gear-fill"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="row align-items-center justify-content-center g-4">
+                <!-- Left: Brand / SVG Animation -->
+                <div class="col-lg-5 col-md-6" data-aos="fade-right" data-aos-duration="800" data-aos-delay="100">
+                    <div class="brand-section">
+                        <div class="shield-svg-container">
+                            <svg viewBox="0 0 280 280" fill="none" xmlns="http://www.w3.org/2000/svg" class="shield-glow">
+                                <!-- Outer rotating ring -->
+                                <g class="ring-1" style="transform-origin: 140px 140px;">
+                                    <circle cx="140" cy="140" r="130" stroke="currentColor" stroke-width="0.5" opacity="0.1" stroke-dasharray="8 12" style="color: var(--primary)"/>
+                                </g>
+                                <!-- Middle rotating ring -->
+                                <g class="ring-2" style="transform-origin: 140px 140px;">
+                                    <circle cx="140" cy="140" r="118" stroke="currentColor" stroke-width="0.8" opacity="0.08" stroke-dasharray="4 8" style="color: var(--primary)"/>
+                                </g>
+                                <!-- Inner rotating ring -->
+                                <g class="ring-3" style="transform-origin: 140px 140px;">
+                                    <circle cx="140" cy="140" r="108" stroke="currentColor" stroke-width="0.5" opacity="0.06" stroke-dasharray="3 10" style="color: var(--primary)"/>
+                                </g>
+
+                                <!-- Shield Body -->
+                                <path d="M140 45L65 80V140C65 188 95 222 140 235C185 222 215 188 215 140V80L140 45Z" fill="rgba(191,255,0,0.04)" stroke="var(--primary)" stroke-width="2"/>
+
+                                <!-- Shield Inner Lines -->
+                                <path d="M140 60L80 88V138C80 178 105 208 140 220C175 208 200 178 200 138V88L140 60Z" fill="none" stroke="var(--primary)" stroke-width="0.5" opacity="0.15"/>
+
+                                <!-- Lock Icon in Shield -->
+                                <rect x="127" y="125" width="26" height="20" rx="4" stroke="var(--primary)" stroke-width="2" fill="rgba(191,255,0,0.06)"/>
+                                <path d="M133 125V117C133 113 136 110 140 110C144 110 147 113 147 117V125" stroke="var(--primary)" stroke-width="2" fill="none" stroke-linecap="round"/>
+                                <circle cx="140" cy="135" r="3" fill="var(--primary)" opacity="0.6"/>
+                                <rect x="139" y="135" width="2" height="6" rx="1" fill="var(--primary)" opacity="0.6"/>
+
+                                <!-- Check Mark -->
+                                <path d="M120 168L132 180L162 150" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.4" fill="none"/>
+
+                                <!-- Data Flow Lines -->
+                                <line x1="90" y1="100" x2="110" y2="90" stroke="var(--primary)" stroke-width="0.8" class="data-line" opacity="0.3"/>
+                                <line x1="190" y1="100" x2="170" y2="90" stroke="var(--primary)" stroke-width="0.8" class="data-line" opacity="0.3"/>
+                                <line x1="100" y1="175" x2="115" y2="185" stroke="var(--primary)" stroke-width="0.8" class="data-line" opacity="0.3"/>
+                                <line x1="180" y1="175" x2="165" y2="185" stroke="var(--primary)" stroke-width="0.8" class="data-line" opacity="0.3"/>
+
+                                <!-- Particles -->
+                                <circle cx="100" cy="75" r="2" fill="var(--primary)" class="particle" opacity="0.5"/>
+                                <circle cx="180" cy="70" r="1.5" fill="var(--primary)" class="particle" opacity="0.5"/>
+                                <circle cx="75" cy="140" r="1.5" fill="var(--primary)" class="particle" opacity="0.5"/>
+                                <circle cx="205" cy="150" r="2" fill="var(--primary)" class="particle" opacity="0.5"/>
+                                <circle cx="95" cy="200" r="1" fill="var(--primary)" class="particle" opacity="0.5"/>
+                                <circle cx="190" cy="195" r="1.5" fill="var(--primary)" class="particle" opacity="0.5"/>
+                            </svg>
+                        </div>
+                        <h1 class="brand-title" data-aos="fade-up" data-aos-duration="600" data-aos-delay="200">QuantumShield</h1>
+                        <p class="brand-subtitle" data-aos="fade-up" data-aos-duration="600" data-aos-delay="300">
+                            Next-generation authentication with quantum-resistant encryption and zero-trust security architecture.
+                        </p>
+                        <div class="security-badge" data-aos="fade-up" data-aos-duration="600" data-aos-delay="400">
+                            <i class="bi bi-shield-check"></i>
+                            256-bit AES Encrypted
+                        </div>
+
+                        <!-- Counter Section -->
+                        <div class="counter-section mt-4" data-aos="fade-up" data-aos-duration="600" data-aos-delay="500">
+                            <div class="row g-3 justify-content-center">
+                                <div class="col-4">
+                                    <div class="counter-item">
+                                        <div class="counter-number" id="counter1">0</div>
+                                        <div class="counter-label">Users Secured</div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="counter-item">
+                                        <div class="counter-number" id="counter2">0</div>
+                                        <div class="counter-label">Threats Blocked</div>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="counter-item">
+                                        <div class="counter-number">99.9%</div>
+                                        <div class="counter-label">Uptime</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Auth Card -->
+                <div class="col-lg-5 col-md-6" data-aos="fade-left" data-aos-duration="800" data-aos-delay="200">
+                    <div class="glass-card">
+                        <div class="holo-shimmer"></div>
+
+                        <!-- Tabs -->
+                        <div class="auth-tabs">
+                            <button class="auth-tab active" data-tab="login">
+                                <i class="bi bi-box-arrow-in-right me-1"></i> Login
+                            </button>
+                            <button class="auth-tab" data-tab="signup">
+                                <i class="bi bi-person-plus me-1"></i> Signup
+                            </button>
+                            <button class="auth-tab" data-tab="forgot">
+                                <i class="bi bi-key me-1"></i> Reset
+                            </button>
+                        </div>
+
+                        <!-- Login Panel -->
+                        <div class="tab-panel active" id="panel-login">
+                            <h2 class="section-title">Welcome Back</h2>
+                            <p class="section-subtitle">Enter your credentials to access your secure vault.</p>
+
+                            <!-- Social Login -->
+                            <div class="social-buttons">
+                                <button class="social-btn" title="Google">
+                                    <i class="fab fa-google"></i>
+                                </button>
+                                <button class="social-btn" title="GitHub">
+                                    <i class="fab fa-github"></i>
+                                </button>
+                                <button class="social-btn" title="Microsoft">
+                                    <i class="fab fa-microsoft"></i>
+                                </button>
+                                <button class="social-btn" title="Apple">
+                                    <i class="fab fa-apple"></i>
+                                </button>
+                            </div>
+
+                            <div class="divider"><span>or continue with email</span></div>
+
+                            <form id="loginForm" onsubmit="handleLogin(event)">
+                                <div class="form-group">
+                                    <label class="form-label">Email Address</label>
+                                    <div class="input-wrapper">
+                                        <input type="email" class="form-control-custom" placeholder="you@example.com" required>
+                                        <i class="bi bi-envelope input-icon"></i>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Password</label>
+                                    <div class="input-wrapper">
+                                        <input type="password" class="form-control-custom" placeholder="••••••••••" id="loginPassword" required>
+                                        <i class="bi bi-lock input-icon"></i>
+                                        <button type="button" class="toggle-password" onclick="togglePass('loginPassword', this)">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="check-row">
+                                    <label class="custom-check">
+                                        <input type="checkbox">
+                                        <span>Remember me</span>
+                                    </label>
+                                    <a href="#" class="auth-link" onclick="switchTab('forgot'); return false;">Forgot password?</a>
+                                </div>
+
+                                <button type="submit" class="btn-primary-custom">
+                                    <i class="bi bi-shield-lock me-2"></i> Secure Login
+                                </button>
+                            </form>
+
+                            <div class="text-center-custom">
+                                Don't have an account? <a href="#" class="auth-link" onclick="switchTab('signup'); return false;">Create one</a>
+                            </div>
+                        </div>
+
+                        <!-- Signup Panel -->
+                        <div class="tab-panel" id="panel-signup">
+                            <h2 class="section-title">Create Account</h2>
+                            <p class="section-subtitle">Set up your quantum-encrypted workspace.</p>
+
+                            <form id="signupForm" onsubmit="handleSignup(event)">
+                                <div class="form-group">
+                                    <label class="form-label">Full Name</label>
+                                    <div class="input-wrapper">
+                                        <input type="text" class="form-control-custom" placeholder="John Doe" required>
+                                        <i class="bi bi-person input-icon"></i>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Email Address</label>
+                                    <div class="input-wrapper">
+                                        <input type="email" class="form-control-custom" placeholder="you@example.com" required>
+                                        <i class="bi bi-envelope input-icon"></i>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Password</label>
+                                    <div class="input-wrapper">
+                                        <input type="password" class="form-control-custom" placeholder="••••••••••" id="signupPassword" required oninput="checkStrength(this.value)">
+                                        <i class="bi bi-lock input-icon"></i>
+                                        <button type="button" class="toggle-password" onclick="togglePass('signupPassword', this)">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                    </div>
+                                    <div class="strength-meter" id="strengthMeter">
+                                        <div class="strength-bar" id="str1"></div>
+                                        <div class="strength-bar" id="str2"></div>
+                                        <div class="strength-bar" id="str3"></div>
+                                        <div class="strength-bar" id="str4"></div>
+                                    </div>
+                                    <div class="strength-text" id="strengthText"></div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Confirm Password</label>
+                                    <div class="input-wrapper">
+                                        <input type="password" class="form-control-custom" placeholder="••••••••••" id="confirmPassword" required>
+                                        <i class="bi bi-lock-fill input-icon"></i>
+                                        <button type="button" class="toggle-password" onclick="togglePass('confirmPassword', this)">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <label class="custom-check mb-3">
+                                    <input type="checkbox" required>
+                                    <span>I agree to the <a href="#" class="auth-link">Terms of Service</a> and <a href="#" class="auth-link">Privacy Policy</a></span>
+                                </label>
+
+                                <button type="submit" class="btn-primary-custom">
+                                    <i class="bi bi-person-plus me-2"></i> Create Account
+                                </button>
+                            </form>
+
+                            <div class="text-center-custom">
+                                Already have an account? <a href="#" class="auth-link" onclick="switchTab('login'); return false;">Sign in</a>
+                            </div>
+                        </div>
+
+                        <!-- Forgot Password Panel -->
+                        <div class="tab-panel" id="panel-forgot">
+                            <h2 class="section-title">Reset Password</h2>
+                            <p class="section-subtitle">Enter your email to receive a secure reset link.</p>
+
+                            <form id="forgotForm" onsubmit="handleForgot(event)">
+                                <div class="form-group">
+                                    <label class="form-label">Email Address</label>
+                                    <div class="input-wrapper">
+                                        <input type="email" class="form-control-custom" placeholder="you@example.com" required>
+                                        <i class="bi bi-envelope input-icon"></i>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Verification Code</label>
+                                    <div class="input-wrapper">
+                                        <input type="text" class="form-control-custom" placeholder="Enter 6-digit code" maxlength="6" style="letter-spacing: 8px; text-align: center; padding-left: 16px;">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">New Password</label>
+                                    <div class="input-wrapper">
+                                        <input type="password" class="form-control-custom" placeholder="••••••••••" id="newPassword" required>
+                                        <i class="bi bi-lock input-icon"></i>
+                                        <button type="button" class="toggle-password" onclick="togglePass('newPassword', this)">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn-primary-custom">
+                                    <i class="bi bi-arrow-clockwise me-2"></i> Reset Password
+                                </button>
+                            </form>
+
+                            <div class="text-center-custom">
+                                Remember your password? <a href="#" class="auth-link" onclick="switchTab('login'); return false;">Back to login</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feature Swiper (Bottom on mobile) -->
+                <div class="col-12 mt-4 d-none d-lg-block" data-aos="fade-up" data-aos-duration="600" data-aos-delay="400">
+                    <div class="features-swiper">
+                        <div class="swiper featureSwiper">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <div class="feature-slide">
+                                        <i class="bi bi-shield-lock-fill"></i>
+                                        <h5>Zero-Trust Security</h5>
+                                        <p>Every request is verified and authenticated with multi-layer protection.</p>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="feature-slide">
+                                        <i class="bi bi-fingerprint"></i>
+                                        <h5>Biometric Auth</h5>
+                                        <p>Support for WebAuthn, Face ID, and fingerprint-based authentication.</p>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="feature-slide">
+                                        <i class="bi bi-cpu"></i>
+                                        <h5>Quantum-Resistant</h5>
+                                        <p>Post-quantum cryptography algorithms to protect against future threats.</p>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="feature-slide">
+                                        <i class="bi bi-graph-up-arrow"></i>
+                                        <h5>Real-time Monitoring</h5>
+                                        <p>AI-powered threat detection with instant alerts and auto-mitigation.</p>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="feature-slide">
+                                        <i class="bi bi-key-fill"></i>
+                                        <h5>End-to-End Encryption</h5>
+                                        <p>Military-grade 256-bit AES encryption for all data in transit and at rest.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-pagination"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        &copy; 2025 QuantumShield. All rights reserved. Secured with quantum-resistant cryptography.
+    </footer>
+
+    <!-- Settings Overlay -->
+    <div class="settings-overlay" id="settingsOverlay"></div>
+
+    <!-- Settings Panel -->
+    <div class="settings-panel" id="settingsPanel">
+        <div class="settings-header">
+            <h3><i class="bi bi-gear-fill me-2"></i>Settings</h3>
+            <button class="settings-close" id="settingsClose">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+
+        <div class="color-manipulator">
+            <h4><i class="bi bi-palette-fill me-2"></i>Main Colors Manipulator</h4>
+
+            <div class="color-picker-group">
+                <label for="primaryColor">--primary</label>
+                <input type="color" id="primaryColor" value="#BFFF00">
+            </div>
+
+            <div class="color-picker-group">
+                <label for="accentColor">--accent</label>
+                <input type="color" id="accentColor" value="#BFFF00">
+            </div>
+
+            <button class="btn-reset" id="resetColors">
+                <i class="bi bi-arrow-counterclockwise me-1"></i> Reset to Default
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast-custom" id="toast">
+        <i class="bi bi-check-circle-fill"></i>
+        <span id="toastMessage">Action completed successfully.</span>
+    </div>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS -->
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <!-- Swiper -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script>
+        // ── Initialize AOS ──
+        AOS.init({
+            once: true,
+            easing: 'ease-out-cubic',
+            offset: 50,
+        });
+
+        // ── Initialize Swiper ──
+        const featureSwiper = new Swiper('.featureSwiper', {
+            slidesPerView: 3,
+            spaceBetween: 20,
+            loop: true,
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            breakpoints: {
+                0: { slidesPerView: 1, spaceBetween: 10 },
+                768: { slidesPerView: 2, spaceBetween: 15 },
+                992: { slidesPerView: 3, spaceBetween: 20 },
+            }
+        });
+
+        // ── Vanilla Counters ──
+        function animateCounter(elementId, target, duration, suffix = '') {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+            const start = 0;
+            const startTime = performance.now();
+
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const easeOut = 1 - Math.pow(1 - progress, 3);
+                const current = Math.floor(start + (target - start) * easeOut);
+                element.textContent = current.toLocaleString() + suffix;
+                if (progress < 1) requestAnimationFrame(update);
+            }
+            requestAnimationFrame(update);
+        }
+
+        // Trigger counters when visible
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounter('counter1', 5000, 2000, '+');
+                    animateCounter('counter2', 20000, 2500, '+');
+                    counterObserver.disconnect();
+                }
+            });
+        }, { threshold: 0.5 });
+
+        const counterEl = document.getElementById('counter1');
+        if (counterEl) counterObserver.observe(counterEl.closest('.counter-section'));
+
+        // ── Tab Switching ──
+        function switchTab(tab) {
+            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+
+            document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
+            document.getElementById(`panel-${tab}`).classList.add('active');
+        }
+
+        document.querySelectorAll('.auth-tab').forEach(tab => {
+            tab.addEventListener('click', () => switchTab(tab.dataset.tab));
+        });
+
+        // ── Theme Toggler ──
+        const themeToggle = document.getElementById('themeToggle');
+        let isDark = true;
+
+        themeToggle.addEventListener('click', () => {
+            isDark = !isDark;
+            document.body.classList.toggle('light-mode', !isDark);
+            document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+            themeToggle.innerHTML = isDark
+                ? '<i class="bi bi-sun-fill"></i>'
+                : '<i class="bi bi-moon-fill"></i>';
+            showToast(isDark ? 'Dark mode activated' : 'Light mode activated');
+        });
+
+        // ── Settings Panel ──
+        const settingsToggle = document.getElementById('settingsToggle');
+        const settingsPanel = document.getElementById('settingsPanel');
+        const settingsOverlay = document.getElementById('settingsOverlay');
+        const settingsClose = document.getElementById('settingsClose');
+
+        function openSettings() {
+            settingsPanel.classList.add('active');
+            settingsOverlay.classList.add('active');
+        }
+
+        function closeSettings() {
+            settingsPanel.classList.remove('active');
+            settingsOverlay.classList.remove('active');
+        }
+
+        settingsToggle.addEventListener('click', openSettings);
+        settingsClose.addEventListener('click', closeSettings);
+        settingsOverlay.addEventListener('click', closeSettings);
+
+        // ── Color Manipulator ──
+        const primaryColorInput = document.getElementById('primaryColor');
+        const accentColorInput = document.getElementById('accentColor');
+        const resetColorsBtn = document.getElementById('resetColors');
+
+        const defaultPrimary = '#BFFF00';
+        const defaultAccent = '#BFFF00';
+
+        primaryColorInput.addEventListener('input', (e) => {
+            document.documentElement.style.setProperty('--primary', e.target.value);
+            document.documentElement.style.setProperty('--glow-primary', `0 0 20px ${e.target.value}4D`);
+            document.documentElement.style.setProperty('--glow-soft', `0 0 40px ${e.target.value}1A`);
+            document.documentElement.style.setProperty('--border-dark', `${e.target.value}26`);
+        });
+
+        accentColorInput.addEventListener('input', (e) => {
+            document.documentElement.style.setProperty('--accent', e.target.value);
+        });
+
+        resetColorsBtn.addEventListener('click', () => {
+            document.documentElement.style.setProperty('--primary', defaultPrimary);
+            document.documentElement.style.setProperty('--accent', defaultAccent);
+            document.documentElement.style.setProperty('--glow-primary', '0 0 20px rgba(191, 255, 0, 0.3)');
+            document.documentElement.style.setProperty('--glow-soft', '0 0 40px rgba(191, 255, 0, 0.1)');
+            document.documentElement.style.setProperty('--border-dark', 'rgba(191, 255, 0, 0.15)');
+            primaryColorInput.value = defaultPrimary;
+            accentColorInput.value = defaultAccent;
+            showToast('Colors reset to default');
+        });
+
+        // ── Toggle Password Visibility ──
+        function togglePass(inputId, btn) {
+            const input = document.getElementById(inputId);
+            const icon = btn.querySelector('i');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.replace('bi-eye', 'bi-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.replace('bi-eye-slash', 'bi-eye');
+            }
+        }
+
+        // ── Password Strength Meter ──
+        function checkStrength(password) {
+            const bars = [
+                document.getElementById('str1'),
+                document.getElementById('str2'),
+                document.getElementById('str3'),
+                document.getElementById('str4')
+            ];
+            const text = document.getElementById('strengthText');
+
+            bars.forEach(b => b.className = 'strength-bar');
+
+            if (password.length === 0) {
+                text.textContent = '';
+                return;
+            }
+
+            let strength = 0;
+            if (password.length >= 6) strength++;
+            if (password.length >= 10) strength++;
+            if (/[A-Z]/.test(password) && /[0-9]/.test(password)) strength++;
+            if (/[^A-Za-z0-9]/.test(password) && password.length >= 12) strength++;
+
+            const classes = ['active-weak', 'active-weak', 'active-medium', 'active-strong'];
+            const labels = ['Weak', 'Fair', 'Strong', 'Quantum-Grade'];
+
+            for (let i = 0; i < strength; i++) {
+                bars[i].classList.add(classes[strength - 1]);
+            }
+            text.textContent = labels[strength - 1] || 'Too short';
+            text.style.color = strength <= 1 ? '#ff4444' : strength === 2 ? '#ffaa00' : 'var(--primary)';
+        }
+
+        // ── Toast Notification ──
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMessage');
+            toastMsg.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // ── Form Handlers ──
+        function handleLogin(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('.btn-primary-custom');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="bi bi-arrow-repeat spin me-2"></i> Authenticating...';
+            btn.style.opacity = '0.7';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.style.opacity = '1';
+                btn.disabled = false;
+                showToast('Login successful! Redirecting...');
+            }, 2000);
+        }
+
+        function handleSignup(e) {
+            e.preventDefault();
+            const pass = document.getElementById('signupPassword').value;
+            const confirm = document.getElementById('confirmPassword').value;
+
+            if (pass !== confirm) {
+                showToast('Passwords do not match!');
+                return;
+            }
+
+            const btn = e.target.querySelector('.btn-primary-custom');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="bi bi-arrow-repeat spin me-2"></i> Creating Account...';
+            btn.style.opacity = '0.7';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.style.opacity = '1';
+                btn.disabled = false;
+                showToast('Account created successfully!');
+            }, 2000);
+        }
+
+        function handleForgot(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('.btn-primary-custom');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="bi bi-arrow-repeat spin me-2"></i> Processing...';
+            btn.style.opacity = '0.7';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.style.opacity = '1';
+                btn.disabled = false;
+                showToast('Password reset link sent to your email!');
+            }, 2000);
+        }
+
+        // ── Add spin animation for loading states ──
+        const styleSheet = document.createElement('style');
+        styleSheet.textContent = `@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } } .spin { display: inline-block; animation: spin 1s linear infinite; }`;
+        document.head.appendChild(styleSheet);
+    </script>
+</body>
+</html>
