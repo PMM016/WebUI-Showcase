@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NebulaVault | Futuristic Login</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Open+Sans:wght@400;600&family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    
+    <!-- AOS Animation CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+
+    <style>
+        :root {
+            /* Theme Variables - Default (Dark Space) */
+            --bg-color: #050510;
+            --text-color: #e0e0e0;
+            --card-bg: rgba(20, 20, 40, 0.6);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --input-bg: rgba(0, 0, 0, 0.3);
+            --input-text: #ffffff;
+            --primary: #4B0082; /* Deep Indigo */
+            --accent: #00FFFF;  /* Electric Cyan */
+            --glow-spread: 0 0 20px rgba(0, 255, 255, 0.3);
+            --nav-link-color: #a0a0c0;
+            --nav-link-active: #ffffff;
+            --btn-hover: #00d2d2;
+            --font-heading: 'Nunito', sans-serif;
+            --font-body: 'Ubuntu', sans-serif;
+            --font-form: 'Open Sans', sans-serif;
+        }
+
+        /* Light Mode Overrides */
+        [data-theme="light"] {
+            --bg-color: #f0f2f5;
+            --text-color: #1a1a2e;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --card-border: rgba(75, 0, 130, 0.1);
+            --input-bg: rgba(255, 255, 255, 0.9);
+            --input-text: #333333;
+            --primary: #5e24ad; 
+            --accent: #00bfbf;
+            --glow-spread: 0 4px 15px rgba(75, 0, 130, 0.15);
+            --nav-link-color: #666;
+            --nav-link-active: #4B0082;
+            --btn-hover: #00a8a8;
+        }
+
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: var(--font-body);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            overflow-x: hidden;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        /* Deep Space Background */
+        .space-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+            overflow: hidden;
+            transition: opacity 0.5s ease;
+        }
+        
+        [data-theme="light"] .space-background {
+            background: radial-gradient(circle at 50% 50%, #eef2f3 0%, #8e9eab 100%);
+        }
+
+        #star-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Nebula Overlay for Dark Mode */
+        .nebula-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://picsum.photos/seed/nebula123/1920/1080') no-repeat center center;
+            background-size: cover;
+            opacity: 0.3;
+            mix-blend-mode: screen;
+            filter: blur(2px) hue-rotate(220deg);
+            transition: opacity 0.5s ease;
+        }
+
+        [data-theme="light"] .nebula-overlay {
+            opacity: 0.05; /* Subtle in light mode */
+            mix-blend-mode: multiply;
+        }
+
+        /* Main Layout */
+        .main-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 20px;
+        }
+
+        /* Glassmorphism Card */
+        .vault-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2), var(--glow-spread);
+            width: 100%;
+            max-width: 900px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: row;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+
+        [data-theme="light"] .vault-card {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1), var(--glow-spread);
+        }
+
+        /* Left Side: Visuals/Carousel */
+        .vault-visual {
+            width: 45%;
+            background: linear-gradient(135deg, var(--primary), #000);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .vault-visual::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .visual-content {
+            z-index: 2;
+        }
+
+        .visual-logo {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--accent);
+            text-shadow: 0 0 15px var(--accent);
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        /* Right Side: Forms */
+        .vault-forms {
+            width: 55%;
+            padding: 40px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Header Actions */
+        .header-actions {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            display: flex;
+            gap: 15px;
+        }
+
+        .action-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid var(--card-border);
+            color: var(--text-color);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .action-btn:hover {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 0 10px var(--primary);
+            transform: scale(1.1);
+        }
+
+        /* Tabs */
+        .nav-tabs {
+            border-bottom: 2px solid var(--card-border);
+            margin-bottom: 30px;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .nav-link {
+            color: var(--nav-link-color);
+            border: none;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 1.1rem;
+            padding: 10px 0;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--accent);
+            border: none;
+        }
+
+        .nav-link.active {
+            color: var(--nav-link-active);
+            background: none;
+            border: none;
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--accent);
+            box-shadow: 0 -2px 10px var(--accent);
+            border-radius: 2px;
+        }
+
+        /* Forms */
+        .form-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-control {
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            color: var(--input-text);
+            border-radius: 10px;
+            padding: 12px 15px;
+            font-family: var(--font-form);
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            background: var(--input-bg);
+            color: var(--input-text);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 0.2rem rgba(0, 255, 255, 0.15);
+        }
+
+        .form-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 8px;
+            margin-left: 5px;
+        }
+
+        /* Buttons */
+        .btn-nebula {
+            background: linear-gradient(90deg, var(--primary), #6a0dad);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            letter-spacing: 1px;
+            width: 100%;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(75, 0, 130, 0.4);
+        }
+
+        .btn-nebula:hover {
+            background: linear-gradient(90deg, #6a0dad, var(--primary));
+            color: var(--accent);
+            box-shadow: 0 0 20px var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .btn-nebula:active {
+            transform: translateY(1px);
+        }
+
+        /* Settings Modal */
+        .settings-modal {
+            position: fixed;
+            top: 0;
+            right: -350px; /* Hidden by default */
+            width: 300px;
+            height: 100vh;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-left: 1px solid var(--card-border);
+            z-index: 2000;
+            padding: 30px;
+            transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+            box-shadow: -5px 0 25px rgba(0,0,0,0.5);
+        }
+
+        .settings-modal.open {
+            right: 0;
+        }
+
+        .settings-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 1999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s;
+            backdrop-filter: blur(3px);
+        }
+
+        .settings-overlay.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .color-picker-group {
+            margin-bottom: 25px;
+        }
+
+        .color-input-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        input[type="color"] {
+            -webkit-appearance: none;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            overflow: hidden;
+            padding: 0;
+            background: none;
+        }
+        
+        input[type="color"]::-webkit-color-swatch-wrapper {
+            padding: 0; 
+        }
+        
+        input[type="color"]::-webkit-color-swatch {
+            border: 2px solid var(--text-color);
+            border-radius: 50%;
+        }
+
+        /* Swiper Overrides */
+        .swiper {
+            width: 100%;
+            height: 200px;
+            margin-top: 20px;
+        }
+        
+        .swiper-slide {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.8);
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        .slide-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--accent);
+            text-shadow: 0 0 10px var(--accent);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .vault-card {
+                flex-direction: column;
+                max-width: 400px;
+            }
+            .vault-visual {
+                width: 100%;
+                height: 150px;
+                padding: 20px;
+            }
+            .visual-logo {
+                font-size: 1.8rem;
+                margin-bottom: 0;
+            }
+            .swiper {
+                display: none; /* Hide swiper on mobile to save space */
+            }
+            .vault-forms {
+                width: 100%;
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Elements -->
+    <div class="space-background">
+        <div class="nebula-overlay"></div>
+        <canvas id="star-canvas"></canvas>
+    </div>
+
+    <!-- Header Actions -->
+    <div class="header-actions">
+        <div class="action-btn" id="theme-toggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </div>
+        <div class="action-btn" id="settings-toggle" title="Settings">
+            <i class="fas fa-cog"></i>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <div class="vault-card" data-aos="zoom-in" data-aos-duration="1000">
+            
+            <!-- Left Visual Side -->
+            <div class="vault-visual">
+                <div class="visual-content">
+                    <div class="visual-logo">NEBULA<span style="color:white; font-weight:300;">VAULT</span></div>
+                    <p style="font-size: 0.9rem; opacity: 0.8;">Secure Access to the Future</p>
+                    
+                    <!-- Swiper Carousel -->
+                    <div class="swiper mySwiper">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <i class="fas fa-shield-halved slide-icon"></i>
+                                <h5>Maximum Security</h5>
+                                <p class="small">Encrypted pathways ensure your data remains yours.</p>
+                            </div>
+                            <div class="swiper-slide">
+                                <i class="fas fa-bolt slide-icon"></i>
+                                <h5>Lightning Fast</h5>
+                                <p class="small">Access your vault in milliseconds with quantum-ready servers.</p>
+                            </div>
+                            <div class="swiper-slide">
+                                <i class="fas fa-globe slide-icon"></i>
+                                <h5>Global Access</h5>
+                                <p class="small">Seamless connectivity from anywhere in the galaxy.</p>
+                            </div>
+                        </div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Form Side -->
+            <div class="vault-forms">
+                <ul class="nav nav-tabs" id="authTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#login-pane" type="button" role="tab">Login</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="signup-tab" data-bs-toggle="tab" data-bs-target="#signup-pane" type="button" role="tab">Signup</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="forgot-tab" data-bs-toggle="tab" data-bs-target="#forgot-pane" type="button" role="tab">Forgot?</button>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="authTabContent">
+                    
+                    <!-- Login Form -->
+                    <div class="tab-pane fade show active form-section" id="login-pane" role="tabpanel">
+                        <form onsubmit="event.preventDefault(); showToast('Welcome back, Traveler!');">
+                            <div class="mb-3">
+                                <label for="loginEmail" class="form-label">Email Address</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-transparent border-end-0 text-muted"><i class="fas fa-envelope"></i></span>
+                                    <input type="email" class="form-control border-start-0 ps-0" id="loginEmail" placeholder="user@nebula.com" required>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label for="loginPassword" class="form-label">Password</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-transparent border-end-0 text-muted"><i class="fas fa-lock"></i></span>
+                                    <input type="password" class="form-control border-start-0 ps-0" id="loginPassword" placeholder="••••••••" required>
+                                </div>
+                                <div class="text-end mt-2">
+                                    <a href="#" class="text-decoration-none" style="font-size: 0.8rem; color: var(--accent);" onclick="switchTab('forgot-tab')">Forgot Password?</a>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-nebula">ENTER VAULT</button>
+                            <div class="text-center mt-4">
+                                <p class="small text-muted">Or continue with</p>
+                                <div class="d-flex justify-content-center gap-3">
+                                    <button type="button" class="btn btn-outline-light rounded-circle" style="width: 40px; height: 40px;"><i class="fab fa-google"></i></button>
+                                    <button type="button" class="btn btn-outline-light rounded-circle" style="width: 40px; height: 40px;"><i class="fab fa-github"></i></button>
+                                    <button type="button" class="btn btn-outline-light rounded-circle" style="width: 40px; height: 40px;"><i class="fab fa-discord"></i></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Signup Form -->
+                    <div class="tab-pane fade form-section" id="signup-pane" role="tabpanel">
+                        <form onsubmit="event.preventDefault(); showToast('Account created. Initiating launch sequence...');">
+                            <div class="mb-3">
+                                <label for="signupName" class="form-label">Full Name</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-transparent border-end-0 text-muted"><i class="fas fa-user-astronaut"></i></span>
+                                    <input type="text" class="form-control border-start-0 ps-0" id="signupName" placeholder="John Doe" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="signupEmail" class="form-label">Email Address</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-transparent border-end-0 text-muted"><i class="fas fa-envelope"></i></span>
+                                    <input type="email" class="form-control border-start-0 ps-0" id="signupEmail" placeholder="user@nebula.com" required>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label for="signupPassword" class="form-label">Create Password</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-transparent border-end-0 text-muted"><i class="fas fa-key"></i></span>
+                                    <input type="password" class="form-control border-start-0 ps-0" id="signupPassword" placeholder="••••••••" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-nebula">CREATE IDENTITY</button>
+                        </form>
+                    </div>
+
+                    <!-- Forgot Password Form -->
+                    <div class="tab-pane fade form-section" id="forgot-pane" role="tabpanel">
+                        <form onsubmit="event.preventDefault(); showToast('Recovery signal sent!');">
+                            <div class="text-center mb-4">
+                                <i class="fas fa-satellite-dish" style="font-size: 3rem; color: var(--primary);"></i>
+                                <p class="mt-2 text-muted">Enter your registered email to receive recovery coordinates.</p>
+                            </div>
+                            <div class="mb-4">
+                                <label for="forgotEmail" class="form-label">Email Address</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-transparent border-end-0 text-muted"><i class="fas fa-envelope"></i></span>
+                                    <input type="email" class="form-control border-start-0 ps-0" id="forgotEmail" placeholder="user@nebula.com" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-nebula">SEND RECOVERY</button>
+                            <div class="text-center mt-3">
+                                <a href="#" class="text-decoration-none small" style="color: var(--text-color);" onclick="switchTab('login-tab')">Back to Login</a>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Popup -->
+    <div class="settings-overlay" id="settings-overlay"></div>
+    <div class="settings-modal" id="settings-modal">
+        <div class="d-flex justify-content-between align-items-center mb-5">
+            <h4 class="font-heading" style="font-family: var(--font-heading);">System Config</h4>
+            <button class="btn btn-sm btn-link text-decoration-none" id="close-settings"><i class="fas fa-times"></i></button>
+        </div>
+
+        <div class="color-picker-group">
+            <label class="form-label d-block">Primary Color</label>
+            <div class="color-input-wrapper">
+                <input type="color" id="primary-picker" value="#4B0082">
+                <span class="small text-muted" id="primary-val">#4B0082</span>
+            </div>
+        </div>
+
+        <div class="color-picker-group">
+            <label class="form-label d-block">Accent Color</label>
+            <div class="color-input-wrapper">
+                <input type="color" id="accent-picker" value="#00FFFF">
+                <span class="small text-muted" id="accent-val">#00FFFF</span>
+            </div>
+        </div>
+
+        <div class="mt-5">
+            <button class="btn btn-outline-light w-100 rounded-pill" id="reset-colors">Reset to Default</button>
+        </div>
+    </div>
+
+    <!-- Toast Notification (Custom) -->
+    <div style="position: fixed; bottom: 20px; right: 20px; z-index: 3000;">
+        <div id="liveToast" class="toast align-items-center text-white border-0" role="alert" aria-live="assertive" aria-atomic="true" style="background: var(--primary); box-shadow: 0 5px 15px rgba(0,0,0,0.3);">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <i class="fas fa-info-circle me-2"></i> <span id="toast-msg">Notification</span>
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <!-- Vanilla Counter (Simulated logic used below, library placeholder if needed) -->
+
+    <script>
+        // Initialize AOS
+        AOS.init();
+
+        // Initialize Swiper
+        const swiper = new Swiper(".mySwiper", {
+            direction: "vertical",
+            autoplay: {
+                delay: 3500,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            loop: true
+        });
+
+        // --- Particle System (Canvas) ---
+        const canvas = document.getElementById('star-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+
+        function resizeCanvas() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 2;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.opacity = Math.random();
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > width) this.x = 0;
+                if (this.x < 0) this.x = width;
+                if (this.y > height) this.y = 0;
+                if (this.y < 0) this.y = height;
+            }
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < 100; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, width, height);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+            }
+            requestAnimationFrame(animateParticles);
+        }
+
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            initParticles();
+        });
+
+        resizeCanvas();
+        initParticles();
+        animateParticles();
+
+        // --- UI Logic ---
+
+        // Theme Toggler
+        const themeToggle = document.getElementById('theme-toggle');
+        const icon = themeToggle.querySelector('i');
+        let isDark = true;
+
+        themeToggle.addEventListener('click', () => {
+            isDark = !isDark;
+            document.body.setAttribute('data-theme', isDark ? 'dark' : 'light');
+            icon.className = isDark ? 'fas fa-moon' : 'fas fa-sun';
+        });
+
+        // Settings Modal
+        const settingsToggle = document.getElementById('settings-toggle');
+        const settingsModal = document.getElementById('settings-modal');
+        const settingsOverlay = document.getElementById('settings-overlay');
+        const closeSettings = document.getElementById('close-settings');
+
+        function toggleSettings() {
+            settingsModal.classList.toggle('open');
+            settingsOverlay.classList.toggle('open');
+        }
+
+        settingsToggle.addEventListener('click', toggleSettings);
+        closeSettings.addEventListener('click', toggleSettings);
+        settingsOverlay.addEventListener('click', toggleSettings);
+
+        // Color Manipulator
+        const root = document.documentElement;
+        const primaryPicker = document.getElementById('primary-picker');
+        const accentPicker = document.getElementById('accent-picker');
+        const primaryVal = document.getElementById('primary-val');
+        const accentVal = document.getElementById('accent-val');
+        const resetBtn = document.getElementById('reset-colors');
+
+        const defaultPrimary = '#4B0082';
+        const defaultAccent = '#00FFFF';
+
+        function updateColors() {
+            root.style.setProperty('--primary', primaryPicker.value);
+            root.style.setProperty('--accent', accentPicker.value);
+            primaryVal.textContent = primaryPicker.value;
+            accentVal.textContent = accentPicker.value;
+        }
+
+        primaryPicker.addEventListener('input', updateColors);
+        accentPicker.addEventListener('input', updateColors);
+
+        resetBtn.addEventListener('click', () => {
+            primaryPicker.value = defaultPrimary;
+            accentPicker.value = defaultAccent;
+            updateColors();
+            showToast('Colors reset to default.');
+        });
+
+        // Tab Helper
+        function switchTab(tabId) {
+            const tabEl = document.querySelector(`#${tabId}`);
+            const tab = new bootstrap.Tab(tabEl);
+            tab.show();
+        }
+
+        // Toast Helper
+        function showToast(message) {
+            document.getElementById('toast-msg').innerText = message;
+            const toastEl = document.getElementById('liveToast');
+            const toast = new bootstrap.Toast(toastEl, { delay: 3000 });
+            toast.show();
+        }
+
+    </script>
+</body>
+</html>
