@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberPulse | Secure Access</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;900&family=Open+Sans:wght@400;600&family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    
+    <!-- AOS Animation CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --primary: #FF00FF;      /* Hot Magenta */
+            --accent: #00FF9F;       /* Toxic Green */
+            --bg-dark: #050505;
+            --bg-panel: rgba(20, 20, 20, 0.85);
+            --text-main: #e0e0e0;
+            --text-muted: #888;
+            --font-head: 'Nunito', sans-serif;
+            --font-body: 'Ubuntu', sans-serif;
+            --font-form: 'Open Sans', sans-serif;
+            --scanline-opacity: 0.05;
+            --border-radius: 4px;
+        }
+
+        /* Light Mode Override (Daylight Protocol) */
+        body.light-mode {
+            --bg-dark: #f0f2f5;
+            --bg-panel: rgba(255, 255, 255, 0.9);
+            --text-main: #1a1a1a;
+            --text-muted: #555;
+            --scanline-opacity: 0.02;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: background-color 0.3s ease;
+        }
+
+        /* --- BACKGROUND FX --- */
+        .bg-grid {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 255, 159, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 0, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        .scanlines {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0),
+                rgba(255,255,255,0) 50%,
+                rgba(0,0,0,0.2) 50%,
+                rgba(0,0,0,0.2)
+            );
+            background-size: 100% 4px;
+            z-index: 9999;
+            pointer-events: none;
+            opacity: var(--scanline-opacity);
+            animation: scanlineMove 0.5s linear infinite; /* Subtle jitter */
+        }
+
+        @keyframes scanlineMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 4px; }
+        }
+
+        /* --- MAIN CARD CONTAINER --- */
+        .cyber-card {
+            width: 100%;
+            max-width: 450px;
+            background: var(--bg-panel);
+            border: 1px solid var(--primary);
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.2), inset 0 0 20px rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 0;
+            position: relative;
+            clip-path: polygon(
+                0 0, 
+                100% 0, 
+                100% 90%, 
+                95% 100%, 
+                0 100%
+            );
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Decorative Corners */
+        .cyber-card::before {
+            content: '';
+            position: absolute;
+            top: -1px; left: -1px;
+            width: 20px; height: 20px;
+            border-top: 2px solid var(--accent);
+            border-left: 2px solid var(--accent);
+        }
+        .cyber-card::after {
+            content: '';
+            position: absolute;
+            bottom: -1px; right: -1px;
+            width: 20px; height: 20px;
+            border-bottom: 2px solid var(--accent);
+            border-right: 2px solid var(--accent);
+        }
+
+        /* --- HEADER --- */
+        .card-header {
+            padding: 25px 25px 0 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand-logo {
+            font-family: var(--font-head);
+            font-size: 1.8rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--primary);
+            text-shadow: 2px 2px 0px rgba(0, 255, 159, 0.3);
+            position: relative;
+            cursor: default;
+        }
+
+        /* Glitch Effect on Hover */
+        .brand-logo:hover {
+            animation: glitch-anim 0.3s infinite;
+        }
+
+        @keyframes glitch-anim {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 15px;
+        }
+
+        .icon-btn {
+            background: transparent;
+            border: 1px solid var(--text-muted);
+            color: var(--text-main);
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .icon-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            box-shadow: 0 0 10px var(--accent);
+        }
+
+        /* --- TABS --- */
+        .nav-pills {
+            padding: 20px 25px 0 25px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-link {
+            color: var(--text-muted);
+            font-family: var(--font-head);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            border: 1px solid transparent;
+            border-radius: 0;
+            padding: 8px 15px;
+            transition: all 0.3s;
+            position: relative;
+            background: transparent !important;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+            text-shadow: 0 0 5px var(--primary);
+        }
+
+        .nav-link.active {
+            color: var(--bg-dark);
+            background-color: var(--primary) !important;
+            box-shadow: 0 0 15px var(--primary);
+        }
+
+        /* --- FORMS --- */
+        .card-body {
+            padding: 30px 25px;
+        }
+
+        .form-control {
+            background-color: rgba(0,0,0,0.3);
+            border: 1px solid #333;
+            color: var(--text-main);
+            font-family: var(--font-form);
+            border-radius: 0; /* Edgy look */
+            padding: 12px 15px;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            background-color: rgba(0,0,0,0.5);
+            border-color: var(--accent);
+            box-shadow: 0 0 10px var(--accent);
+            color: var(--accent);
+        }
+
+        .form-label {
+            font-family: var(--font-head);
+            font-weight: 700;
+            font-size: 0.8rem;
+            color: var(--primary);
+            text-transform: uppercase;
+        }
+
+        .cyber-btn {
+            width: 100%;
+            background: linear-gradient(45deg, transparent 5%, var(--primary) 5%);
+            color: #fff;
+            font-family: var(--font-head);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border: 0;
+            padding: 12px;
+            margin-top: 20px;
+            cursor: pointer;
+            clip-path: polygon(0 0, 100% 0, 100% 80%, 95% 100%, 0 100%);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cyber-btn:hover {
+            background: linear-gradient(45deg, transparent 5%, var(--accent) 5%);
+            color: #000;
+            box-shadow: 0 0 20px var(--accent);
+        }
+
+        .cyber-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: 0.5s;
+        }
+
+        .cyber-btn:hover::before {
+            left: 100%;
+        }
+
+        .form-check-input {
+            background-color: transparent;
+            border-color: var(--text-muted);
+        }
+
+        .form-check-input:checked {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        /* --- SWIPER (System Updates) --- */
+        .system-status {
+            border-top: 1px solid #333;
+            padding: 15px 25px;
+            background: rgba(0,0,0,0.4);
+            font-size: 0.8rem;
+            font-family: var(--font-form);
+        }
+        
+        .swiper-slide {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-dot {
+            width: 8px; height: 8px;
+            background-color: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 5px var(--accent);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+
+        /* --- SETTINGS MODAL --- */
+        .settings-panel {
+            position: absolute;
+            top: 60px;
+            right: 0;
+            width: 250px;
+            background: rgba(10, 10, 10, 0.95);
+            border: 1px solid var(--primary);
+            padding: 20px;
+            z-index: 1000;
+            display: none; /* Hidden by default */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .settings-panel.show {
+            display: block;
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .color-control {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .color-control label {
+            font-size: 0.9rem;
+            color: var(--text-main);
+        }
+
+        input[type="color"] {
+            -webkit-appearance: none;
+            border: none;
+            width: 30px;
+            height: 30px;
+            background: none;
+            cursor: pointer;
+        }
+        input[type="color"]::-webkit-color-swatch-wrapper {
+            padding: 0; 
+        }
+        input[type="color"]::-webkit-color-swatch {
+            border: 1px solid var(--text-muted);
+            border-radius: 4px;
+        }
+
+        .btn-reset {
+            background: transparent;
+            border: 1px solid #ff4444;
+            color: #ff4444;
+            font-size: 0.8rem;
+            width: 100%;
+            padding: 5px;
+            text-transform: uppercase;
+            transition: 0.3s;
+        }
+
+        .btn-reset:hover {
+            background: #ff4444;
+            color: #fff;
+            box-shadow: 0 0 10px #ff4444;
+        }
+
+        /* --- TOAST NOTIFICATION --- */
+        #toast-container {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1100;
+        }
+        .cyber-toast {
+            background: rgba(0,0,0,0.9);
+            border-left: 4px solid var(--accent);
+            color: var(--accent);
+            padding: 15px 25px;
+            margin-bottom: 10px;
+            font-family: var(--font-form);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            animation: slideDown 0.3s ease-out;
+        }
+        @keyframes slideDown {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Background Elements -->
+    <div class="bg-grid"></div>
+    <div class="scanlines"></div>
+
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <!-- Main Container -->
+    <div class="container d-flex justify-content-center" data-aos="zoom-in" data-aos-duration="800">
+        <div class="cyber-card">
+            
+            <!-- Header -->
+            <div class="card-header">
+                <div class="brand-logo">Cyber<span style="color:var(--accent)">Pulse</span></div>
+                <div class="header-controls">
+                    <!-- Theme Toggler -->
+                    <button class="icon-btn" id="themeToggle" title="Toggle Daylight Protocol">
+                        <i class="bi bi-moon-stars-fill"></i>
+                    </button>
+                    <!-- Settings Trigger -->
+                    <button class="icon-btn" id="settingsTrigger" title="System Settings">
+                        <i class="bi bi-gear-fill"></i>
+                    </button>
+                    
+                    <!-- Settings Popup -->
+                    <div class="settings-panel" id="settingsPanel">
+                        <h6 class="text-uppercase text-muted mb-3" style="letter-spacing:1px; font-size:0.75rem;">System Config</h6>
+                        <div class="color-control">
+                            <label>Primary Color</label>
+                            <input type="color" id="primaryPicker" value="#FF00FF">
+                        </div>
+                        <div class="color-control">
+                            <label>Accent Color</label>
+                            <input type="color" id="accentPicker" value="#00FF9F">
+                        </div>
+                        <button class="btn-reset mt-2" id="resetColors">Reset Default</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Tabs -->
+            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="pills-login-tab" data-bs-toggle="pill" data-bs-target="#pills-login" type="button" role="tab">Login</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-signup-tab" data-bs-toggle="pill" data-bs-target="#pills-signup" type="button" role="tab">Signup</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-forgot-tab" data-bs-toggle="pill" data-bs-target="#pills-forgot" type="button" role="tab">Recover</button>
+                </li>
+            </ul>
+
+            <!-- Tab Content -->
+            <div class="tab-content" id="pills-tabContent">
+                
+                <!-- Login Form -->
+                <div class="tab-pane fade show active" id="pills-login" role="tabpanel">
+                    <div class="card-body">
+                        <form id="loginForm" onsubmit="handleLogin(event)">
+                            <div class="mb-3">
+                                <label for="loginEmail" class="form-label">Neural ID (Email)</label>
+                                <input type="email" class="form-control" id="loginEmail" required placeholder="user@cyber.net">
+                            </div>
+                            <div class="mb-3">
+                                <label for="loginPass" class="form-label">Access Key</label>
+                                <input type="password" class="form-control" id="loginPass" required placeholder="••••••••">
+                            </div>
+                            <div class="mb-3 form-check d-flex align-items-center gap-2">
+                                <input type="checkbox" class="form-check-input" id="rememberMe">
+                                <label class="form-check-label text-muted" style="font-size:0.8rem;" for="rememberMe">Keep Link Active</label>
+                            </div>
+                            <button type="submit" class="cyber-btn">Initialize Session</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Signup Form -->
+                <div class="tab-pane fade" id="pills-signup" role="tabpanel">
+                    <div class="card-body">
+                        <form id="signupForm" onsubmit="handleSignup(event)">
+                            <div class="mb-3">
+                                <label for="signName" class="form-label">Alias</label>
+                                <input type="text" class="form-control" id="signName" required placeholder="Neo">
+                            </div>
+                            <div class="mb-3">
+                                <label for="signEmail" class="form-label">Neural ID</label>
+                                <input type="email" class="form-control" id="signEmail" required placeholder="user@cyber.net">
+                            </div>
+                            <div class="mb-3">
+                                <label for="signPass" class="form-label">New Access Key</label>
+                                <input type="password" class="form-control" id="signPass" required placeholder="••••••••">
+                            </div>
+                            <button type="submit" class="cyber-btn">Create Identity</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Forgot Password Form -->
+                <div class="tab-pane fade" id="pills-forgot" role="tabpanel">
+                    <div class="card-body">
+                        <form id="forgotForm" onsubmit="handleForgot(event)">
+                            <p class="text-muted mb-3" style="font-size: 0.9rem;">Enter your Neural ID to receive a reset packet.</p>
+                            <div class="mb-3">
+                                <label for="forgotEmail" class="form-label">Neural ID</label>
+                                <input type="email" class="form-control" id="forgotEmail" required placeholder="user@cyber.net">
+                            </div>
+                            <button type="submit" class="cyber-btn">Transmit Packet</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Swiper Section (System News) -->
+            <div class="system-status">
+                <div class="swiper statusSwiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="status-dot"></div>
+                            <span class="text-muted">System Status: <span style="color:var(--accent)">ONLINE</span></span>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="status-dot" style="background-color:var(--primary); box-shadow:0 0 5px var(--primary);"></div>
+                            <span class="text-muted">Users Connected: <span class="counter" data-target="4092">0</span></span>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="status-dot"></div>
+                            <span class="text-muted">Threat Level: <span style="color:#ff4444">LOW</span></span>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="status-dot"></div>
+                            <span class="text-muted">Next Patch: <span>v2.4.1</span> Pending</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    
+    <script>
+        // --- 1. Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            AOS.init();
+            initSwiper();
+            initCounters();
+        });
+
+        // --- 2. Swiper Initialization ---
+        function initSwiper() {
+            new Swiper('.statusSwiper', {
+                direction: 'vertical',
+                loop: true,
+                autoplay: {
+                    delay: 3000,
+                    disableOnInteraction: false,
+                },
+                speed: 800,
+                slidesPerView: 1,
+            });
+        }
+
+        // --- 3. Vanilla Counter Animation ---
+        function initCounters() {
+            const counters = document.querySelectorAll('.counter');
+            counters.forEach(counter => {
+                const updateCount = () => {
+                    const target = +counter.getAttribute('data-target');
+                    const count = +counter.innerText;
+                    const speed = 200; // Lower is slower
+                    const inc = target / speed;
+
+                    if (count < target) {
+                        counter.innerText = Math.ceil(count + inc);
+                        setTimeout(updateCount, 20);
+                    } else {
+                        counter.innerText = target;
+                    }
+                };
+                updateCount();
+            });
+        }
+
+        // --- 4. Settings Popup & Color Manipulator ---
+        const settingsTrigger = document.getElementById('settingsTrigger');
+        const settingsPanel = document.getElementById('settingsPanel');
+        const primaryPicker = document.getElementById('primaryPicker');
+        const accentPicker = document.getElementById('accentPicker');
+        const resetBtn = document.getElementById('resetColors');
+        const root = document.documentElement;
+
+        // Toggle Settings
+        settingsTrigger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            settingsPanel.classList.toggle('show');
+        });
+
+        // Close settings when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!settingsPanel.contains(e.target) && e.target !== settingsTrigger && !settingsTrigger.contains(e.target)) {
+                settingsPanel.classList.remove('show');
+            }
+        });
+
+        // Update Colors
+        primaryPicker.addEventListener('input', (e) => {
+            root.style.setProperty('--primary', e.target.value);
+        });
+
+        accentPicker.addEventListener('input', (e) => {
+            root.style.setProperty('--accent', e.target.value);
+        });
+
+        // Reset Colors
+        resetBtn.addEventListener('click', () => {
+            root.style.setProperty('--primary', '#FF00FF');
+            root.style.setProperty('--accent', '#00FF9F');
+            primaryPicker.value = '#FF00FF';
+            accentPicker.value = '#00FF9F';
+            showToast('System defaults restored.');
+        });
+
+        // --- 5. Theme Toggler (Sun/Moon) ---
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = themeToggle.querySelector('i');
+        const body = document.body;
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('light-mode');
+            if(body.classList.contains('light-mode')) {
+                themeIcon.classList.remove('bi-moon-stars-fill');
+                themeIcon.classList.add('bi-sun-fill');
+                themeIcon.style.color = 'orange';
+            } else {
+                themeIcon.classList.remove('bi-sun-fill');
+                themeIcon.classList.add('bi-moon-stars-fill');
+                themeIcon.style.color = '';
+            }
+        });
+
+        // --- 6. Form Handling & Toasts ---
+        function showToast(message, isError = false) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'cyber-toast';
+            if(isError) toast.style.borderLeftColor = '#ff4444';
+            
+            const icon = isError ? '<i class="bi bi-exclamation-triangle-fill"></i>' : '<i class="bi bi-check-circle-fill"></i>';
+            toast.innerHTML = `${icon} <span>${message}</span>`;
+            
+            container.appendChild(toast);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(-20px)';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const originalText = btn.innerText;
+            
+            btn.innerText = "Authenticating...";
+            btn.disabled = true;
+
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.disabled = false;
+                showToast("Access Granted. Welcome back, User.");
+            }, 1500);
+        }
+
+        function handleSignup(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const originalText = btn.innerText;
+            
+            btn.innerText = "Registering...";
+            btn.disabled = true;
+
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.disabled = false;
+                showToast("New Neural ID Created Successfully.");
+                // Switch to login tab automatically
+                const loginTab = document.getElementById('pills-login-tab');
+                const bsTab = new bootstrap.Tab(loginTab);
+                bsTab.show();
+            }, 1500);
+        }
+
+        function handleForgot(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            const originalText = btn.innerText;
+            
+            btn.innerText = "Transmitting...";
+            btn.disabled = true;
+
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.disabled = false;
+                showToast("Reset Packet Sent to your Neural ID.");
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
