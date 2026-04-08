@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CyberPulse | Cyberpunk Login</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Open+Sans:wght@400;600;700&family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+    <!-- Swiper -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+
+    <!-- Vanilla Counter -->
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-counter@1.0.0/dist/vanilla-counter.min.js"></script>
+
+    <!-- Set theme before paint -->
+    <script>
+        (function () {
+            const savedTheme = localStorage.getItem('cyberpulse-theme');
+            if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+
+    <style>
+        :root {
+            --bg: #070712;
+            --bg-2: #0d1020;
+            --surface: rgba(12, 14, 28, 0.72);
+            --surface-2: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.12);
+            --text: #edf0ff;
+            --muted: #a7afcf;
+
+            --primary: #ff00ff;
+            --accent: #00ff9f;
+
+            --primary-rgb: 255, 0, 255;
+            --accent-rgb: 0, 255, 159;
+
+            --shadow-primary: 0 0 24px rgba(var(--primary-rgb), 0.34);
+            --shadow-accent: 0 0 24px rgba(var(--accent-rgb), 0.28);
+
+            --font-heading: 'Nunito', sans-serif;
+            --font-body: 'Ubuntu', sans-serif;
+            --font-form: 'Open Sans', sans-serif;
+        }
+
+        html[data-theme="light"] {
+            --bg: #eef2f8;
+            --bg-2: #dfe7f4;
+            --surface: rgba(255, 255, 255, 0.84);
+            --surface-2: rgba(255, 255, 255, 0.7);
+            --border: rgba(15, 20, 40, 0.08);
+            --text: #13182b;
+            --muted: #5c678b;
+            --shadow-primary: 0 10px 24px rgba(var(--primary-rgb), 0.16);
+            --shadow-accent: 0 10px 24px rgba(var(--accent-rgb), 0.14);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+            background: radial-gradient(circle at top, var(--bg-2), var(--bg));
+            color: var(--text);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background:
+                repeating-linear-gradient(
+                    to bottom,
+                    rgba(255,255,255,0.035) 0px,
+                    rgba(255,255,255,0.035) 1px,
+                    transparent 1px,
+                    transparent 4px
+                );
+            mix-blend-mode: soft-light;
+            opacity: 0.6;
+            z-index: 2;
+            animation: scanMove 10s linear infinite;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(var(--primary-rgb), 0.12), transparent 18%),
+                radial-gradient(circle at 80% 30%, rgba(var(--accent-rgb), 0.10), transparent 18%),
+                radial-gradient(circle at 50% 80%, rgba(var(--primary-rgb), 0.08), transparent 20%);
+            filter: blur(12px);
+            z-index: 1;
+            animation: floatGlow 8s ease-in-out infinite alternate;
+        }
+
+        @keyframes scanMove {
+            from { transform: translateY(0); }
+            to { transform: translateY(12px); }
+        }
+
+        @keyframes floatGlow {
+            from { transform: scale(1) translate3d(0,0,0); }
+            to { transform: scale(1.05) translate3d(0,-6px,0); }
+        }
+
+        .cyber-background {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .grid-layer {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(var(--accent-rgb), 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(var(--accent-rgb), 0.08) 1px, transparent 1px);
+            background-size: 56px 56px;
+            mask-image: radial-gradient(circle at center, black 18%, transparent 78%);
+            opacity: 0.45;
+            animation: gridDrift 24s linear infinite;
+        }
+
+        @keyframes gridDrift {
+            from { background-position: 0 0; }
+            to { background-position: 0 56px; }
+        }
+
+        .noise-layer {
+            position: absolute;
+            inset: 0;
+            opacity: 0.11;
+            background-image:
+                linear-gradient(90deg, rgba(255,255,255,0.03) 50%, transparent 50%),
+                linear-gradient(rgba(255,255,255,0.03) 50%, transparent 50%);
+            background-size: 3px 3px;
+            mix-blend-mode: overlay;
+            filter: contrast(120%);
+        }
+
+        .main-wrap {
+            min-height: 100vh;
+            position: relative;
+            z-index: 3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .header-actions {
+            position: fixed;
+            top: 18px;
+            right: 18px;
+            z-index: 20;
+            display: flex;
+            gap: 12px;
+        }
+
+        .action-btn {
+            width: 44px;
+            height: 44px;
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.07);
+            color: var(--text);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.22);
+            transition: transform .25s ease, box-shadow .25s ease, background .25s ease, color .25s ease;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px) scale(1.04);
+            background: rgba(var(--primary-rgb), 0.18);
+            color: white;
+            box-shadow: var(--shadow-primary), 0 10px 26px rgba(0,0,0,0.25);
+        }
+
+        .cyber-card {
+            width: 100%;
+            max-width: 1180px;
+            min-height: 700px;
+            display: flex;
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            overflow: hidden;
+            background: var(--surface);
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+            box-shadow:
+                0 24px 60px rgba(0,0,0,0.35),
+                0 0 0 1px rgba(255,255,255,0.03) inset,
+                var(--shadow-primary),
+                var(--shadow-accent);
+            position: relative;
+        }
+
+        .cyber-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: linear-gradient(135deg, rgba(255,255,255,0.06), transparent 30%, transparent 70%, rgba(255,255,255,0.04));
+            opacity: 0.6;
+        }
+
+        .cyber-visual {
+            width: 44%;
+            position: relative;
+            padding: 42px 34px;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(var(--primary-rgb),0.35), transparent 26%),
+                radial-gradient(circle at 80% 30%, rgba(var(--accent-rgb),0.25), transparent 24%),
+                linear-gradient(145deg, rgba(9,10,20,0.98), rgba(24,8,34,0.88));
+            border-right: 1px solid rgba(255,255,255,0.08);
+            overflow: hidden;
+        }
+
+        .cyber-visual::before {
+            content: "";
+            position: absolute;
+            inset: -50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.10), transparent 60%);
+            animation: pulseSpin 22s linear infinite;
+            opacity: 0.7;
+        }
+
+        .cyber-visual::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.03) 50%, transparent 100%);
+            mix-blend-mode: screen;
+            pointer-events: none;
+        }
+
+        @keyframes pulseSpin {
+            from { transform: rotate(0deg) scale(1); }
+            to { transform: rotate(360deg) scale(1.06); }
+        }
+
+        .visual-inner {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .brand {
+            font-family: var(--font-heading);
+            font-size: clamp(2.1rem, 4vw, 3.3rem);
+            font-weight: 900;
+            letter-spacing: 2px;
+            line-height: 1;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            position: relative;
+            display: inline-block;
+            text-shadow:
+                0 0 14px rgba(var(--primary-rgb), 0.5),
+                0 0 24px rgba(var(--accent-rgb), 0.22);
+        }
+
+        .brand span {
+            color: var(--accent);
+        }
+
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            opacity: 0.8;
+        }
+
+        .glitch::before {
+            transform: translate(2px, 0);
+            color: var(--accent);
+            animation: glitchTop 2.4s infinite linear alternate-reverse;
+        }
+
+        .glitch::after {
+            transform: translate(-2px, 0);
+            color: var(--primary);
+            animation: glitchBottom 2s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitchTop {
+            0% { clip-path: inset(0 0 82% 0); }
+            20% { clip-path: inset(10% 0 70% 0); }
+            40% { clip-path: inset(35% 0 42% 0); }
+            60% { clip-path: inset(5% 0 78% 0); }
+            80% { clip-path: inset(40% 0 36% 0); }
+            100% { clip-path: inset(0 0 82% 0); }
+        }
+
+        @keyframes glitchBottom {
+            0% { clip-path: inset(76% 0 2% 0); }
+            20% { clip-path: inset(62% 0 14% 0); }
+            40% { clip-path: inset(38% 0 38% 0); }
+            60% { clip-path: inset(70% 0 4% 0); }
+            80% { clip-path: inset(44% 0 30% 0); }
+            100% { clip-path: inset(76% 0 2% 0); }
+        }
+
+        .tagline {
+            color: var(--muted);
+            font-size: 0.98rem;
+            margin-bottom: 22px;
+            max-width: 92%;
+        }
+
+        .feature-shell {
+            margin-top: 8px;
+            padding: 18px;
+            border-radius: 22px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+        }
+
+        .swiper {
+            width: 100%;
+            height: 230px;
+        }
+
+        .swiper-slide {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 12px 10px 30px;
+            color: var(--text);
+        }
+
+        .feature-icon {
+            font-size: 2.8rem;
+            color: var(--accent);
+            text-shadow: 0 0 14px rgba(var(--accent-rgb),0.55);
+            margin-bottom: 12px;
+        }
+
+        .feature-title {
+            font-family: var(--font-heading);
+            font-weight: 800;
+            font-size: 1.15rem;
+            margin-bottom: 8px;
+        }
+
+        .feature-desc {
+            color: var(--muted);
+            font-size: 0.92rem;
+            line-height: 1.55;
+            margin: 0;
+        }
+
+        .swiper-pagination-bullet {
+            background: rgba(255,255,255,0.4);
+            opacity: 1;
+        }
+
+        .swiper-pagination-bullet-active {
+            background: var(--accent);
+            box-shadow: 0 0 12px rgba(var(--accent-rgb), 0.8);
+        }
+
+        .stats-row {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .stat-box {
+            padding: 14px 12px;
+            text-align: center;
+            border-radius: 18px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .stat-number {
+            font-family: var(--font-heading);
+            font-size: 1.35rem;
+            font-weight: 900;
+            color: white;
+            line-height: 1;
+            text-shadow: 0 0 12px rgba(var(--primary-rgb),0.35);
+        }
+
+        .stat-label {
+            color: var(--muted);
+            font-size: 0.77rem;
+            margin-top: 6px;
+            display: block;
+            letter-spacing: 0.3px;
+        }
+
+        .cyber-auth {
+            width: 56%;
+            padding: 42px 36px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .auth-header {
+            margin-bottom: 18px;
+        }
+
+        .auth-title {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: 900;
+            margin: 0;
+            letter-spacing: 0.4px;
+            color: var(--text);
+        }
+
+        .auth-subtitle {
+            color: var(--muted);
+            margin: 8px 0 0;
+            font-size: 0.95rem;
+        }
+
+        .cyber-tabs {
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.05);
+            border-radius: 18px;
+            padding: 8px;
+            gap: 8px;
+            margin-bottom: 18px;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+        }
+
+        .cyber-tabs .nav-item {
+            flex: 1;
+        }
+
+        .cyber-tabs .nav-link {
+            width: 100%;
+            border: 0;
+            border-radius: 14px;
+            padding: 12px 14px;
+            background: transparent;
+            color: var(--muted);
+            font-family: var(--font-heading);
+            font-weight: 800;
+            font-size: 1rem;
+            letter-spacing: 0.2px;
+            transition: all .25s ease;
+            position: relative;
+        }
+
+        .cyber-tabs .nav-link:hover {
+            color: var(--text);
+            background: rgba(255,255,255,0.06);
+            transform: translateY(-1px);
+        }
+
+        .cyber-tabs .nav-link.active {
+            color: white;
+            background: linear-gradient(135deg, rgba(var(--primary-rgb),0.95), rgba(var(--accent-rgb),0.42));
+            box-shadow: 0 10px 24px rgba(var(--primary-rgb),0.18), 0 0 18px rgba(var(--accent-rgb),0.14);
+        }
+
+        .auth-pane-shell {
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            background: rgba(255,255,255,0.04);
+            padding: 24px;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+            min-height: 460px;
+        }
+
+        .tab-pane {
+            animation: paneIn .35s ease;
+        }
+
+        @keyframes paneIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-label {
+            font-family: var(--font-form);
+            font-size: 0.84rem;
+            font-weight: 700;
+            letter-spacing: 0.25px;
+            color: var(--text);
+            margin-bottom: 8px;
+            margin-left: 4px;
+        }
+
+        .cyber-input {
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            background: rgba(255,255,255,0.06);
+            transition: border-color .25s ease, box-shadow .25s ease, transform .25s ease, background .25s ease;
+        }
+
+        .cyber-input:hover {
+            transform: translateY(-1px);
+            border-color: rgba(var(--accent-rgb),0.24);
+        }
+
+        .cyber-input:focus-within {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 0.18rem rgba(var(--accent-rgb), 0.12), 0 0 18px rgba(var(--accent-rgb), 0.12);
+        }
+
+        .cyber-input .input-group-text {
+            background: rgba(255,255,255,0.04) !important;
+            color: var(--accent);
+            border: 0 !important;
+            padding: 0 16px;
+            min-width: 54px;
+            justify-content: center;
+        }
+
+        .cyber-input .form-control {
+            background: transparent !important;
+            border: 0 !important;
+            color: var(--text);
+            font-family: var(--font-form);
+            padding: 13px 14px 13px 0;
+            box-shadow: none !important;
+            margin: 0;
+        }
+
+        .cyber-input .form-control::placeholder {
+            color: rgba(255,255,255,0.40);
+        }
+
+        html[data-theme="light"] .cyber-input .form-control::placeholder {
+            color: rgba(0,0,0,0.35);
+        }
+
+        .cyber-input .form-control:focus {
+            box-shadow: none;
+        }
+
+        .helper-row {
+            margin-top: 10px;
+            font-size: 0.82rem;
+        }
+
+        .cyber-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .cyber-link:hover {
+            color: white;
+            text-decoration: underline;
+        }
+
+        .btn-cyber {
+            width: 100%;
+            border: 0;
+            border-radius: 999px;
+            padding: 12px 18px;
+            font-family: var(--font-heading);
+            font-weight: 900;
+            letter-spacing: 1px;
+            color: white;
+            background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.95), rgba(var(--accent-rgb), 0.72));
+            box-shadow: 0 16px 34px rgba(0,0,0,0.28), 0 0 18px rgba(var(--primary-rgb),0.22);
+            transition: transform .25s ease, box-shadow .25s ease, filter .25s ease;
+            text-transform: uppercase;
+        }
+
+        .btn-cyber:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.06);
+            box-shadow: 0 18px 38px rgba(0,0,0,0.32), 0 0 24px rgba(var(--accent-rgb),0.22);
+        }
+
+        .btn-cyber:active {
+            transform: translateY(1px);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin: 18px 0;
+            color: var(--muted);
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+            height: 1px;
+            flex: 1;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.16), transparent);
+        }
+
+        .social-row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .social-btn {
+            flex: 1;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.05);
+            color: var(--text);
+            height: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all .25s ease;
+        }
+
+        .social-btn:hover {
+            background: rgba(var(--primary-rgb), 0.12);
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 0 18px rgba(var(--primary-rgb),0.12);
+        }
+
+        .ghost-card {
+            padding: 18px;
+            border: 1px dashed rgba(var(--accent-rgb), 0.24);
+            border-radius: 18px;
+            background: rgba(255,255,255,0.03);
+        }
+
+        .settings-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            backdrop-filter: blur(4px);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 40;
+            transition: opacity .28s ease;
+        }
+
+        .settings-overlay.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .settings-drawer {
+            position: fixed;
+            top: 0;
+            right: -380px;
+            width: 340px;
+            height: 100vh;
+            z-index: 45;
+            padding: 28px 24px;
+            background: var(--surface);
+            border-left: 1px solid var(--border);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: -10px 0 30px rgba(0,0,0,0.32);
+            transition: right .35s cubic-bezier(.77,0,.175,1);
+        }
+
+        .settings-drawer.open {
+            right: 0;
+        }
+
+        .drawer-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 26px;
+        }
+
+        .drawer-title {
+            font-family: var(--font-heading);
+            font-weight: 900;
+            margin: 0;
+            color: var(--text);
+        }
+
+        .drawer-close {
+            background: transparent;
+            border: 0;
+            color: var(--muted);
+            font-size: 1.1rem;
+        }
+
+        .drawer-close:hover {
+            color: white;
+        }
+
+        .picker-group {
+            margin-bottom: 22px;
+        }
+
+        .picker-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .color-swatch {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            padding: 0;
+            border: 2px solid rgba(255,255,255,0.24);
+            overflow: hidden;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        .color-swatch::-webkit-color-swatch-wrapper {
+            padding: 0;
+        }
+
+        .color-swatch::-webkit-color-swatch {
+            border: 0;
+            border-radius: 50%;
+        }
+
+        .hex-value {
+            font-size: 0.85rem;
+            color: var(--muted);
+            letter-spacing: 0.4px;
+        }
+
+        .btn-reset {
+            width: 100%;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.05);
+            color: var(--text);
+            padding: 12px 16px;
+            font-weight: 700;
+            transition: all .25s ease;
+        }
+
+        .btn-reset:hover {
+            background: rgba(var(--primary-rgb),0.12);
+            box-shadow: 0 0 18px rgba(var(--primary-rgb),0.14);
+            transform: translateY(-1px);
+        }
+
+        .toast-wrap {
+            position: fixed;
+            right: 18px;
+            bottom: 18px;
+            z-index: 60;
+        }
+
+        #cyberToast {
+            background: rgba(14,16,28,0.92);
+            color: white;
+            border: 1px solid rgba(var(--accent-rgb),0.22);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 18px 40px rgba(0,0,0,0.28), 0 0 18px rgba(var(--accent-rgb),0.12);
+        }
+
+        [data-theme="light"] #cyberToast {
+            background: rgba(255,255,255,0.96);
+            color: var(--text);
+        }
+
+        .soft-note {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .mini-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            font-size: 0.82rem;
+            margin-bottom: 16px;
+        }
+
+        .mini-badge i {
+            color: var(--accent);
+        }
+
+        @media (max-width: 991.98px) {
+            .cyber-card {
+                flex-direction: column;
+                max-width: 780px;
+                min-height: auto;
+            }
+
+            .cyber-visual,
+            .cyber-auth {
+                width: 100%;
+            }
+
+            .cyber-visual {
+                padding: 30px 22px;
+                border-right: 0;
+                border-bottom: 1px solid rgba(255,255,255,0.08);
+            }
+
+            .swiper {
+                height: 200px;
+            }
+
+            .auth-pane-shell {
+                min-height: auto;
+            }
+        }
+
+        @media (max-width: 767.98px) {
+            .main-wrap {
+                padding: 16px;
+            }
+
+            .cyber-card {
+                border-radius: 22px;
+            }
+
+            .cyber-auth {
+                padding: 26px 18px;
+            }
+
+            .cyber-visual {
+                padding: 24px 18px;
+            }
+
+            .auth-title {
+                font-size: 1.65rem;
+            }
+
+            .auth-pane-shell {
+                padding: 18px;
+            }
+
+            .cyber-tabs {
+                padding: 6px;
+                gap: 6px;
+            }
+
+            .cyber-tabs .nav-link {
+                font-size: 0.92rem;
+                padding: 11px 10px;
+            }
+
+            .stats-row {
+                grid-template-columns: 1fr;
+            }
+
+            .social-row {
+                flex-direction: column;
+            }
+
+            .settings-drawer {
+                width: min(90vw, 340px);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation: none !important;
+                transition: none !important;
+                scroll-behavior: auto !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cyber-background">
+        <div class="grid-layer"></div>
+        <div class="noise-layer"></div>
+    </div>
+
+    <!-- Top-right actions -->
+    <div class="header-actions">
+        <button class="action-btn" id="theme-toggle" title="Toggle theme" aria-label="Toggle theme">
+            <i class="fas fa-moon"></i>
+        </button>
+        <button class="action-btn" id="settings-toggle" title="Settings" aria-label="Settings">
+            <i class="fas fa-cog"></i>
+        </button>
+    </div>
+
+    <main class="main-wrap">
+        <div class="cyber-card" data-aos="zoom-in" data-aos-duration="900">
+
+            <!-- Left visual panel -->
+            <section class="cyber-visual">
+                <div class="visual-inner">
+                    <div class="mini-badge">
+                        <i class="bi bi-broadcast"></i>
+                        Signal secure • live grid connection
+                    </div>
+
+                    <div class="brand glitch" data-text="CYBERPULSE">
+                        CYBER<span>PULSE</span>
+                    </div>
+                    <p class="tagline">
+                        Neon access portal for the next generation of encrypted identity, signal control, and instant vault entry.
+                    </p>
+
+                    <div class="feature-shell">
+                        <div class="swiper feature-swiper">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <div>
+                                        <i class="fas fa-shield-halved feature-icon"></i>
+                                        <div class="feature-title">Neural Encryption</div>
+                                        <p class="feature-desc">Multi-layered access protection with zero-trace credential handling and live anomaly detection.</p>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div>
+                                        <i class="fas fa-bolt feature-icon"></i>
+                                        <div class="feature-title">Ultra-Fast Login</div>
+                                        <p class="feature-desc">Experience frictionless access with high-frequency UI response and fluid neon motion.</p>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div>
+                                        <i class="fas fa-satellite-dish feature-icon"></i>
+                                        <div class="feature-title">Recovery Signal</div>
+                                        <p class="feature-desc">Forgot your password? Send a secure recovery pulse to retrieve your access pathway.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="swiper-pagination"></div>
+                        </div>
+                    </div>
+
+                    <div class="stats-row">
+                        <div class="stat-box" data-aos="fade-up" data-aos-delay="80">
+                            <div class="stat-number"><span class="counter" data-target="999" data-decimals="0">0</span><span style="color:var(--accent)">+</span></div>
+                            <span class="stat-label">Threats blocked</span>
+                        </div>
+                        <div class="stat-box" data-aos="fade-up" data-aos-delay="160">
+                            <div class="stat-number"><span class="counter" data-target="99" data-decimals="1">0</span><span style="color:var(--accent)">%</span></div>
+                            <span class="stat-label">Uptime</span>
+                        </div>
+                        <div class="stat-box" data-aos="fade-up" data-aos-delay="240">
+                            <div class="stat-number"><span class="counter" data-target="256" data-decimals="0">0</span><span style="color:var(--accent)">-bit</span></div>
+                            <span class="stat-label">Encryption</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right auth panel -->
+            <section class="cyber-auth">
+                <div class="auth-header" data-aos="fade-left">
+                    <h1 class="auth-title">Enter the Grid</h1>
+                    <p class="auth-subtitle">Sign in, create a new identity, or recover access with a single pulse.</p>
+                </div>
+
+                <ul class="nav nav-tabs cyber-tabs" id="authTabs" role="tablist" data-aos="fade-up">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#login-pane" type="button" role="tab" aria-controls="login-pane" aria-selected="true">
+                            Login
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="signup-tab" data-bs-toggle="tab" data-bs-target="#signup-pane" type="button" role="tab" aria-controls="signup-pane" aria-selected="false">
+                            Signup
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="forgot-tab" data-bs-toggle="tab" data-bs-target="#forgot-pane" type="button" role="tab" aria-controls="forgot-pane" aria-selected="false">
+                            Forgot
+                        </button>
+                    </li>
+                </ul>
+
+                <div class="tab-content auth-pane-shell" id="authTabContent" data-aos="fade-up" data-aos-delay="100">
+
+                    <!-- Login -->
+                    <div class="tab-pane fade show active" id="login-pane" role="tabpanel" aria-labelledby="login-tab" tabindex="0">
+                        <form onsubmit="event.preventDefault(); showToast('Welcome back — access granted to CyberPulse.');">
+                            <div class="mb-3">
+                                <label for="loginEmail" class="form-label">Email Address</label>
+                                <div class="input-group cyber-input">
+                                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                    <input type="email" class="form-control" id="loginEmail" placeholder="user@cyberpulse.io" required>
+                                </div>
+                            </div>
+
+                            <div class="mb-2">
+                                <label for="loginPassword" class="form-label">Password</label>
+                                <div class="input-group cyber-input">
+                                    <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                    <input type="password" class="form-control" id="loginPassword" placeholder="••••••••" required>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center helper-row">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="rememberMe">
+                                        <label class="form-check-label soft-note" for="rememberMe">Remember me</label>
+                                    </div>
+                                    <a href="#" class="cyber-link" onclick="switchTab('forgot-tab'); return false;">Forgot password?</a>
+                                </div>
+                            </div>
+
+                            <div class="mt-4">
+                                <button type="submit" class="btn btn-cyber">Launch Login</button>
+                            </div>
+
+                            <div class="divider">Or continue with</div>
+
+                            <div class="social-row">
+                                <button type="button" class="social-btn" title="Google"><i class="fab fa-google"></i></button>
+                                <button type="button" class="social-btn" title="GitHub"><i class="fab fa-github"></i></button>
+                                <button type="button" class="social-btn" title="Discord"><i class="fab fa-discord"></i></button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Signup -->
+                    <div class="tab-pane fade" id="signup-pane" role="tabpanel" aria-labelledby="signup-tab" tabindex="0">
+                        <form onsubmit="event.preventDefault(); showToast('Identity created. Welcome to CyberPulse.');">
+                            <div class="mb-3">
+                                <label for="signupName" class="form-label">Full Name</label>
+                                <div class="input-group cyber-input">
+                                    <span class="input-group-text"><i class="fas fa-user-astronaut"></i></span>
+                                    <input type="text" class="form-control" id="signupName" placeholder="Nova Blade" required>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="signupEmail" class="form-label">Email Address</label>
+                                <div class="input-group cyber-input">
+                                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                    <input type="email" class="form-control" id="signupEmail" placeholder="nova@cyberpulse.io" required>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="signupPassword" class="form-label">Create Password</label>
+                                <div class="input-group cyber-input">
+                                    <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                    <input type="password" class="form-control" id="signupPassword" placeholder="••••••••" required>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="signupConfirm" class="form-label">Confirm Password</label>
+                                <div class="input-group cyber-input">
+                                    <span class="input-group-text"><i class="fas fa-shield-alt"></i></span>
+                                    <input type="password" class="form-control" id="signupConfirm" placeholder="••••••••" required>
+                                </div>
+                            </div>
+
+                            <div class="form-check mb-4">
+                                <input class="form-check-input" type="checkbox" value="" id="termsAgree" required>
+                                <label class="form-check-label soft-note" for="termsAgree">
+                                    I agree to the CyberPulse protocol and privacy conditions.
+                                </label>
+                            </div>
+
+                            <button type="submit" class="btn btn-cyber">Create Identity</button>
+                        </form>
+                    </div>
+
+                    <!-- Forgot Password -->
+                    <div class="tab-pane fade" id="forgot-pane" role="tabpanel" aria-labelledby="forgot-tab" tabindex="0">
+                        <div class="ghost-card mb-4">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="rounded-circle d-flex align-items-center justify-content-center"
+                                     style="width:56px;height:56px;border:1px solid rgba(var(--accent-rgb),0.24);background:rgba(255,255,255,0.05);">
+                                    <i class="fas fa-satellite-dish" style="color:var(--accent);font-size:1.35rem;"></i>
+                                </div>
+                                <div>
+                                    <h5 class="mb-1" style="font-family:var(--font-heading);font-weight:900;">Recovery Signal</h5>
+                                    <p class="mb-0 soft-note">Enter the email linked to your account and we’ll send a secure reset pulse.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <form onsubmit="event.preventDefault(); showToast('Recovery signal sent. Check your inbox.');">
+                            <div class="mb-4">
+                                <label for="forgotEmail" class="form-label">Email Address</label>
+                                <div class="input-group cyber-input">
+                                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                    <input type="email" class="form-control" id="forgotEmail" placeholder="user@cyberpulse.io" required>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-cyber">Send Recovery Pulse</button>
+
+                            <div class="text-center mt-3">
+                                <a href="#" class="cyber-link" onclick="switchTab('login-tab'); return false;">Back to Login</a>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Settings overlay -->
+    <div class="settings-overlay" id="settings-overlay"></div>
+
+    <!-- Settings drawer -->
+    <aside class="settings-drawer" id="settings-drawer" aria-hidden="true">
+        <div class="drawer-head">
+            <h4 class="drawer-title">System Config</h4>
+            <button class="drawer-close" id="close-settings" aria-label="Close settings">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <p class="soft-note mb-4">Main color(s) manipulator. Tune the neon palette to match your signal.</p>
+
+        <div class="picker-group">
+            <label class="form-label d-block">Primary Color</label>
+            <div class="picker-row">
+                <input type="color" class="color-swatch" id="primary-picker" value="#FF00FF" aria-label="Primary color picker">
+                <span class="hex-value" id="primary-val">#FF00FF</span>
+            </div>
+        </div>
+
+        <div class="picker-group">
+            <label class="form-label d-block">Accent Color</label>
+            <div class="picker-row">
+                <input type="color" class="color-swatch" id="accent-picker" value="#00FF9F" aria-label="Accent color picker">
+                <span class="hex-value" id="accent-val">#00FF9F</span>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <button class="btn-reset" id="reset-colors">Reset to Default</button>
+        </div>
+    </aside>
+
+    <!-- Toast -->
+    <div class="toast-wrap">
+        <div id="cyberToast" class="toast align-items-center border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    <i class="fas fa-circle-info me-2"></i>
+                    <span id="toast-msg">Notification</span>
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script>
+        AOS.init({
+            once: true,
+            duration: 900,
+            easing: 'ease-out-cubic'
+        });
+
+        const swiper = new Swiper(".feature-swiper", {
+            direction: "vertical",
+            loop: true,
+            autoplay: {
+                delay: 3200,
+                disableOnInteraction: false
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true
+            }
+        });
+
+        const root = document.documentElement;
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = themeToggle.querySelector('i');
+
+        const settingsToggle = document.getElementById('settings-toggle');
+        const settingsDrawer = document.getElementById('settings-drawer');
+        const settingsOverlay = document.getElementById('settings-overlay');
+        const closeSettings = document.getElementById('close-settings');
+
+        const primaryPicker = document.getElementById('primary-picker');
+        const accentPicker = document.getElementById('accent-picker');
+        const primaryVal = document.getElementById('primary-val');
+        const accentVal = document.getElementById('accent-val');
+        const resetBtn = document.getElementById('reset-colors');
+
+        const defaultPrimary = '#FF00FF';
+        const defaultAccent = '#00FF9F';
+
+        function hexToRgb(hex) {
+            const value = hex.replace('#', '').trim();
+            if (value.length !== 6) return null;
+            return {
+                r: parseInt(value.slice(0, 2), 16),
+                g: parseInt(value.slice(2, 4), 16),
+                b: parseInt(value.slice(4, 6), 16)
+            };
+        }
+
+        function setColorVars(primary, accent) {
+            const p = hexToRgb(primary);
+            const a = hexToRgb(accent);
+
+            root.style.setProperty('--primary', primary);
+            root.style.setProperty('--accent', accent);
+
+            if (p) root.style.setProperty('--primary-rgb', `${p.r}, ${p.g}, ${p.b}`);
+            if (a) root.style.setProperty('--accent-rgb', `${a.r}, ${a.g}, ${a.b}`);
+
+            primaryVal.textContent = primary.toUpperCase();
+            accentVal.textContent = accent.toUpperCase();
+
+            localStorage.setItem('cyberpulse-primary', primary);
+            localStorage.setItem('cyberpulse-accent', accent);
+        }
+
+        function applyThemeFromStorage() {
+            const savedTheme = localStorage.getItem('cyberpulse-theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            themeIcon.className = savedTheme === 'light' ? 'fas fa-sun' : 'fas fa-moon';
+        }
+
+        function toggleTheme() {
+            const current = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+            const next = current === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', next);
+            localStorage.setItem('cyberpulse-theme', next);
+            themeIcon.className = next === 'light' ? 'fas fa-sun' : 'fas fa-moon';
+            showToast(`Theme switched to ${next}.`);
+        }
+
+        function openSettings() {
+            settingsDrawer.classList.add('open');
+            settingsOverlay.classList.add('open');
+            settingsDrawer.setAttribute('aria-hidden', 'false');
+        }
+
+        function closeSettingsDrawer() {
+            settingsDrawer.classList.remove('open');
+            settingsOverlay.classList.remove('open');
+            settingsDrawer.setAttribute('aria-hidden', 'true');
+        }
+
+        settingsToggle.addEventListener('click', openSettings);
+        closeSettings.addEventListener('click', closeSettingsDrawer);
+        settingsOverlay.addEventListener('click', closeSettingsDrawer);
+
+        themeToggle.addEventListener('click', toggleTheme);
+
+        primaryPicker.addEventListener('input', () => {
+            setColorVars(primaryPicker.value, accentPicker.value);
+        });
+
+        accentPicker.addEventListener('input', () => {
+            setColorVars(primaryPicker.value, accentPicker.value);
+        });
+
+        resetBtn.addEventListener('click', () => {
+            primaryPicker.value = defaultPrimary;
+            accentPicker.value = defaultAccent;
+            setColorVars(defaultPrimary, defaultAccent);
+            showToast('Colors reset to default.');
+        });
+
+        function switchTab(tabId) {
+            const tabEl = document.querySelector(`#${tabId}`);
+            if (!tabEl) return;
+            bootstrap.Tab.getOrCreateInstance(tabEl).show();
+        }
+
+        function showToast(message) {
+            document.getElementById('toast-msg').innerText = message;
+            const toastEl = document.getElementById('cyberToast');
+            const toast = bootstrap.Toast.getOrCreateInstance(toastEl, { delay: 2800 });
+            toast.show();
+        }
+
+        function animateCounter(el) {
+            const target = parseFloat(el.dataset.target || '0');
+            const decimals = parseInt(el.dataset.decimals || '0', 10);
+            const duration = 1400;
+            const startTime = performance.now();
+
+            function step(now) {
+                const progress = Math.min((now - startTime) / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                const value = target * eased;
+                el.textContent = value.toFixed(decimals);
+                if (progress < 1) requestAnimationFrame(step);
+            }
+
+            requestAnimationFrame(step);
+        }
+
+        function initCounters() {
+            const counters = document.querySelectorAll('.counter');
+            if (!counters.length) return;
+
+            const observer = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateCounter(entry.target);
+                        obs.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.35 });
+
+            counters.forEach(counter => observer.observe(counter));
+        }
+
+        // Init saved settings
+        const savedPrimary = localStorage.getItem('cyberpulse-primary') || defaultPrimary;
+        const savedAccent = localStorage.getItem('cyberpulse-accent') || defaultAccent;
+        primaryPicker.value = savedPrimary;
+        accentPicker.value = savedAccent;
+        setColorVars(savedPrimary, savedAccent);
+
+        applyThemeFromStorage();
+        initCounters();
+
+        // Keyboard support
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeSettingsDrawer();
+        });
+    </script>
+</body>
+</html>
