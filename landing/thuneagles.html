@@ -1,0 +1,1502 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thunder Eagles FC — Rise Above</title>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Orbitron:wght@400;500;600;700;800;900&family=Ubuntu:wght@400;500;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<!-- Swiper -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+
+<!-- AOS -->
+<link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+
+<style>
+/* ===== CSS VARIABLES ===== */
+:root {
+  --primary: #dc2626;
+  --secondary: #f59e0b;
+  --accent: #ef4444;
+  --bg-dark: #0a0a0f;
+  --bg-card: #14141f;
+  --bg-card-hover: #1e1e2e;
+  --text-main: #f1f1f1;
+  --text-muted: #9ca3af;
+  --text-heading: #ffffff;
+  --nav-bg: rgba(10,10,15,0.92);
+  --section-alt: #101018;
+  --border-color: rgba(255,255,255,0.07);
+  --gradient-hero: linear-gradient(135deg, rgba(220,38,38,0.15), rgba(245,158,11,0.10));
+  --shadow-glow: 0 0 30px rgba(220,38,38,0.25);
+  --transition: 0.3s ease;
+}
+
+[data-theme="light"] {
+  --bg-dark: #f8f9fa;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f0f0f5;
+  --text-main: #1a1a2e;
+  --text-muted: #6b7280;
+  --text-heading: #0a0a0f;
+  --nav-bg: rgba(248,249,250,0.95);
+  --section-alt: #eef0f5;
+  --border-color: rgba(0,0,0,0.08);
+  --gradient-hero: linear-gradient(135deg, rgba(220,38,38,0.08), rgba(245,158,11,0.06));
+  --shadow-glow: 0 0 30px rgba(220,38,38,0.12);
+}
+
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
+body {
+  font-family: 'Open Sans', sans-serif;
+  background: var(--bg-dark);
+  color: var(--text-main);
+  transition: background var(--transition), color var(--transition);
+  line-height: 1.7;
+}
+h1,h2,h3,h4,h5,h6 { font-family: 'Nunito', sans-serif; color: var(--text-heading); font-weight: 800; }
+.font-sport { font-family: 'Orbitron', sans-serif; letter-spacing: 2px; text-transform: uppercase; }
+.font-sub { font-family: 'Ubuntu', sans-serif; }
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; }
+section { position: relative; overflow: hidden; }
+
+/* ===== PRELOADER ===== */
+#preloader {
+  position: fixed; inset: 0; z-index: 99999;
+  background: #0a0a0f;
+  display: flex; align-items: center; justify-content: center; flex-direction: column;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+#preloader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+.loader-ring {
+  width: 80px; height: 80px;
+  border: 4px solid rgba(220,38,38,0.15);
+  border-top-color: var(--primary);
+  border-right-color: var(--secondary);
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+.loader-text { margin-top: 20px; font-family: 'Orbitron', sans-serif; font-size: 14px; color: #fff; letter-spacing: 4px; text-transform: uppercase; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ===== SQUIGGLE LINK ===== */
+.squiggle-link {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 4px;
+  cursor: pointer;
+}
+.squiggle-link::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 100%; height: 6px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='6'%3E%3Cpath d='M0 3 Q5 0 10 3 T20 3 T30 3 T40 3' fill='none' stroke='%23dc2626' stroke-width='1.8'/%3E%3C/svg%3E") repeat-x;
+  background-size: 40px 6px;
+  animation: squiggle-move 0.6s linear infinite;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.squiggle-link:hover::after { opacity: 1; }
+@keyframes squiggle-move { to { background-position: 40px 0; } }
+
+/* ===== NAVBAR ===== */
+.navbar-custom {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: var(--nav-bg);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-color);
+  padding: 0 0;
+  transition: all var(--transition);
+}
+.navbar-custom.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.3); }
+.nav-inner {
+  max-width: 1320px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 24px;
+}
+.nav-brand {
+  display: flex; align-items: center; gap: 12px;
+  font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 1.35rem;
+  color: var(--text-heading);
+}
+.nav-brand .eagle-icon {
+  width: 42px; height: 42px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; color: #fff;
+}
+.nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+.nav-links a {
+  font-family: 'Ubuntu', sans-serif; font-weight: 500; font-size: 0.95rem;
+  color: var(--text-muted); transition: color var(--transition);
+  position: relative;
+}
+.nav-links a:hover, .nav-links a.active { color: var(--primary); }
+.nav-links a::before {
+  content: ''; position: absolute; bottom: -4px; left: 0;
+  width: 0; height: 2px;
+  background: var(--primary);
+  transition: width 0.3s;
+}
+.nav-links a:hover::before { width: 100%; }
+.nav-actions { display: flex; align-items: center; gap: 16px; }
+.theme-toggle {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--bg-card); border: 1px solid var(--border-color);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all var(--transition);
+  color: var(--text-main); font-size: 1.1rem;
+}
+.theme-toggle:hover { background: var(--primary); color: #fff; }
+.btn-cta {
+  padding: 10px 28px; border-radius: 50px; border: none;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: #fff; font-family: 'Nunito', sans-serif; font-weight: 700;
+  font-size: 0.95rem; cursor: pointer;
+  transition: all var(--transition); position: relative; overflow: hidden;
+}
+.btn-cta:hover { transform: translateY(-2px); box-shadow: var(--shadow-glow); }
+.btn-cta::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, transparent, rgba(255,255,255,0.15));
+  opacity: 0; transition: opacity 0.3s;
+}
+.btn-cta:hover::before { opacity: 1; }
+.btn-cta-outline {
+  padding: 10px 28px; border-radius: 50px;
+  border: 2px solid var(--primary); background: transparent;
+  color: var(--primary); font-family: 'Nunito', sans-serif; font-weight: 700;
+  font-size: 0.95rem; cursor: pointer;
+  transition: all var(--transition);
+}
+.btn-cta-outline:hover { background: var(--primary); color: #fff; transform: translateY(-2px); }
+.hamburger {
+  display: none; flex-direction: column; gap: 5px;
+  cursor: pointer; padding: 4px;
+}
+.hamburger span {
+  width: 26px; height: 2.5px; background: var(--text-main);
+  border-radius: 2px; transition: all 0.3s;
+}
+.hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+.hamburger.active span:nth-child(2) { opacity: 0; }
+.hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+/* Mobile Menu */
+.mobile-menu {
+  display: none; position: fixed; top: 68px; left: 0; right: 0;
+  background: var(--nav-bg); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-color);
+  padding: 24px; z-index: 999;
+  transform: translateY(-120%); transition: transform 0.4s ease;
+}
+.mobile-menu.open { transform: translateY(0); }
+.mobile-menu a {
+  display: block; padding: 14px 0; font-family: 'Ubuntu', sans-serif;
+  font-size: 1.1rem; color: var(--text-muted); border-bottom: 1px solid var(--border-color);
+  transition: color 0.3s;
+}
+.mobile-menu a:hover { color: var(--primary); }
+
+@media(max-width: 991px) {
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  .mobile-menu { display: block; }
+  .btn-cta.nav-cta-btn { display: none; }
+}
+
+/* ===== HERO ===== */
+.hero {
+  min-height: 100vh; display: flex; align-items: center;
+  position: relative; padding: 120px 24px 80px;
+  background: var(--bg-dark);
+}
+.hero-parallax-bg {
+  position: absolute; inset: 0;
+  background: url('https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=1920&q=80') center/cover no-repeat;
+  filter: brightness(0.18) saturate(1.2);
+  transform: translateZ(0);
+  transition: filter var(--transition);
+}
+[data-theme="light"] .hero-parallax-bg { filter: brightness(0.35) saturate(1.1); }
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(10,10,15,0.6) 0%, rgba(10,10,15,0.85) 70%, var(--bg-dark) 100%);
+}
+[data-theme="light"] .hero-overlay {
+  background: linear-gradient(180deg, rgba(248,249,250,0.3) 0%, rgba(248,249,250,0.75) 70%, var(--bg-dark) 100%);
+}
+.hero-content {
+  position: relative; z-index: 2;
+  max-width: 1320px; margin: 0 auto; width: 100%;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+}
+.hero-text-side {}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 18px; border-radius: 50px;
+  background: rgba(220,38,38,0.12); border: 1px solid rgba(220,38,38,0.3);
+  font-family: 'Orbitron', sans-serif; font-size: 0.7rem; font-weight: 600;
+  color: var(--primary); letter-spacing: 3px; text-transform: uppercase;
+  margin-bottom: 24px;
+}
+.hero-badge i { animation: pulse-icon 2s infinite; }
+@keyframes pulse-icon { 0%,100%{ opacity:1; } 50%{ opacity:0.4; } }
+.hero-title {
+  font-family: 'Orbitron', sans-serif; font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 900; line-height: 1.1; margin-bottom: 8px;
+  text-transform: uppercase; letter-spacing: 2px;
+}
+.hero-title .text-gradient {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-subtitle {
+  font-family: 'Ubuntu', sans-serif; font-size: 1.2rem;
+  color: var(--text-muted); margin-bottom: 32px; max-width: 500px;
+}
+.hero-buttons { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 48px; }
+.hero-stats {
+  display: flex; gap: 40px; flex-wrap: wrap;
+}
+.hero-stat {}
+.hero-stat-number {
+  font-family: 'Orbitron', sans-serif; font-size: 2.2rem; font-weight: 900;
+  color: var(--primary);
+}
+.hero-stat-label {
+  font-family: 'Ubuntu', sans-serif; font-size: 0.85rem; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 1px;
+}
+
+/* Player SVG */
+.hero-visual { position: relative; display: flex; align-items: center; justify-content: center; }
+.player-svg-container {
+  width: 100%; max-width: 480px; position: relative;
+}
+.player-silhouette {
+  width: 100%; height: auto;
+  filter: drop-shadow(0 0 40px rgba(220,38,38,0.3));
+  animation: player-float 4s ease-in-out infinite;
+}
+@keyframes player-float {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-18px); }
+}
+.player-glow-ring {
+  position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 300px; height: 60px;
+  background: radial-gradient(ellipse, rgba(220,38,38,0.25), transparent 70%);
+  border-radius: 50%;
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+@keyframes glow-pulse { 0%,100%{ opacity:0.5; transform:translateX(-50%) scale(1); } 50%{ opacity:1; transform:translateX(-50%) scale(1.1); } }
+
+/* Floating particles */
+.hero-particles {
+  position: absolute; inset: 0; pointer-events: none; z-index: 1;
+}
+.particle {
+  position: absolute; border-radius: 50%;
+  background: var(--primary); opacity: 0.15;
+  animation: float-particle linear infinite;
+}
+@keyframes float-particle {
+  0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+  10% { opacity: 0.15; }
+  90% { opacity: 0.15; }
+  100% { transform: translateY(-10vh) rotate(720deg); opacity: 0; }
+}
+
+@media(max-width: 991px) {
+  .hero-content { grid-template-columns: 1fr; text-align: center; }
+  .hero-subtitle { margin-left: auto; margin-right: auto; }
+  .hero-buttons { justify-content: center; }
+  .hero-stats { justify-content: center; }
+  .hero-visual { margin-top: 40px; }
+  .player-svg-container { max-width: 320px; }
+}
+
+/* ===== NEWS TICKER ===== */
+.ticker-bar {
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  padding: 10px 0; overflow: hidden; position: relative;
+}
+.ticker-track {
+  display: flex; white-space: nowrap;
+  animation: ticker-scroll 30s linear infinite;
+}
+.ticker-item {
+  display: inline-flex; align-items: center; gap: 12px;
+  padding: 0 40px;
+  font-family: 'Ubuntu', sans-serif; font-weight: 700; font-size: 0.9rem;
+  color: #fff; text-transform: uppercase; letter-spacing: 1px;
+}
+.ticker-item i { color: var(--secondary); }
+@keyframes ticker-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+/* ===== SECTION COMMON ===== */
+.section-padding { padding: 100px 24px; }
+.section-header { text-align: center; margin-bottom: 60px; }
+.section-label {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'Orbitron', sans-serif; font-size: 0.7rem;
+  color: var(--primary); letter-spacing: 4px; text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.section-label::before, .section-label::after {
+  content: ''; width: 30px; height: 2px; background: var(--primary); opacity: 0.5;
+}
+.section-title {
+  font-size: clamp(2rem, 4vw, 3rem); font-weight: 900; margin-bottom: 16px;
+}
+.section-desc {
+  font-family: 'Ubuntu', sans-serif; color: var(--text-muted);
+  max-width: 600px; margin: 0 auto; font-size: 1.05rem;
+}
+.container-custom { max-width: 1320px; margin: 0 auto; }
+
+/* ===== MATCH SCHEDULE ===== */
+.schedule-section { background: var(--section-alt); }
+.match-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 24px; }
+.match-card {
+  background: var(--bg-card); border: 1px solid var(--border-color);
+  border-radius: 16px; padding: 28px; position: relative; overflow: hidden;
+  transition: all var(--transition);
+}
+.match-card:hover { transform: translateY(-4px); border-color: var(--primary); box-shadow: var(--shadow-glow); }
+.match-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+}
+.match-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+.match-league { font-family: 'Orbitron', sans-serif; font-size: 0.65rem; letter-spacing: 2px; color: var(--primary); text-transform: uppercase; }
+.match-date { font-family: 'Ubuntu', sans-serif; font-size: 0.85rem; color: var(--text-muted); }
+.match-teams { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.match-team { text-align: center; flex: 1; }
+.match-team-logo {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--bg-card-hover); border: 2px solid var(--border-color);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 8px; font-size: 1.4rem;
+}
+.match-team-name { font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 0.9rem; }
+.match-vs {
+  font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 1.2rem;
+  color: var(--secondary); flex-shrink: 0;
+}
+.match-score { font-family: 'Orbitron',sans-serif; font-weight: 900; font-size: 1.6rem; color: var(--secondary); flex-shrink: 0; }
+.match-meta { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 16px; font-size: 0.82rem; color: var(--text-muted); }
+.match-meta i { color: var(--primary); }
+
+/* Countdown */
+.countdown-row { display: flex; gap: 12px; justify-content: center; margin-top: 16px; }
+.countdown-block { text-align: center; }
+.countdown-num {
+  font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 1.6rem;
+  color: var(--primary); background: var(--bg-card-hover);
+  border-radius: 8px; padding: 6px 12px; min-width: 52px;
+  display: block; border: 1px solid var(--border-color);
+}
+.countdown-lbl { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+
+/* ===== PLAYER STATS ===== */
+.players-section { background: var(--bg-dark); }
+.players-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+.player-card {
+  background: var(--bg-card); border: 1px solid var(--border-color);
+  border-radius: 16px; padding: 32px 24px; text-align: center;
+  transition: all var(--transition); position: relative; overflow: hidden;
+}
+.player-card:hover { transform: translateY(-6px); border-color: var(--primary); box-shadow: var(--shadow-glow); }
+.player-card::after {
+  content: ''; position: absolute; top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background: radial-gradient(circle, rgba(220,38,38,0.04), transparent 60%);
+  pointer-events: none;
+}
+.player-number {
+  position: absolute; top: 16px; right: 20px;
+  font-family: 'Orbitron', sans-serif; font-size: 2.5rem; font-weight: 900;
+  color: var(--primary); opacity: 0.1;
+}
+.player-avatar {
+  width: 90px; height: 90px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 16px; font-size: 2.2rem; color: #fff;
+  border: 3px solid var(--bg-card);
+  box-shadow: 0 0 20px rgba(220,38,38,0.3);
+}
+.player-name { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 1.2rem; margin-bottom: 4px; }
+.player-position { font-family: 'Orbitron', sans-serif; font-size: 0.65rem; color: var(--primary); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; }
+.player-stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.player-stat-item {}
+.player-stat-val { font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 1.3rem; color: var(--secondary); }
+.player-stat-lbl { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+
+/* ===== HIGHLIGHTS SWIPER ===== */
+.highlights-section { background: var(--section-alt); }
+.highlight-slide {
+  background: var(--bg-card); border: 1px solid var(--border-color);
+  border-radius: 16px; overflow: hidden;
+  transition: all var(--transition);
+}
+.highlight-slide:hover { border-color: var(--primary); }
+.highlight-thumb {
+  width: 100%; height: 220px; position: relative; overflow: hidden;
+  background: linear-gradient(135deg, var(--bg-card-hover), var(--bg-card));
+  display: flex; align-items: center; justify-content: center;
+}
+.highlight-thumb i { font-size: 3rem; color: var(--primary); opacity: 0.5; }
+.highlight-play {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--primary); color: #fff; border: none;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; cursor: pointer;
+  box-shadow: 0 0 30px rgba(220,38,38,0.5);
+  transition: transform 0.3s;
+}
+.highlight-play:hover { transform: translate(-50%,-50%) scale(1.1); }
+.highlight-info { padding: 20px; }
+.highlight-tag {
+  font-family: 'Orbitron', sans-serif; font-size: 0.6rem; letter-spacing: 2px;
+  color: var(--primary); text-transform: uppercase; margin-bottom: 8px;
+}
+.highlight-title { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 1.1rem; margin-bottom: 8px; }
+.highlight-meta { font-size: 0.82rem; color: var(--text-muted); display: flex; gap: 16px; }
+.highlight-meta i { color: var(--primary); }
+
+.swiper-pagination-bullet { background: var(--text-muted) !important; }
+.swiper-pagination-bullet-active { background: var(--primary) !important; }
+
+/* ===== SHOP ===== */
+.shop-section { background: var(--bg-dark); }
+.shop-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
+.shop-card {
+  background: var(--bg-card); border: 1px solid var(--border-color);
+  border-radius: 16px; overflow: hidden;
+  transition: all var(--transition);
+}
+.shop-card:hover { transform: translateY(-6px); border-color: var(--secondary); box-shadow: 0 0 30px rgba(245,158,11,0.2); }
+.shop-img {
+  height: 240px; position: relative;
+  background: linear-gradient(135deg, var(--bg-card-hover), var(--bg-card));
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.shop-img i { font-size: 4rem; color: var(--text-muted); opacity: 0.2; }
+.shop-badge-tag {
+  position: absolute; top: 16px; left: 16px;
+  padding: 4px 14px; border-radius: 50px;
+  background: var(--primary); color: #fff;
+  font-family: 'Orbitron', sans-serif; font-size: 0.6rem; letter-spacing: 1px; font-weight: 700;
+}
+.shop-body { padding: 20px; }
+.shop-name { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 1.05rem; margin-bottom: 8px; }
+.shop-price-row { display: flex; align-items: center; justify-content: space-between; }
+.shop-price { font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 1.3rem; color: var(--secondary); }
+.shop-cart-btn {
+  width: 42px; height: 42px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  border: none; color: #fff; font-size: 1rem; cursor: pointer;
+  transition: transform 0.3s;
+}
+.shop-cart-btn:hover { transform: scale(1.15); }
+
+/* ===== FOOTER ===== */
+.footer {
+  background: var(--bg-card); border-top: 1px solid var(--border-color);
+  padding: 60px 24px 24px;
+}
+.footer-grid {
+  max-width: 1320px; margin: 0 auto;
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px;
+}
+.footer-brand-text { color: var(--text-muted); font-size: 0.9rem; margin-top: 12px; max-width: 300px; }
+.footer-heading {
+  font-family: 'Orbitron', sans-serif; font-size: 0.7rem;
+  color: var(--primary); letter-spacing: 3px; text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.footer-links { list-style: none; }
+.footer-links li { margin-bottom: 10px; }
+.footer-links a { color: var(--text-muted); font-size: 0.9rem; transition: color 0.3s; }
+.footer-links a:hover { color: var(--primary); }
+.footer-socials { display: flex; gap: 12px; margin-top: 16px; }
+.footer-social-icon {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--bg-card-hover); border: 1px solid var(--border-color);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-muted); transition: all 0.3s;
+}
+.footer-social-icon:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+.footer-bottom {
+  max-width: 1320px; margin: 40px auto 0;
+  padding-top: 24px; border-top: 1px solid var(--border-color);
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 0.82rem; color: var(--text-muted);
+}
+
+@media(max-width: 767px) {
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+}
+@media(max-width: 480px) {
+  .footer-grid { grid-template-columns: 1fr; }
+}
+
+/* ===== FLOATING SETTINGS GEAR ===== */
+.settings-fab {
+  position: fixed; bottom: 30px; right: 30px; z-index: 9998;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  border: none; color: #fff; font-size: 1.4rem;
+  cursor: pointer; box-shadow: 0 4px 24px rgba(220,38,38,0.4);
+  display: flex; align-items: center; justify-content: center;
+  transition: transform 0.3s;
+  animation: gear-pulse 3s ease-in-out infinite;
+}
+.settings-fab:hover { transform: scale(1.1) rotate(90deg); }
+@keyframes gear-pulse { 0%,100%{ box-shadow: 0 4px 24px rgba(220,38,38,0.4); } 50%{ box-shadow: 0 4px 40px rgba(220,38,38,0.7); } }
+
+/* Settings Modal */
+.settings-overlay {
+  position: fixed; inset: 0; z-index: 9999;
+  background: rgba(0,0,0,0.6); backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden; transition: all 0.3s;
+}
+.settings-overlay.open { opacity: 1; visibility: visible; }
+.settings-modal {
+  background: var(--bg-card); border: 1px solid var(--border-color);
+  border-radius: 20px; padding: 36px; width: 90%; max-width: 420px;
+  transform: scale(0.9); transition: transform 0.3s;
+  max-height: 90vh; overflow-y: auto;
+}
+.settings-overlay.open .settings-modal { transform: scale(1); }
+.settings-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; }
+.settings-title { font-family: 'Orbitron', sans-serif; font-size: 1rem; letter-spacing: 2px; }
+.settings-close {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--bg-card-hover); border: 1px solid var(--border-color);
+  color: var(--text-muted); font-size: 1rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.3s;
+}
+.settings-close:hover { background: var(--primary); color: #fff; }
+.settings-group { margin-bottom: 24px; }
+.settings-label {
+  font-family: 'Ubuntu', sans-serif; font-weight: 700; font-size: 0.85rem;
+  color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;
+  margin-bottom: 12px; display: block;
+}
+.settings-theme-row { display: flex; gap: 12px; }
+.settings-theme-btn {
+  flex: 1; padding: 12px; border-radius: 12px;
+  border: 2px solid var(--border-color); background: var(--bg-card-hover);
+  color: var(--text-main); font-family: 'Nunito', sans-serif; font-weight: 700;
+  cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.settings-theme-btn.active { border-color: var(--primary); background: rgba(220,38,38,0.1); color: var(--primary); }
+.settings-theme-btn:hover { border-color: var(--primary); }
+.color-picker-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.color-picker-label { font-family: 'Ubuntu', sans-serif; font-size: 0.9rem; color: var(--text-main); flex: 1; }
+.color-picker-input {
+  width: 48px; height: 36px; border: 2px solid var(--border-color);
+  border-radius: 8px; cursor: pointer; background: none; padding: 2px;
+}
+.color-picker-hex {
+  font-family: 'Orbitron', sans-serif; font-size: 0.72rem;
+  color: var(--text-muted); width: 80px;
+  background: var(--bg-card-hover); border: 1px solid var(--border-color);
+  border-radius: 6px; padding: 6px 8px; text-align: center;
+}
+.settings-presets { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+.preset-btn {
+  width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--border-color);
+  cursor: pointer; transition: transform 0.2s;
+}
+.preset-btn:hover { transform: scale(1.2); }
+.btn-reset {
+  width: 100%; padding: 14px; border-radius: 12px;
+  border: 2px solid var(--border-color); background: transparent;
+  color: var(--text-main); font-family: 'Nunito', sans-serif; font-weight: 700;
+  cursor: pointer; transition: all 0.3s; font-size: 0.95rem;
+}
+.btn-reset:hover { border-color: var(--primary); color: var(--primary); }
+
+/* ===== SCROLL TO TOP ===== */
+.scroll-top {
+  position: fixed; bottom: 100px; right: 30px; z-index: 9997;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: var(--bg-card); border: 1px solid var(--border-color);
+  color: var(--primary); font-size: 1rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transform: translateY(20px);
+  transition: all 0.3s;
+}
+.scroll-top.visible { opacity: 1; transform: translateY(0); }
+.scroll-top:hover { background: var(--primary); color: #fff; }
+
+/* ===== EXTRA RESPONSIVE ===== */
+@media(max-width: 480px) {
+  .hero-stats { gap: 20px; }
+  .hero-stat-number { font-size: 1.6rem; }
+  .match-grid { grid-template-columns: 1fr; }
+  .countdown-num { font-size: 1.2rem; min-width: 40px; }
+}
+</style>
+</head>
+<body>
+
+<!-- PRELOADER -->
+<div id="preloader">
+  <div class="loader-ring"></div>
+  <div class="loader-text">Thunder Eagles</div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar-custom" id="navbar">
+  <div class="nav-inner">
+    <a href="#" class="nav-brand">
+      <div class="eagle-icon"><i class="fas fa-bolt"></i></div>
+      <span class="font-sport">Thunder Eagles</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#home" class="active">Home</a></li>
+      <li><a href="#schedule">Matches</a></li>
+      <li><a href="#players">Squad</a></li>
+      <li><a href="#highlights">Highlights</a></li>
+      <li><a href="#shop">Shop</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="navThemeToggle" aria-label="Toggle theme">
+        <i class="fas fa-moon"></i>
+      </button>
+      <button class="btn-cta nav-cta-btn squiggle-link" onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">
+        Join the Squad
+      </button>
+      <div class="hamburger" id="hamburger">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#home" onclick="closeMobile()">Home</a>
+  <a href="#schedule" onclick="closeMobile()">Matches</a>
+  <a href="#players" onclick="closeMobile()">Squad</a>
+  <a href="#highlights" onclick="closeMobile()">Highlights</a>
+  <a href="#shop" onclick="closeMobile()">Shop</a>
+  <div style="padding-top:16px">
+    <button class="btn-cta squiggle-link" style="width:100%" onclick="closeMobile(); document.getElementById('shop').scrollIntoView({behavior:'smooth'})">
+      Join the Squad
+    </button>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-parallax-bg" id="heroBg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-particles" id="heroParticles"></div>
+  <div class="hero-content">
+    <div class="hero-text-side" data-aos="fade-right" data-aos-duration="1000">
+      <div class="hero-badge"><i class="fas fa-fire"></i> Season 2026 — Fight for Glory</div>
+      <h1 class="hero-title">
+        Rise With<br><span class="text-gradient">Thunder</span>
+      </h1>
+      <p class="hero-subtitle font-sub">
+        Born from the storm. Built for greatness. Join the roar of 60,000 fans and witness the Eagles dominate the pitch.
+      </p>
+      <div class="hero-buttons">
+        <button class="btn-cta squiggle-link" onclick="document.getElementById('schedule').scrollIntoView({behavior:'smooth'})">
+          <i class="fas fa-ticket-alt"></i>&nbsp; Get Tickets
+        </button>
+        <button class="btn-cta-outline squiggle-link" onclick="document.getElementById('highlights').scrollIntoView({behavior:'smooth'})">
+          <i class="fas fa-play"></i>&nbsp; Watch Highlights
+        </button>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-number" data-count="47">0</div>
+          <div class="hero-stat-label">Trophies Won</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-number" data-count="1962">0</div>
+          <div class="hero-stat-label">Est. Year</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-number" data-count="62000" data-suffix="+">0</div>
+          <div class="hero-stat-label">Stadium Seats</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="300">
+      <div class="player-svg-container">
+        <svg class="player-silhouette" viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="playerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:var(--primary);stop-opacity:0.9"/>
+              <stop offset="100%" style="stop-color:var(--secondary);stop-opacity:0.7"/>
+            </linearGradient>
+          </defs>
+          <!-- Dynamic player kicking pose -->
+          <g fill="url(#playerGrad)">
+            <!-- Head -->
+            <circle cx="200" cy="70" r="32"/>
+            <!-- Neck -->
+            <rect x="192" y="100" width="16" height="20" rx="4"/>
+            <!-- Torso -->
+            <path d="M160 120 Q200 115 240 120 L248 220 Q200 230 152 220 Z"/>
+            <!-- Left arm (raised) -->
+            <path d="M160 130 Q120 110 100 140 Q95 155 110 160 Q130 155 155 165" fill="url(#playerGrad)" stroke="none"/>
+            <!-- Right arm -->
+            <path d="M240 130 Q270 150 285 180 Q290 195 275 198 Q260 190 245 175" fill="url(#playerGrad)"/>
+            <!-- Shorts -->
+            <path d="M155 218 Q200 228 245 218 L252 280 Q230 285 210 282 L200 290 L190 282 Q170 285 148 280 Z"/>
+            <!-- Left leg (standing) -->
+            <path d="M155 278 Q150 340 148 400 Q146 420 140 440 L130 448 Q125 455 135 460 L165 458 Q170 452 168 445 L162 435 Q165 400 168 340 Q170 300 172 280"/>
+            <!-- Right leg (kicking, extended) -->
+            <path d="M225 278 Q240 310 270 350 Q300 390 330 410 L340 408 Q345 415 335 422 L305 425 Q295 418 290 410 Q260 380 235 340 Q215 305 210 280"/>
+            <!-- Left shoe -->
+            <path d="M130 448 Q120 460 125 465 L170 462 Q175 455 168 445" fill="var(--secondary)"/>
+            <!-- Right shoe / boot (kicking) -->
+            <path d="M330 408 Q340 418 335 425 L300 428 Q290 420 295 410" fill="var(--secondary)"/>
+            <!-- Jersey number -->
+            <text x="200" y="185" text-anchor="middle" font-family="Orbitron" font-weight="900" font-size="36" fill="rgba(0,0,0,0.25)">10</text>
+            <!-- Jersey stripes -->
+            <line x1="175" y1="140" x2="175" y2="210" stroke="rgba(0,0,0,0.08)" stroke-width="3"/>
+            <line x1="225" y1="140" x2="225" y2="210" stroke="rgba(0,0,0,0.08)" stroke-width="3"/>
+          </g>
+          <!-- Ball -->
+          <g class="football-anim">
+            <circle cx="350" cy="395" r="16" fill="#fff" stroke="var(--secondary)" stroke-width="2"/>
+            <path d="M342 390 L348 388 L354 392 L352 399 L345 399 Z" fill="none" stroke="#333" stroke-width="1"/>
+          </g>
+        </svg>
+        <div class="player-glow-ring"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWS TICKER -->
+<div class="ticker-bar">
+  <div class="ticker-track" id="tickerTrack">
+    <span class="ticker-item"><i class="fas fa-bolt"></i> Thunder Eagles crush Rivals 4-1 in Derby</span>
+    <span class="ticker-item"><i class="fas fa-star"></i> Marcus Kane wins Player of the Month</span>
+    <span class="ticker-item"><i class="fas fa-trophy"></i> U-21 team qualifies for Continental Cup</span>
+    <span class="ticker-item"><i class="fas fa-shirt"></i> New away kit drops this Friday — Limited Edition</span>
+    <span class="ticker-item"><i class="fas fa-fire"></i> Season ticket renewal open — 40% sold out</span>
+    <span class="ticker-item"><i class="fas fa-futbol"></i> 12-match unbeaten streak continues</span>
+    <span class="ticker-item"><i class="fas fa-bolt"></i> Thunder Eagles crush Rivals 4-1 in Derby</span>
+    <span class="ticker-item"><i class="fas fa-star"></i> Marcus Kane wins Player of the Month</span>
+    <span class="ticker-item"><i class="fas fa-trophy"></i> U-21 team qualifies for Continental Cup</span>
+    <span class="ticker-item"><i class="fas fa-shirt"></i> New away kit drops this Friday — Limited Edition</span>
+    <span class="ticker-item"><i class="fas fa-fire"></i> Season ticket renewal open — 40% sold out</span>
+    <span class="ticker-item"><i class="fas fa-futbol"></i> 12-match unbeaten streak continues</span>
+  </div>
+</div>
+
+<!-- MATCH SCHEDULE -->
+<section class="schedule-section section-padding" id="schedule">
+  <div class="container-custom">
+    <div class="section-header" data-aos="fade-up">
+      <div class="section-label"><span>Upcoming Fixtures</span></div>
+      <h2 class="section-title">Match <span class="text-gradient">Schedule</span></h2>
+      <p class="section-desc font-sub">Don't miss a single moment of Thunder Eagles action this season.</p>
+    </div>
+    <div class="match-grid">
+      <!-- NEXT MATCH with Countdown -->
+      <div class="match-card" data-aos="fade-up" data-aos-delay="0">
+        <div class="match-header">
+          <span class="match-league"><i class="fas fa-trophy"></i> Premier League</span>
+          <span class="match-date"><i class="far fa-calendar"></i> Mar 22, 2026</span>
+        </div>
+        <div class="match-teams">
+          <div class="match-team">
+            <div class="match-team-logo"><i class="fas fa-bolt" style="color:var(--primary)"></i></div>
+            <div class="match-team-name">Thunder Eagles</div>
+          </div>
+          <div class="match-vs">VS</div>
+          <div class="match-team">
+            <div class="match-team-logo"><i class="fas fa-shield-halved" style="color:#3b82f6"></i></div>
+            <div class="match-team-name">Blue Shields FC</div>
+          </div>
+        </div>
+        <div class="countdown-row" id="nextMatchCountdown">
+          <div class="countdown-block"><span class="countdown-num" id="cd-days">00</span><div class="countdown-lbl">Days</div></div>
+          <div class="countdown-block"><span class="countdown-num" id="cd-hours">00</span><div class="countdown-lbl">Hours</div></div>
+          <div class="countdown-block"><span class="countdown-num" id="cd-mins">00</span><div class="countdown-lbl">Mins</div></div>
+          <div class="countdown-block"><span class="countdown-num" id="cd-secs">00</span><div class="countdown-lbl">Secs</div></div>
+        </div>
+        <div class="match-meta"><i class="fas fa-location-dot"></i> Thunder Arena &nbsp;|&nbsp; <i class="fas fa-clock"></i> 20:00 KST</div>
+      </div>
+
+      <!-- Past result -->
+      <div class="match-card" data-aos="fade-up" data-aos-delay="100">
+        <div class="match-header">
+          <span class="match-league"><i class="fas fa-trophy"></i> Champions Cup</span>
+          <span class="match-date"><i class="far fa-calendar"></i> Mar 15, 2026</span>
+        </div>
+        <div class="match-teams">
+          <div class="match-team">
+            <div class="match-team-logo"><i class="fas fa-bolt" style="color:var(--primary)"></i></div>
+            <div class="match-team-name">Thunder Eagles</div>
+          </div>
+          <div class="match-score">4 — 1</div>
+          <div class="match-team">
+            <div class="match-team-logo"><i class="fas fa-crown" style="color:#a855f7"></i></div>
+            <div class="match-team-name">Royal Monarchs</div>
+          </div>
+        </div>
+        <div class="match-meta" style="margin-top:16px"><i class="fas fa-check-circle" style="color:#22c55e"></i> Victory &nbsp;|&nbsp; <i class="fas fa-futbol"></i> Kane x2, Silva, Ortiz</div>
+      </div>
+
+      <!-- Another fixture -->
+      <div class="match-card" data-aos="fade-up" data-aos-delay="200">
+        <div class="match-header">
+          <span class="match-league"><i class="fas fa-trophy"></i> Premier League</span>
+          <span class="match-date"><i class="far fa-calendar"></i> Mar 29, 2026</span>
+        </div>
+        <div class="match-teams">
+          <div class="match-team">
+            <div class="match-team-logo"><i class="fas fa-fire" style="color:#f97316"></i></div>
+            <div class="match-team-name">Phoenix United</div>
+          </div>
+          <div class="match-vs">VS</div>
+          <div class="match-team">
+            <div class="match-team-logo"><i class="fas fa-bolt" style="color:var(--primary)"></i></div>
+            <div class="match-team-name">Thunder Eagles</div>
+          </div>
+        </div>
+        <div class="match-meta" style="margin-top:16px"><i class="fas fa-location-dot"></i> Phoenix Stadium &nbsp;|&nbsp; <i class="fas fa-clock"></i> 17:30 KST</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLAYER STATS -->
+<section class="players-section section-padding" id="players">
+  <div class="container-custom">
+    <div class="section-header" data-aos="fade-up">
+      <div class="section-label"><span>The Squad</span></div>
+      <h2 class="section-title">Player <span class="text-gradient">Stats</span></h2>
+      <p class="section-desc font-sub">Meet the warriors who carry the Thunder Eagles crest with pride.</p>
+    </div>
+    <div class="players-grid">
+      <div class="player-card" data-aos="fade-up" data-aos-delay="0">
+        <div class="player-number">10</div>
+        <div class="player-avatar"><i class="fas fa-user"></i></div>
+        <div class="player-name">Marcus Kane</div>
+        <div class="player-position">Striker</div>
+        <div class="player-stats-row">
+          <div class="player-stat-item"><div class="player-stat-val" data-count="24">0</div><div class="player-stat-lbl">Goals</div></div>
+          <div class="player-stat-item"><div class="player-stat-val" data-count="11">0</div><div class="player-stat-lbl">Assists</div></div>
+          <div class="player-stat-item"><div class="player-stat-val" data-count="32">0</div><div class="player-stat-lbl">Apps</div></div>
+        </div>
+      </div>
+      <div class="player-card" data-aos="fade-up" data-aos-delay="100">
+        <div class="player-number">7</div>
+        <div class="player-avatar"><i class="fas fa-user"></i></div>
+        <div class="player-name">Leo Silva</div>
+        <div class="player-position">Winger</div>
+        <div class="player-stats-row">
+          <div class="player-stat-item"><div class="player-stat-val" data-count="15">0</div><div class="player-stat-lbl">Goals</div></div>
+          <div class="player-stat-item"><div class="player-stat-val" data-count="18">0</div><div class="player-stat-lbl">Assists</div></div>
+          <div class="player-stat-item"><div class="player-stat-val" data-count="30">0</div><div class="player-stat-lbl">Apps</div></div>
+        </div>
+      </div>
+      <div class="player-card" data-aos="fade-up" data-aos-delay="200">
+        <div class="player-number">4</div>
+        <div class="player-avatar"><i class="fas fa-user"></i></div>
+        <div class="player-name">Jake Ortiz</div>
+        <div class="player-position">Midfielder</div>
+        <div class="player-stats-row">
+          <div class="player-stat-item"><div class="player-stat-val" data-count="8">0</div><div class="player-stat-lbl">Goals</div></div>
+          <div class="player-stat-item"><div class="player-stat-val" data-count="22">0</div><div class="player-stat-lbl">Assists</div></div>
+          <div class="player-stat-item"><div class="player-stat-val" data-count="34">0</div><div class="player-stat-lbl">Apps</div></div>
+        </div>
+      </div>
+      <div class="player-card" data-aos="fade-up" data-aos-delay="300">
+        <div class="player-number">1</div>
+        <div class="player-avatar"><i class="fas fa-user"></i></div>
+        <div class="player-name">Dimitri Volkov</div>
+        <div class="player-position">Goalkeeper</div>
+        <div class="player-stats-row">
+          <div class="player-stat-item"><div class="player-stat-val" data-count="14">0</div><div class="player-stat-lbl">Clean Sheets</div></div>
+          <div class="player-stat-item"><div class="player-stat-val" data-count="87">0</div><div class="player-stat-lbl">Saves</div></div>
+          <div class="player-stat-item"><div class="player-stat-val" data-count="34">0</div><div class="player-stat-lbl">Apps</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HIGHLIGHTS SWIPER -->
+<section class="highlights-section section-padding" id="highlights">
+  <div class="container-custom">
+    <div class="section-header" data-aos="fade-up">
+      <div class="section-label"><span>Best Moments</span></div>
+      <h2 class="section-title">Season <span class="text-gradient">Highlights</span></h2>
+      <p class="section-desc font-sub">Relive the most electrifying moments from our campaign.</p>
+    </div>
+    <div class="swiper highlightsSwiper" data-aos="fade-up" data-aos-delay="100">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <div class="highlight-slide">
+            <div class="highlight-thumb">
+              <i class="fas fa-futbol"></i>
+              <button class="highlight-play"><i class="fas fa-play"></i></button>
+            </div>
+            <div class="highlight-info">
+              <div class="highlight-tag">Goal of the Month</div>
+              <div class="highlight-title">Kane's 40-Yard Thunderbolt vs Royal Monarchs</div>
+              <div class="highlight-meta"><span><i class="far fa-eye"></i> 2.4M views</span><span><i class="far fa-clock"></i> 3 days ago</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="swiper-slide">
+          <div class="highlight-slide">
+            <div class="highlight-thumb" style="background: linear-gradient(135deg, rgba(245,158,11,0.1), var(--bg-card));">
+              <i class="fas fa-trophy"></i>
+              <button class="highlight-play"><i class="fas fa-play"></i></button>
+            </div>
+            <div class="highlight-info">
+              <div class="highlight-tag">Match Replay</div>
+              <div class="highlight-title">Thunder Eagles 4-1 Royal Monarchs — Full Highlights</div>
+              <div class="highlight-meta"><span><i class="far fa-eye"></i> 1.8M views</span><span><i class="far fa-clock"></i> 1 week ago</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="swiper-slide">
+          <div class="highlight-slide">
+            <div class="highlight-thumb">
+              <i class="fas fa-star"></i>
+              <button class="highlight-play"><i class="fas fa-play"></i></button>
+            </div>
+            <div class="highlight-info">
+              <div class="highlight-tag">Skills & Tricks</div>
+              <div class="highlight-title">Leo Silva — Best Dribbles & Assists 2025/26</div>
+              <div class="highlight-meta"><span><i class="far fa-eye"></i> 5.1M views</span><span><i class="far fa-clock"></i> 2 weeks ago</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="swiper-slide">
+          <div class="highlight-slide">
+            <div class="highlight-thumb" style="background: linear-gradient(135deg, rgba(220,38,38,0.1), var(--bg-card));">
+              <i class="fas fa-hands-clapping"></i>
+              <button class="highlight-play"><i class="fas fa-play"></i></button>
+            </div>
+            <div class="highlight-info">
+              <div class="highlight-tag">Fan Cam</div>
+              <div class="highlight-title">60,000 Fans Sing Thunder Anthem — Goosebumps!</div>
+              <div class="highlight-meta"><span><i class="far fa-eye"></i> 3.7M views</span><span><i class="far fa-clock"></i> 3 weeks ago</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="swiper-slide">
+          <div class="highlight-slide">
+            <div class="highlight-thumb">
+              <i class="fas fa-shield-halved"></i>
+              <button class="highlight-play"><i class="fas fa-play"></i></button>
+            </div>
+            <div class="highlight-info">
+              <div class="highlight-tag">Defensive Masterclass</div>
+              <div class="highlight-title">Volkov's Insane Double Save vs Phoenix United</div>
+              <div class="highlight-meta"><span><i class="far fa-eye"></i> 1.2M views</span><span><i class="far fa-clock"></i> 1 month ago</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="swiper-pagination" style="margin-top:24px; position: relative;"></div>
+    </div>
+  </div>
+</section>
+
+<!-- SHOP -->
+<section class="shop-section section-padding" id="shop">
+  <div class="container-custom">
+    <div class="section-header" data-aos="fade-up">
+      <div class="section-label"><span>Official Merch</span></div>
+      <h2 class="section-title">Thunder <span class="text-gradient">Shop</span></h2>
+      <p class="section-desc font-sub">Gear up with official Thunder Eagles merchandise and wear the crest with pride.</p>
+    </div>
+    <div class="shop-grid">
+      <div class="shop-card" data-aos="fade-up" data-aos-delay="0">
+        <div class="shop-img">
+          <i class="fas fa-shirt"></i>
+          <div class="shop-badge-tag">NEW</div>
+        </div>
+        <div class="shop-body">
+          <div class="shop-name">Home Kit 2025/26</div>
+          <div class="shop-price-row">
+            <span class="shop-price">$89.99</span>
+            <button class="shop-cart-btn"><i class="fas fa-cart-plus"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="shop-card" data-aos="fade-up" data-aos-delay="100">
+        <div class="shop-img" style="background: linear-gradient(135deg, rgba(59,130,246,0.08), var(--bg-card));">
+          <i class="fas fa-shirt"></i>
+          <div class="shop-badge-tag" style="background:var(--secondary)">LIMITED</div>
+        </div>
+        <div class="shop-body">
+          <div class="shop-name">Away Kit 2025/26</div>
+          <div class="shop-price-row">
+            <span class="shop-price">$94.99</span>
+            <button class="shop-cart-btn"><i class="fas fa-cart-plus"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="shop-card" data-aos="fade-up" data-aos-delay="200">
+        <div class="shop-img">
+          <i class="fas fa-hat-cowboy"></i>
+        </div>
+        <div class="shop-body">
+          <div class="shop-name">Thunder Cap — Red/Gold</div>
+          <div class="shop-price-row">
+            <span class="shop-price">$34.99</span>
+            <button class="shop-cart-btn"><i class="fas fa-cart-plus"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="shop-card" data-aos="fade-up" data-aos-delay="300">
+        <div class="shop-img">
+          <i class="fas fa-mug-hot"></i>
+        </div>
+        <div class="shop-body">
+          <div class="shop-name">Champions Mug — Gold Edition</div>
+          <div class="shop-price-row">
+            <span class="shop-price">$19.99</span>
+            <button class="shop-cart-btn"><i class="fas fa-cart-plus"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div>
+      <div class="nav-brand" style="margin-bottom:4px;">
+        <div class="eagle-icon"><i class="fas fa-bolt"></i></div>
+        <span class="font-sport">Thunder Eagles</span>
+      </div>
+      <p class="footer-brand-text">Established 1962. Home of the fearless. Thunder Arena, Section 12.</p>
+      <div class="footer-socials">
+        <a href="#" class="footer-social-icon"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="footer-social-icon"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="footer-social-icon"><i class="fab fa-youtube"></i></a>
+        <a href="#" class="footer-social-icon"><i class="fab fa-tiktok"></i></a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-heading">Club</div>
+      <ul class="footer-links">
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">History</a></li>
+        <li><a href="#">Stadium Tour</a></li>
+        <li><a href="#">Careers</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-heading">Fans</div>
+      <ul class="footer-links">
+        <li><a href="#">Membership</a></li>
+        <li><a href="#">Fan Zone</a></li>
+        <li><a href="#">Tickets</a></li>
+        <li><a href="#">Junior Eagles</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-heading">Support</div>
+      <ul class="footer-links">
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">FAQs</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Use</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>&copy; 2026 Thunder Eagles FC. All rights reserved.</span>
+    <span>Crafted with <i class="fas fa-heart" style="color:var(--primary)"></i> for the fans</span>
+  </div>
+</footer>
+
+<!-- FLOATING SETTINGS GEAR -->
+<button class="settings-fab" id="settingsBtn" aria-label="Settings">
+  <i class="fas fa-cog"></i>
+</button>
+
+<!-- SCROLL TO TOP -->
+<button class="scroll-top" id="scrollTopBtn" aria-label="Scroll to top">
+  <i class="fas fa-chevron-up"></i>
+</button>
+
+<!-- SETTINGS MODAL -->
+<div class="settings-overlay" id="settingsOverlay">
+  <div class="settings-modal">
+    <div class="settings-header">
+      <h3 class="settings-title"><i class="fas fa-palette"></i> SETTINGS</h3>
+      <button class="settings-close" id="settingsClose"><i class="fas fa-times"></i></button>
+    </div>
+
+    <!-- Theme Toggle -->
+    <div class="settings-group">
+      <label class="settings-label">Theme Mode</label>
+      <div class="settings-theme-row">
+        <button class="settings-theme-btn active" data-theme-mode="dark">
+          <i class="fas fa-moon"></i> Dark
+        </button>
+        <button class="settings-theme-btn" data-theme-mode="light">
+          <i class="fas fa-sun"></i> Light
+        </button>
+      </div>
+    </div>
+
+    <!-- Color Pickers -->
+    <div class="settings-group">
+      <label class="settings-label">Primary Color</label>
+      <div class="color-picker-row">
+        <span class="color-picker-label">Main Red</span>
+        <input type="color" class="color-picker-input" id="cpPrimary" value="#dc2626">
+        <input type="text" class="color-picker-hex" id="cpPrimaryHex" value="#dc2626" maxlength="7">
+      </div>
+      <div class="settings-presets" id="presetsP">
+        <button class="preset-btn" style="background:#dc2626" data-color="#dc2626" data-target="primary"></button>
+        <button class="preset-btn" style="background:#b91c1c" data-color="#b91c1c" data-target="primary"></button>
+        <button class="preset-btn" style="background:#e11d48" data-color="#e11d48" data-target="primary"></button>
+        <button class="preset-btn" style="background:#9f1239" data-color="#9f1239" data-target="primary"></button>
+        <button class="preset-btn" style="background:#ea580c" data-color="#ea580c" data-target="primary"></button>
+      </div>
+    </div>
+
+    <div class="settings-group">
+      <label class="settings-label">Secondary Color</label>
+      <div class="color-picker-row">
+        <span class="color-picker-label">Gold/Accent</span>
+        <input type="color" class="color-picker-input" id="cpSecondary" value="#f59e0b">
+        <input type="text" class="color-picker-hex" id="cpSecondaryHex" value="#f59e0b" maxlength="7">
+      </div>
+      <div class="settings-presets" id="presetsS">
+        <button class="preset-btn" style="background:#f59e0b" data-color="#f59e0b" data-target="secondary"></button>
+        <button class="preset-btn" style="background:#d97706" data-color="#d97706" data-target="secondary"></button>
+        <button class="preset-btn" style="background:#eab308" data-color="#eab308" data-target="secondary"></button>
+        <button class="preset-btn" style="background:#ca8a04" data-color="#ca8a04" data-target="secondary"></button>
+        <button class="preset-btn" style="background:#fbbf24" data-color="#fbbf24" data-target="secondary"></button>
+      </div>
+    </div>
+
+    <div class="settings-group">
+      <label class="settings-label">Accent Color</label>
+      <div class="color-picker-row">
+        <span class="color-picker-label">Highlights</span>
+        <input type="color" class="color-picker-input" id="cpAccent" value="#ef4444">
+        <input type="text" class="color-picker-hex" id="cpAccentHex" value="#ef4444" maxlength="7">
+      </div>
+      <div class="settings-presets" id="presetsA">
+        <button class="preset-btn" style="background:#ef4444" data-color="#ef4444" data-target="accent"></button>
+        <button class="preset-btn" style="background:#f97316" data-color="#f97316" data-target="accent"></button>
+        <button class="preset-btn" style="background:#f43f5e" data-color="#f43f5e" data-target="accent"></button>
+        <button class="preset-btn" style="background:#fb923c" data-color="#fb923c" data-target="accent"></button>
+        <button class="preset-btn" style="background:#fbbf24" data-color="#fbbf24" data-target="accent"></button>
+      </div>
+    </div>
+
+    <!-- Reset -->
+    <button class="btn-reset" id="resetBtn"><i class="fas fa-undo"></i> Reset to Default</button>
+  </div>
+</div>
+
+<!-- SCRIPTS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+<script>
+// ===== PRELOADER =====
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('preloader').classList.add('hidden');
+    AOS.init({ duration: 800, once: true, offset: 80 });
+    startCounters();
+    startPlayerCounters();
+  }, 1200);
+});
+
+// ===== PARALLAX =====
+window.addEventListener('scroll', () => {
+  const scrollY = window.scrollY;
+  const bg = document.getElementById('heroBg');
+  if (bg) bg.style.transform = `translateY(${scrollY * 0.35}px)`;
+});
+
+// ===== HERO PARTICLES =====
+(function() {
+  const container = document.getElementById('heroParticles');
+  for (let i = 0; i < 20; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.random() * 6 + 2;
+    p.style.width = size + 'px';
+    p.style.height = size + 'px';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.animationDuration = (Math.random() * 10 + 8) + 's';
+    p.style.animationDelay = (Math.random() * 8) + 's';
+    container.appendChild(p);
+  }
+})();
+
+// ===== NAVBAR SCROLL =====
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 50);
+  const btn = document.getElementById('scrollTopBtn');
+  btn.classList.toggle('visible', window.scrollY > 600);
+});
+
+// ===== MOBILE MENU =====
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('active');
+  mobileMenu.classList.toggle('open');
+});
+function closeMobile() {
+  hamburger.classList.remove('active');
+  mobileMenu.classList.remove('open');
+}
+
+// ===== ACTIVE NAV LINK =====
+const sections = document.querySelectorAll('section[id]');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    const top = s.offsetTop - 120;
+    if (window.scrollY >= top) current = s.getAttribute('id');
+  });
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+});
+
+// ===== SCROLL TO TOP =====
+document.getElementById('scrollTopBtn').addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+// ===== VANILLA COUNTERS (HERO) =====
+function startCounters() {
+  document.querySelectorAll('.hero-stat-number[data-count]').forEach(el => {
+    animateCounter(el);
+  });
+}
+function animateCounter(el) {
+  const target = parseInt(el.dataset.count);
+  const suffix = el.dataset.suffix || '';
+  const duration = 2200;
+  const start = performance.now();
+  function update(now) {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 4);
+    const current = Math.floor(eased * target);
+    el.textContent = current.toLocaleString() + suffix;
+    if (progress < 1) requestAnimationFrame(update);
+    else el.textContent = target.toLocaleString() + suffix;
+  }
+  requestAnimationFrame(update);
+}
+
+// ===== PLAYER STAT COUNTERS =====
+function startPlayerCounters() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.querySelectorAll('.player-stat-val[data-count]').forEach(el => {
+          animateCounter(el);
+        });
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  document.querySelectorAll('.player-card').forEach(card => observer.observe(card));
+}
+
+// ===== COUNTDOWN TIMER =====
+(function() {
+  const matchDate = new Date('2026-03-22T20:00:00').getTime();
+  function update() {
+    const now = Date.now();
+    let diff = matchDate - now;
+    if (diff < 0) diff = 0;
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    document.getElementById('cd-days').textContent = String(d).padStart(2, '0');
+    document.getElementById('cd-hours').textContent = String(h).padStart(2, '0');
+    document.getElementById('cd-mins').textContent = String(m).padStart(2, '0');
+    document.getElementById('cd-secs').textContent = String(s).padStart(2, '0');
+  }
+  update();
+  setInterval(update, 1000);
+})();
+
+// ===== SWIPER =====
+new Swiper('.highlightsSwiper', {
+  slidesPerView: 1,
+  spaceBetween: 24,
+  loop: true,
+  autoplay: { delay: 4000, disableOnInteraction: false },
+  pagination: { el: '.swiper-pagination', clickable: true },
+  breakpoints: {
+    640: { slidesPerView: 2 },
+    1024: { slidesPerView: 3 },
+  }
+});
+
+// ===== THEME MANAGEMENT =====
+const DEFAULTS = { primary: '#dc2626', secondary: '#f59e0b', accent: '#ef4444', theme: 'dark' };
+
+function loadSettings() {
+  const saved = localStorage.getItem('te-settings');
+  if (saved) {
+    try {
+      const s = JSON.parse(saved);
+      applyColor('primary', s.primary || DEFAULTS.primary);
+      applyColor('secondary', s.secondary || DEFAULTS.secondary);
+      applyColor('accent', s.accent || DEFAULTS.accent);
+      setTheme(s.theme || DEFAULTS.theme);
+      return;
+    } catch(e) {}
+  }
+  setTheme(DEFAULTS.theme);
+}
+
+function saveSettings() {
+  const s = {
+    primary: getComputedStyle(document.documentElement).getPropertyValue('--primary').trim(),
+    secondary: getComputedStyle(document.documentElement).getPropertyValue('--secondary').trim(),
+    accent: getComputedStyle(document.documentElement).getPropertyValue('--accent').trim(),
+    theme: document.documentElement.getAttribute('data-theme')
+  };
+  localStorage.setItem('te-settings', JSON.stringify(s));
+}
+
+function applyColor(varName, color) {
+  document.documentElement.style.setProperty('--' + varName, color);
+  // Update squiggle SVG for primary
+  if (varName === 'primary') {
+    updateSquiggleColor(color);
+    updateGlowShadow(color);
+  }
+  // Update pickers
+  const picker = document.getElementById('cp' + capitalize(varName));
+  const hex = document.getElementById('cp' + capitalize(varName) + 'Hex');
+  if (picker) picker.value = color;
+  if (hex) hex.value = color;
+  saveSettings();
+}
+
+function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+function updateSquiggleColor(color) {
+  const encoded = encodeURIComponent(color);
+  const svg = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='6'%3E%3Cpath d='M0 3 Q5 0 10 3 T20 3 T30 3 T40 3' fill='none' stroke='${encoded}' stroke-width='1.8'/%3E%3C/svg%3E")`;
+  document.querySelectorAll('.squiggle-link').forEach(el => {
+    el.style.setProperty('--squiggle-bg', svg);
+  });
+  // Update the pseudo-element via style injection
+  let styleEl = document.getElementById('squiggle-dynamic');
+  if (!styleEl) { styleEl = document.createElement('style'); styleEl.id = 'squiggle-dynamic'; document.head.appendChild(styleEl); }
+  styleEl.textContent = `.squiggle-link::after { background: ${svg} repeat-x !important; background-size: 40px 6px !important; }`;
+}
+
+function updateGlowShadow(color) {
+  document.documentElement.style.setProperty('--shadow-glow', `0 0 30px ${color}40`);
+}
+
+function setTheme(mode) {
+  document.documentElement.setAttribute('data-theme', mode);
+  const icon = document.querySelector('#navThemeToggle i');
+  icon.className = mode === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+  // Update modal buttons
+  document.querySelectorAll('.settings-theme-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.themeMode === mode);
+  });
+  saveSettings();
+}
+
+function toggleTheme() {
+  const current = document.documentElement.getAttribute('data-theme');
+  setTheme(current === 'dark' ? 'light' : 'dark');
+}
+
+// Navbar theme toggle
+document.getElementById('navThemeToggle').addEventListener('click', toggleTheme);
+
+// Modal theme buttons
+document.querySelectorAll('.settings-theme-btn').forEach(btn => {
+  btn.addEventListener('click', () => setTheme(btn.dataset.themeMode));
+});
+
+// Color pickers
+['Primary', 'Secondary', 'Accent'].forEach(name => {
+  const varName = name.toLowerCase();
+  const picker = document.getElementById('cp' + name);
+  const hex = document.getElementById('cp' + name + 'Hex');
+  picker.addEventListener('input', e => applyColor(varName, e.target.value));
+  hex.addEventListener('input', e => {
+    const v = e.target.value;
+    if (/^#[0-9a-fA-F]{6}$/.test(v)) applyColor(varName, v);
+  });
+});
+
+// Preset buttons
+document.querySelectorAll('.preset-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    applyColor(btn.dataset.target, btn.dataset.color);
+  });
+});
+
+// Reset
+document.getElementById('resetBtn').addEventListener('click', () => {
+  applyColor('primary', DEFAULTS.primary);
+  applyColor('secondary', DEFAULTS.secondary);
+  applyColor('accent', DEFAULTS.accent);
+  setTheme(DEFAULTS.theme);
+  localStorage.removeItem('te-settings');
+});
+
+// ===== SETTINGS MODAL =====
+const settingsOverlay = document.getElementById('settingsOverlay');
+document.getElementById('settingsBtn').addEventListener('click', () => settingsOverlay.classList.add('open'));
+document.getElementById('settingsClose').addEventListener('click', () => settingsOverlay.classList.remove('open'));
+settingsOverlay.addEventListener('click', e => { if (e.target === settingsOverlay) settingsOverlay.classList.remove('open'); });
+
+// ===== INIT =====
+loadSettings();
+</script>
+</body>
+</html>
