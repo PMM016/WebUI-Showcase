@@ -48,7 +48,10 @@ Here are some of the beautiful templates included:
   
   <img src="https://via.placeholder.com/600x380/BFFF00/000000?text=QuantumShield" width="32%" alt="QuantumShield">
   <img src="https://via.placeholder.com/600x380/800020/FFD700?text=VelvetDream" width="32%" alt="VelvetDream">
-  <img src="https://via.placeholder.com/600x380/9B59B6/E5E5E5?text=MysticVeil" width="32%" alt="MysticVeil">
+  <div class="gal-cont">
+    <img src="https://via.placeholder.com/600x380/9B59B6/E5E5E5?text=MysticVeil" width="32%" alt="StormForge">
+    <a class="streched-link" href="https://github.com/PMM016/WebUI-Showcase/blob/efa0c526623693f4830fb9aec72e37a1ef9eaf46/login/stormforge.html">Visit</a>
+  </div>
 
 </div>
 
@@ -93,3 +96,12 @@ A backlink to this repository is appreciated but not required.
   <strong>Made with passion for beautiful interfaces</strong><br>
   <i>Designed for excellence by a UI Designer</i>
 </div>
+<style>
+  .gal-con {
+    display: flex;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+</style>
