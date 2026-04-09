@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MysticVeil | Ethereal Login Experience</title>
+
+    <!-- Google Fonts: Nunito (Headings), Ubuntu (Body), Open Sans (Forms) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&family=Open+Sans:wght@300;400;600&family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    <!-- AOS (Animate on Scroll) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+
+    <!-- Swiper JS CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+
+    <style>
+        :root {
+            /* Theme Variables */
+            --primary: #9B59B6; /* Amethyst Purple */
+            --accent: #E5E5E5; /* Soft Silver */
+            --bg-color: #1a0f1b; /* Deep Night Purple */
+            --card-bg: rgba(30, 15, 35, 0.85);
+            --text-main: #f0e6f5;
+            --text-muted: #c7b3d0;
+
+            /* Fonts */
+            --font-headings: 'Nunito', sans-serif;
+            --font-body: 'Ubuntu', sans-serif;
+            --font-forms: 'Open Sans', sans-serif;
+        }
+
+        [data-theme="light"] {
+            --bg-color: #f5f0f8; /* Pale Moonlight */
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --text-main: #2c1a30;
+            --text-muted: #6b5a70;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-headings);
+        }
+
+        input, button, select, textarea {
+            font-family: var(--font-forms);
+        }
+
+        /* Ethereal Crystal Effect */
+        .mystic-bg {
+            position: relative;
+            background: linear-gradient(135deg, var(--primary) 0%, rgba(50, 0, 60, 0.9) 100%);
+        }
+
+        .mystic-bg::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: radial-gradient(rgba(229, 229, 229, 0.15) 1px, transparent 1px),
+                              radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 24px 24px, 16px 16px;
+            background-position: 0 0, 8px 8px;
+            opacity: 0.6;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Forms Styling */
+        .crystal-input {
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid rgba(229, 229, 229, 0.4);
+            color: var(--text-main);
+            border-radius: 0;
+            padding-left: 2.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .crystal-input:focus {
+            outline: none;
+            box-shadow: none;
+            background: rgba(229, 229, 229, 0.03);
+            border-color: var(--accent);
+        }
+
+        .input-icon {
+            position: absolute;
+            top: 50%;
+            left: 0.75rem;
+            transform: translateY(-50%);
+            color: var(--accent);
+            transition: all 0.3s ease;
+        }
+
+        /* Enchanting Glows */
+        .glow-effect {
+            box-shadow: 0 0 40px rgba(229, 229, 229, 0.15);
+        }
+
+        .btn-mystic {
+            background: linear-gradient(45deg, var(--accent), #c0c0c0);
+            color: #111;
+            font-weight: 700;
+            letter-spacing: 1px;
+            border: none;
+            transition: all 0.4s ease;
+        }
+
+        .btn-mystic:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(229, 229, 229, 0.4);
+        }
+
+        /* Custom Tabs */
+        .auth-tab {
+            position: relative;
+            cursor: pointer;
+            padding-bottom: 0.5rem;
+            font-family: var(--font-headings);
+            font-weight: 600;
+            color: var(--text-muted);
+            transition: color 0.3s ease;
+        }
+
+        .auth-tab.active {
+            color: var(--accent);
+        }
+
+        .auth-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent);
+            box-shadow: 0 0 10px var(--accent);
+        }
+
+        /* Moonlight Shimmer Animation */
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .moon-shimmer {
+            background: linear-gradient(90deg, var(--accent) 0%, #fff 50%, var(--accent) 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 4s linear infinite;
+        }
+
+        /* Glass / Settings Card styling */
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(229, 229, 229, 0.2);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Swiper Layout */
+        .swiper {
+            width: 100%;
+            height: 100%;
+        }
+        .swiper-slide {
+            height: auto !important;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Particle Orbs Canvas */
+        #particleCanvas {
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.4;
+        }
+    </style>
+</head>
+<body class="min-vh-100 d-flex flex-column">
+
+    <!-- Floating Particle Orbs Canvas -->
+    <canvas id="particleCanvas" class="position-fixed top-0 start-0 w-100 h-100"></canvas>
+
+    <!-- Navigation / Top Header -->
+    <header class="py-4 px-4 px-md-5 d-flex justify-content-between align-items-center position-relative z-3">
+        <!-- Logo -->
+        <div class="d-flex align-items-center gap-3">
+            <div class="rounded-circle d-flex align-items-center justify-content-center mystic-bg border border-light" style="width: 50px; height: 50px;">
+                <i class="bi bi-gem fs-4" style="color: var(--accent);"></i>
+            </div>
+            <div>
+                <h3 class="m-0 moon-shimmer fw-bold" style="letter-spacing: 2px;">MYSTICVEIL</h3>
+                <small class="text-uppercase" style="font-size: 10px; letter-spacing: 3px; color: var(--accent); opacity: 0.8;">Ethereal Gateway</small>
+            </div>
+        </div>
+
+        <!-- Controls (Theme & Settings) -->
+        <div class="d-flex align-items-center gap-3">
+            <!-- Theme Toggler -->
+            <button id="themeToggle" class="btn rounded-circle border border-light d-flex align-items-center justify-content-center" style="width: 45px; height: 45px; background: rgba(229, 229, 229, 0.1); color: var(--accent);" title="Toggle Theme">
+                <i class="bi bi-brightness-high-fill fs-5" id="themeIcon"></i>
+            </button>
+
+            <!-- Settings / Color Picker Toggle -->
+            <button id="settingsToggle" class="btn rounded-circle border border-light d-flex align-items-center justify-content-center" style="width: 45px; height: 45px; background: rgba(229, 229, 229, 0.1); color: var(--accent);" title="Customize Palette">
+                <i class="bi bi-gear-fill fs-5"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow-1 container-fluid px-4 px-md-5 py-3 position-relative z-1 d-flex align-items-center">
+        <div class="row w-100 align-items-stretch g-5" style="min-height: 80vh;">
+            
+            <!-- LEFT SIDE: Mystic Brand Info & Carousel -->
+            <div class="col-lg-6 d-none d-lg-flex flex-column justify-content-between rounded-5 overflow-hidden mystic-bg p-5 position-relative shadow-lg border border-light" style="border-width: 1px !important; border-color: rgba(229, 229, 229, 0.3) !important;" data-aos="fade-right" data-aos-duration="1000">
+                <!-- Decorative Top Elements -->
+                <div class="d-flex justify-content-between align-items-start">
+                    <span class="badge px-4 py-2 text-uppercase" style="background: rgba(229,229,229,0.15); color: var(--accent); letter-spacing: 2px;">
+                        Enchanted Access
+                    </span>
+                    <i class="fa-solid fa-moon fs-1" style="color: var(--accent); opacity: 0.5;"></i>
+                </div>
+
+                <!-- Swiper Ethereal Inspiration Slider -->
+                <div class="swiper mySwiper w-100 flex-grow-1 d-flex flex-column my-4">
+                    <div class="swiper-wrapper">
+                        <!-- Slide 1 -->
+                        <div class="swiper-slide">
+                            <h1 class="display-4 fw-bolder text-white mb-4" style="line-height: 1.2;">
+                                Unveiling <br>
+                                <span class="moon-shimmer">Mysteries.</span>
+                            </h1>
+                            <p class="fs-5 text-white opacity-75 mb-4" style="max-width: 480px; font-weight: 300;">
+                                Step into a realm where ancient secrets and modern enchantment intertwine. MysticVeil guides your journey.
+                            </p>
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="d-flex">
+                                    <i class="bi bi-star-fill text-light"></i>
+                                    <i class="bi bi-star-fill text-light"></i>
+                                    <i class="bi bi-star-fill text-light"></i>
+                                    <i class="bi bi-star-fill text-light"></i>
+                                    <i class="bi bi-star-half text-light"></i>
+                                </div>
+                                <span class="text-white-50 fs-6">"A truly magical experience"</span>
+                            </div>
+                        </div>
+
+                        <!-- Slide 2 -->
+                        <div class="swiper-slide">
+                            <h1 class="display-4 fw-bolder text-white mb-4" style="line-height: 1.2;">
+                                Crystal <br>
+                                <span class="moon-shimmer">Clarity.</span>
+                            </h1>
+                            <p class="fs-5 text-white opacity-75 mb-4" style="max-width: 480px; font-weight: 300;">
+                                Our secure portals are forged with ethereal crystals, ensuring your path is always clear and protected.
+                            </p>
+                            <div class="d-flex align-items-center gap-3">
+                                <i class="bi bi-shield-fill-check fs-3" style="color: var(--accent);"></i>
+                                <span class="text-white-50 fs-6">Protected by ancient wards</span>
+                            </div>
+                        </div>
+
+                        <!-- Slide 3 -->
+                        <div class="swiper-slide">
+                            <h1 class="display-4 fw-bolder text-white mb-4" style="line-height: 1.2;">
+                                Moonlight <br>
+                                <span class="moon-shimmer">Guidance.</span>
+                            </h1>
+                            <p class="fs-5 text-white opacity-75 mb-4" style="max-width: 480px; font-weight: 300;">
+                                Let the soft glow of the moon illuminate your way through the veil, revealing hidden wonders.
+                            </p>
+                            <div class="d-flex align-items-center gap-3">
+                                <i class="bi bi-lightbulb-fill fs-3" style="color: var(--accent);"></i>
+                                <span class="text-white-50 fs-6">Wisdom from the lunar archives</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Swiper Controls -->
+                    <div class="swiper-pagination position-relative mt-4 text-start"></div>
+                </div>
+
+                <!-- Vanilla Stats / Counter -->
+                <div class="row border-top border-light border-opacity-25 pt-4">
+                    <div class="col-4">
+                        <h2 class="fw-bold moon-shimmer m-0 d-flex align-items-center">
+                            <span class="purecounter" data-purecounter-start="0" data-purecounter-end="25" data-purecounter-duration="2.5">0</span>
+                            <span>K+</span>
+                        </h2>
+                        <span class="text-white-50" style="font-size: 13px;">Seekers Guided</span>
+                    </div>
+                    <div class="col-4">
+                        <h2 class="fw-bold moon-shimmer m-0 d-flex align-items-center">
+                            <span class="purecounter" data-purecounter-start="0" data-purecounter-end="500" data-purecounter-duration="2.5">0</span>
+                        </h2>
+                        <span class="text-white-50" style="font-size: 13px;">Spells Cast</span>
+                    </div>
+                    <div class="col-4">
+                        <h2 class="fw-bold moon-shimmer m-0 d-flex align-items-center">
+                            <span class="purecounter" data-purecounter-start="0" data-purecounter-end="100" data-purecounter-duration="2.5">0</span>
+                            <span>%</span>
+                        </h2>
+                        <span class="text-white-50" style="font-size: 13px;">Enchantment Rate</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT SIDE: Authentication Card -->
+            <div class="col-lg-6 d-flex align-items-center justify-content-center" data-aos="fade-left" data-aos-duration="1000">
+                <div class="glass-card rounded-5 p-4 p-md-5 w-100 position-relative overflow-hidden" style="max-width: 550px;">
+                    <!-- Elegant Header/Switch Tabs -->
+                    <div class="d-flex justify-content-between border-bottom pb-3 mb-4" style="border-color: rgba(229,229,229,0.2) !important;">
+                        <span class="auth-tab active" onclick="switchTab('login')">
+                            <i class="bi bi-box-arrow-in-right me-1"></i> Enter
+                        </span>
+                        <span class="auth-tab" onclick="switchTab('signup')">
+                            <i class="bi bi-person-plus me-1"></i> Awaken
+                        </span>
+                        <span class="auth-tab" onclick="switchTab('forgot')">
+                            <i class="bi bi-key me-1"></i> Recall
+                        </span>
+                    </div>
+
+                    <!-- 1. LOGIN SECTION -->
+                    <div id="section-login" class="auth-section">
+                        <div class="mb-4">
+                            <h3 class="fw-bold mb-1" style="font-family: var(--font-headings);">Welcome, Seeker</h3>
+                            <p style="color: var(--text-muted); font-size: 14px;">Unveil your essence to traverse the MysticVeil.</p>
+                        </div>
+
+                        <form onsubmit="handleFormSubmit(event, 'login')">
+                            <!-- Email Input -->
+                            <div class="position-relative mb-4">
+                                <i class="bi bi-envelope input-icon"></i>
+                                <input type="email" class="form-control crystal-input w-100 py-3" placeholder="Ethereal ID (Email Address)" required>
+                            </div>
+
+                            <!-- Password Input -->
+                            <div class="position-relative mb-4">
+                                <i class="bi bi-shield-lock input-icon"></i>
+                                <input type="password" id="loginPassword" class="form-control crystal-input w-100 py-3" placeholder="Arcane Key (Password)" required>
+                                <span class="position-absolute end-0 top-50 translate-middle-y me-3 cursor-pointer" onclick="togglePassword('loginPassword', this)">
+                                    <i class="bi bi-eye-slash" style="color: var(--accent);"></i>
+                                </span>
+                            </div>
+
+                            <!-- Forgot Password Link -->
+                            <div class="mb-4 text-end">
+                                <a href="javascript:void(0)" onclick="switchTab('forgot')" style="color: var(--accent); text-decoration: none; font-size: 13px; font-weight: 600;">Lost your Arcane Key?</a>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button type="submit" class="btn btn-mystic w-100 py-3 rounded-pill d-flex align-items-center justify-content-center gap-2">
+                                <i class="bi bi-door-open-fill fs-5"></i>
+                                <span>Enter the Veil</span>
+                            </button>
+                        </form>
+
+                        <div class="mt-4 text-center">
+                            <p class="mb-3 text-muted" style="font-size: 12px; letter-spacing: 1px;">ALIGN WITH THE COSMOS</p>
+                            <div class="d-flex justify-content-center gap-3">
+                                <button class="btn btn-outline-light rounded-circle border-opacity-25" style="width: 45px; height: 45px;"><i class="bi bi-google"></i></button>
+                                <button class="btn btn-outline-light rounded-circle border-opacity-25" style="width: 45px; height: 45px;"><i class="bi bi-apple"></i></button>
+                                <button class="btn btn-outline-light rounded-circle border-opacity-25" style="width: 45px; height: 45px;"><i class="bi bi-meta"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. SIGNUP SECTION (Hidden by default) -->
+                    <div id="section-signup" class="auth-section d-none">
+                        <div class="mb-4">
+                            <h3 class="fw-bold mb-1" style="font-family: var(--font-headings);">Awaken Your Spirit</h3>
+                            <p style="color: var(--text-muted); font-size: 14px;">Begin your journey into the ethereal sanctuary.</p>
+                        </div>
+
+                        <form onsubmit="handleFormSubmit(event, 'signup')">
+                            <!-- Name Input -->
+                            <div class="row g-3 mb-4">
+                                <div class="col-6 position-relative">
+                                    <i class="bi bi-person input-icon"></i>
+                                    <input type="text" class="form-control crystal-input w-100 py-3" placeholder="First Name" required>
+                                </div>
+                                <div class="col-6 position-relative">
+                                    <input type="text" class="form-control crystal-input w-100 py-3" placeholder="Last Name" required style="padding-left: 1rem;">
+                                </div>
+                            </div>
+
+                            <!-- Email Input -->
+                            <div class="position-relative mb-4">
+                                <i class="bi bi-envelope input-icon"></i>
+                                <input type="email" class="form-control crystal-input w-100 py-3" placeholder="Ethereal Address" required>
+                            </div>
+
+                            <!-- Password Input -->
+                            <div class="position-relative mb-2">
+                                <i class="bi bi-shield-lock input-icon"></i>
+                                <input type="password" id="signupPassword" class="form-control crystal-input w-100 py-3" placeholder="Forge Arcane Key" required onkeyup="checkPasswordStrength(this.value)">
+                                <span class="position-absolute end-0 top-50 translate-middle-y me-3 cursor-pointer" onclick="togglePassword('signupPassword', this)">
+                                    <i class="bi bi-eye-slash" style="color: var(--accent);"></i>
+                                </span>
+                            </div>
+
+                            <!-- Password Strength Meter -->
+                            <div class="mb-4">
+                                <div class="progress" style="height: 4px; background: rgba(255,255,255,0.05);">
+                                    <div id="strengthMeter" class="progress-bar" role="progressbar" style="width: 0%"></div>
+                                </div>
+                                <div class="d-flex justify-content-between mt-1">
+                                    <small style="font-size: 10px; color: var(--text-muted);">Mystic Resonance:</small>
+                                    <small id="strengthText" style="font-size: 10px; font-weight: 700;">Awaiting Insight</small>
+                                </div>
+                            </div>
+
+                            <!-- Terms Checkbox -->
+                            <div class="form-check mb-4">
+                                <input class="form-check-input bg-transparent border-light" type="checkbox" value="" id="termsCheck" required>
+                                <label class="form-check-label text-muted" for="termsCheck" style="font-size: 12px;">
+                                    I attune to the <a href="#" style="color: var(--accent);">Ancient Covenants</a> and Veil Protocols.
+                                </label>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button type="submit" class="btn btn-mystic w-100 py-3 rounded-pill d-flex align-items-center justify-content-center gap-2">
+                                <i class="bi bi-person-badge-fill fs-5"></i>
+                                <span>Awaken Spirit</span>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- 3. FORGOT SECTION (Hidden by default) -->
+                    <div id="section-forgot" class="auth-section d-none">
+                        <div class="mb-4">
+                            <h3 class="fw-bold mb-1" style="font-family: var(--font-headings);">Recall Your Path</h3>
+                            <p style="color: var(--text-muted); font-size: 14px;">A lunar whisper will guide your memory to your ethereal address.</p>
+                        </div>
+
+                        <form onsubmit="handleFormSubmit(event, 'forgot')">
+                            <!-- Email Input -->
+                            <div class="position-relative mb-4">
+                                <i class="bi bi-envelope input-icon"></i>
+                                <input type="email" class="form-control crystal-input w-100 py-3" placeholder="Ethereal ID (Email Address)" required>
+                            </div>
+
+                            <!-- Back to Login Link -->
+                            <div class="mb-4 text-end">
+                                <a href="javascript:void(0)" onclick="switchTab('login')" style="color: var(--accent); text-decoration: none; font-size: 13px; font-weight: 600;">
+                                    <i class="bi bi-arrow-left me-1"></i> Return to Gateway
+                                </a>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button type="submit" class="btn btn-mystic w-100 py-3 rounded-pill d-flex align-items-center justify-content-center gap-2">
+                                <i class="bi bi-arrow-clockwise fs-5"></i>
+                                <span>Send Lunar Whisper</span>
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-3 px-4 px-md-5 d-flex justify-content-between align-items-center border-top border-light border-opacity-10" style="font-size: 12px; color: var(--text-muted);">
+        <div>&copy; <span id="currentYear"></span> MysticVeil. All Rights Reserved.</div>
+        <div class="d-flex gap-3">
+            <a href="#" style="color: inherit; text-decoration: none;">Veil Protocols</a>
+            <span>•</span>
+            <a href="#" style="color: inherit; text-decoration: none;">Ancient Covenants</a>
+        </div>
+    </footer>
+
+
+    <!-- MODAL: Color Palette & Settings Manipulator -->
+    <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content glass-card border border-light" style="background: var(--bg-color); color: var(--text-main);">
+                <div class="modal-header border-bottom border-light border-opacity-25">
+                    <h5 class="modal-title d-flex align-items-center gap-2" id="settingsModalLabel">
+                        <i class="bi bi-sliders text-light"></i>
+                        <span>MysticVeil Color Attunement</span>
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1) grayscale(100%) brightness(200%);"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <p class="text-opacity-75 mb-4" style="font-size: 14px;">Attune the ethereal hues of your MysticVeil experience.</p>
+
+                    <!-- Color Picker: Primary (Amethyst) -->
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <span class="fw-bold d-block">Amethyst Core (Primary)</span>
+                            <small style="color: var(--text-muted);">Main atmospheric color</small>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <input type="color" id="primaryColorInput" class="form-control form-control-color bg-dark border-light p-1" value="#9B59B6" style="width: 50px; height: 50px; cursor: pointer;">
+                            <span id="primaryHex" class="badge border border-light" style="font-family: monospace;">#9B59B6</span>
+                        </div>
+                    </div>
+
+                    <!-- Color Picker: Accent (Silver) -->
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <span class="fw-bold d-block">Moonlight Shimmer (Accent)</span>
+                            <small style="color: var(--text-muted);">Ethereal highlights & glyphs</small>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <input type="color" id="accentColorInput" class="form-control form-control-color bg-dark border-light p-1" value="#E5E5E5" style="width: 50px; height: 50px; cursor: pointer;">
+                            <span id="accentHex" class="badge border border-light" style="font-family: monospace;">#E5E5E5</span>
+                        </div>
+                    </div>
+
+                    <!-- Live Mini Preview -->
+                    <div class="p-3 rounded-4 mb-4" style="background: linear-gradient(135deg, var(--primary), #111); border: 2px solid var(--accent);">
+                        <h6 class="m-0 fw-bold" style="color: var(--accent);">MysticVeil Preview</h6>
+                        <small class="text-white opacity-75">Your attuned visual presentation is instantaneously reflected.</small>
+                    </div>
+
+                </div>
+                <div class="modal-footer border-top border-light border-opacity-25">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-mystic" onclick="resetDefaultColors()">
+                        <i class="bi bi-arrow-counterclockwise"></i> Reset Attunement
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- AOS JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <!-- PureCounter JS (Vanilla Counter CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/@srexi/purecounterjs/dist/purecounter_vanilla.js"></script>
+
+    <!-- Custom Functionality -->
+    <script>
+        // 1. Set current year in Footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // 2. Initialize AOS (Animate on Scroll)
+        AOS.init({
+            once: true,
+            easing: 'ease-out-quart',
+        });
+
+        // 3. Initialize PureCounter
+        new PureCounter();
+
+        // 4. Initialize Swiper Slider
+        const swiper = new Swiper('.mySwiper', {
+            loop: true,
+            autoplay: {
+                delay: 4500,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            effect: 'fade',
+            fadeEffect: {
+                crossFade: true
+            }
+        });
+
+        // 5. Switching Tabs for Authentication Sections
+        function switchTab(section) {
+            // Hide all sections
+            document.querySelectorAll('.auth-section').forEach(el => el.classList.add('d-none'));
+            // Remove active classes
+            document.querySelectorAll('.auth-tab').forEach(el => el.classList.remove('active'));
+
+            // Show selected section
+            const targetSection = document.getElementById(`section-${section}`);
+            targetSection.classList.remove('d-none');
+            
+            // Add active class to corresponding tab
+            const tabs = {
+                'login': document.querySelectorAll('.auth-tab')[0],
+                'signup': document.querySelectorAll('.auth-tab')[1],
+                'forgot': document.querySelectorAll('.auth-tab')[2],
+            };
+            tabs[section].classList.add('active');
+        }
+
+        // 6. Eye / Password Visibility Toggle
+        function togglePassword(inputId, iconElement) {
+            const input = document.getElementById(inputId);
+            const icon = iconElement.querySelector('i');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'bi bi-eye';
+            } else {
+                input.type = 'password';
+                icon.className = 'bi bi-eye-slash';
+            }
+        }
+
+        // 7. Theme Toggler (Sun/Moon)
+        const themeToggleBtn = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+
+        themeToggleBtn.addEventListener('click', () => {
+            const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+            if (isLight) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                themeIcon.className = 'bi bi-brightness-high-fill fs-5';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                themeIcon.className = 'bi bi-moon-stars-fill fs-5';
+            }
+        });
+
+        // 8. Password Strength Meter
+        function checkPasswordStrength(val) {
+            const meter = document.getElementById('strengthMeter');
+            const txt = document.getElementById('strengthText');
+            let score = 0;
+
+            if (val.length > 5) score += 25;
+            if (val.length > 8) score += 25;
+            if (/[A-Z]/.test(val)) score += 25;
+            if (/[0-9!@#\$%\^\&*\)\(+=._-]/.test(val)) score += 25;
+
+            meter.style.width = score + '%';
+
+            if (score <= 25) {
+                meter.className = 'progress-bar bg-danger';
+                txt.textContent = 'Weak';
+                txt.style.color = '#dc3545';
+            } else if (score <= 50) {
+                meter.className = 'progress-bar bg-warning';
+                txt.textContent = 'Moderate';
+                txt.style.color = '#ffc107';
+            } else if (score <= 75) {
+                meter.className = 'progress-bar bg-info';
+                txt.textContent = 'Strong';
+                txt.style.color = '#0dcaf0';
+            } else {
+                meter.className = 'progress-bar bg-success';
+                txt.textContent = 'Impenetrable';
+                txt.style.color = '#198754';
+            }
+        }
+
+        // 9. Toast / Form Submission Handling
+        function handleFormSubmit(event, type) {
+            event.preventDefault();
+            let message = '';
+            if (type === 'login') message = '✨ Welcome, Seeker! The Veil parts for you.';
+            if (type === 'signup') message = '🌟 Your spirit awakens! Prepare for your journey.';
+            if (type === 'forgot') message = '🌙 A lunar whisper has been sent to your ethereal address.';
+
+            alert(message);
+        }
+
+        // 10. Settings Popup & Main Colors Manipulator
+        const settingsToggleBtn = document.getElementById('settingsToggle');
+        const settingsModal = new bootstrap.Modal(document.getElementById('settingsModal'));
+
+        settingsToggleBtn.addEventListener('click', () => {
+            settingsModal.show();
+        });
+
+        const primaryInput = document.getElementById('primaryColorInput');
+        const accentInput = document.getElementById('accentColorInput');
+        const primaryHex = document.getElementById('primaryHex');
+        const accentHex = document.getElementById('accentHex');
+
+        // Apply primary color changes
+        primaryInput.addEventListener('input', (e) => {
+            const color = e.target.value;
+            document.documentElement.style.setProperty('--primary', color);
+            primaryHex.textContent = color;
+        });
+
+        // Apply accent color changes
+        accentInput.addEventListener('input', (e) => {
+            const color = e.target.value;
+            document.documentElement.style.setProperty('--accent', color);
+            accentHex.textContent = color;
+        });
+
+        // Reset Colors Function
+        function resetDefaultColors() {
+            const defaultPrimary = '#9B59B6';
+            const defaultAccent = '#E5E5E5';
+
+            document.documentElement.style.setProperty('--primary', defaultPrimary);
+            document.documentElement.style.setProperty('--accent', defaultAccent);
+
+            primaryInput.value = defaultPrimary;
+            accentInput.value = defaultAccent;
+            primaryHex.textContent = defaultPrimary;
+            accentHex.textContent = defaultAccent;
+
+            alert('🎨 Ethereal hues reverted to default Amethyst & Moonlight scheme.');
+        }
+
+        // 11. Floating Particle Orbs Background Effect
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        let particles = [];
+
+        for (let i = 0; i < 60; i++) { // Increased particle count for more enchantment
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 2 + 1, // Slightly larger particles
+                speedX: (Math.random() - 0.5) * 0.6, // Slightly faster movement
+                speedY: (Math.random() - 0.5) * 0.6,
+                alpha: Math.random() * 0.7 + 0.3, // More visible particles
+                color: `rgba(229, 229, 229, ${Math.random() * 0.5 + 0.5})` // Silverish-white orbs
+            });
+        }
+
+        function drawParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = p.color;
+                ctx.fill();
+
+                p.x += p.speedX;
+                p.y += p.speedY;
+
+                if (p.x < 0) p.x = canvas.width;
+                if (p.x > canvas.width) p.x = 0;
+                if (p.y < 0) p.y = canvas.height;
+                if (p.y > canvas.height) p.y = 0;
+            });
+            requestAnimationFrame(drawParticles);
+        }
+
+        drawParticles();
+
+    </script>
+</body>
+</html>
