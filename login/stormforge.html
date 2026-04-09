@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StormForge | Secure Tech Portal</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800&family=Ubuntu:wght@400;500&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- CSS CDNs -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #2C3E50;
+            --accent: #FFEB3B;
+            --bg-dark: #0f172a;
+            --bg-light: #f8fafc;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --text-main: #f1f5f9;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --storm-intensity: 1;
+        }
+
+        [data-bs-theme="light"] {
+            --bg-dark: #f1f5f9;
+            --card-bg: rgba(255, 255, 255, 0.8);
+            --text-main: #1e293b;
+        }
+
+        body {
+            font-family: 'Ubuntu', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+            min-height: 100vh;
+            margin: 0;
+            transition: var(--transition);
+        }
+
+        h1, h2, h3, .h-font { font-family: 'Nunito', sans-serif; font-weight: 800; }
+        input, button, select, .f-font { font-family: 'Open Sans', sans-serif; }
+
+        /* --- Storm & Lightning Effects --- */
+        .storm-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(to bottom, #000 0%, var(--primary) 100%);
+            overflow: hidden;
+        }
+
+        .cloud {
+            position: absolute;
+            width: 1000px;
+            height: 400px;
+            background: radial-gradient(ellipse at center, rgba(44, 62, 80, 0.8) 0%, rgba(0, 0, 0, 0) 70%);
+            filter: blur(50px);
+            animation: drift 60s infinite linear;
+        }
+
+        @keyframes drift {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(100%); }
+        }
+
+        .lightning-flash {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            opacity: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* --- Header & Controls --- */
+        .top-controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            gap: 15px;
+        }
+
+        .control-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+            box-shadow: 0 0 15px rgba(255, 235, 59, 0.2);
+        }
+
+        .control-btn:hover {
+            transform: scale(1.1) rotate(15deg);
+            box-shadow: 0 0 25px var(--accent);
+        }
+
+        /* --- Main Card --- */
+        .auth-wrapper {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .storm-card {
+            width: 100%;
+            max-width: 450px;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .storm-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            animation: scan 3s infinite linear;
+        }
+
+        @keyframes scan {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* --- Tabs --- */
+        .nav-pills {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 5px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .nav-pills .nav-link {
+            color: var(--text-main);
+            border-radius: 10px;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .nav-pills .nav-link.active {
+            background-color: var(--accent);
+            color: var(--primary);
+            box-shadow: 0 0 15px var(--accent);
+        }
+
+        /* --- Form Elements --- */
+        .form-floating > .form-control {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            border-radius: 12px;
+        }
+
+        .form-floating > .form-control:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 10px rgba(255, 235, 59, 0.3);
+        }
+
+        .btn-forge {
+            background: var(--accent);
+            color: var(--primary);
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 12px;
+            border-radius: 12px;
+            border: none;
+            width: 100%;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-forge:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 235, 59, 0.4);
+            color: var(--primary);
+        }
+
+        /* --- Settings Popup --- */
+        .settings-popup {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            width: 280px;
+            background: var(--card-bg);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--accent);
+            border-radius: 18px;
+            padding: 20px;
+            display: none;
+            z-index: 1001;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .color-picker-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .color-input {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: none;
+        }
+
+        /* --- Swiper --- */
+        .swiper {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* --- Counter --- */
+        .counter-box {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        .counter { font-weight: 800; color: var(--accent); }
+
+        /* --- Lightning SVG --- */
+        .lightning-bolt {
+            position: absolute;
+            width: 100px;
+            fill: var(--accent);
+            filter: drop-shadow(0 0 10px var(--accent));
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="storm-container" id="stormContainer">
+        <div class="cloud" style="top: 10%; left: -10%;"></div>
+        <div class="cloud" style="top: 40%; left: 20%; animation-delay: -20s;"></div>
+        <div class="cloud" style="top: 70%; left: -30%; animation-delay: -40s;"></div>
+    </div>
+
+    <div class="lightning-flash" id="flash"></div>
+
+    <div class="top-controls">
+        <div class="control-btn" id="themeToggle" title="Toggle Theme">
+            <i class="fas fa-moon"></i>
+        </div>
+        <div class="control-btn" id="settingsToggle" title="Custom Colors">
+            <i class="fas fa-cog"></i>
+        </div>
+    </div>
+
+    <!-- Settings Popup -->
+    <div class="settings-popup" id="settingsPopup">
+        <h5 class="h-font mb-3"><i class="fas fa-sliders-h me-2"></i>Forge Controls</h5>
+        <div class="color-picker-wrapper">
+            <span>Thunder Gray (Primary)</span>
+            <input type="color" id="primaryColor" class="color-input" value="#2C3E50">
+        </div>
+        <div class="color-picker-wrapper">
+            <span>Electric Yellow (Accent)</span>
+            <input type="color" id="accentColor" class="color-input" value="#FFEB3B">
+        </div>
+        <button class="btn btn-outline-light btn-sm w-100 mt-2" id="resetColors">Reset to Default</button>
+    </div>
+
+    <div class="auth-wrapper">
+        <div class="storm-card" data-aos="zoom-in" data-aos-duration="1000">
+            <div class="text-center mb-4">
+                <div class="mb-2" data-aos="fade-down" data-aos-delay="200">
+                    <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" fill="var(--accent)" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h2 class="h-font text-uppercase tracking-wider">StormForge</h2>
+                <p class="text-muted small">Harness the Power of Tech</p>
+            </div>
+
+            <ul class="nav nav-pills nav-justified mb-4" id="authTabs" role="tablist">
+                <li class="nav-item">
+                    <button class="nav-link active" id="login-tab" data-bs-toggle="pill" data-bs-target="#login" type="button">Login</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" id="signup-tab" data-bs-toggle="pill" data-bs-target="#signup" type="button">Signup</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" id="forgot-tab" data-bs-toggle="pill" data-bs-target="#forgot" type="button">Forgot</button>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="authTabsContent">
+                <!-- Login -->
+                <div class="tab-pane fade show active" id="login" role="tabpanel">
+                    <form onsubmit="return false">
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control" id="loginEmail" placeholder="name@example.com">
+                            <label for="loginEmail">Email address</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control" id="loginPass" placeholder="Password">
+                            <label for="loginPass">Password</label>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="rememberMe">
+                                <label class="form-check-label small" for="rememberMe">Stay in the storm</label>
+                            </div>
+                        </div>
+                        <button class="btn btn-forge">Initialize Session</button>
+                    </form>
+                </div>
+
+                <!-- Signup -->
+                <div class="tab-pane fade" id="signup" role="tabpanel">
+                    <form onsubmit="return false">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="regName" placeholder="Full Name">
+                            <label for="regName">Full Name</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control" id="regEmail" placeholder="name@example.com">
+                            <label for="regEmail">Email address</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control" id="regPass" placeholder="Password">
+                            <label for="regPass">Create Password</label>
+                        </div>
+                        <button class="btn btn-forge">Forge Account</button>
+                    </form>
+                </div>
+
+                <!-- Forgot Password -->
+                <div class="tab-pane fade" id="forgot" role="tabpanel">
+                    <div class="text-center mb-4">
+                        <p class="small text-muted">Enter your email to receive a lightning-fast reset link.</p>
+                    </div>
+                    <form onsubmit="return false">
+                        <div class="form-floating mb-4">
+                            <input type="email" class="form-control" id="resetEmail" placeholder="name@example.com">
+                            <label for="resetEmail">Email address</label>
+                        </div>
+                        <button class="btn btn-forge">Strike Reset</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="counter-box">
+                <span class="counter" data-vanilla-counter data-start-at="0" data-end-at="12450" data-time="2000">20+</span>
+                Successful Forges Today
+            </div>
+
+            <div class="mt-4 pt-3 border-top border-secondary text-center">
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="#" class="text-muted"><i class="fab fa-github fa-lg"></i></a>
+                    <a href="#" class="text-muted"><i class="fab fa-discord fa-lg"></i></a>
+                    <a href="#" class="text-muted"><i class="fab fa-x-twitter fa-lg"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-counter@0.0.3/dist/vanilla-counter.min.js"></script>
+
+    <script>
+        // Initialize AOS
+        AOS.init();
+
+        // Theme Toggler
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        const themeIcon = themeToggle.querySelector('i');
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-bs-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-bs-theme', newTheme);
+            themeIcon.className = newTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+            
+            // Adjust storm background based on theme
+            document.getElementById('stormContainer').style.opacity = newTheme === 'dark' ? '1' : '0.3';
+        });
+
+        // Settings Popup Toggle
+        const settingsToggle = document.getElementById('settingsToggle');
+        const settingsPopup = document.getElementById('settingsPopup');
+
+        settingsToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            settingsPopup.style.display = settingsPopup.style.display === 'block' ? 'none' : 'block';
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!settingsPopup.contains(e.target) && e.target !== settingsToggle) {
+                settingsPopup.style.display = 'none';
+            }
+        });
+
+        // Color Manipulator
+        const primaryPicker = document.getElementById('primaryColor');
+        const accentPicker = document.getElementById('accentColor');
+        const root = document.querySelector(':root');
+
+        primaryPicker.addEventListener('input', (e) => {
+            root.style.setProperty('--primary', e.target.value);
+        });
+
+        accentPicker.addEventListener('input', (e) => {
+            root.style.setProperty('--accent', e.target.value);
+        });
+
+        document.getElementById('resetColors').addEventListener('click', () => {
+            root.style.setProperty('--primary', '#2C3E50');
+            root.style.setProperty('--accent', '#FFEB3B');
+            primaryPicker.value = '#2C3E50';
+            accentPicker.value = '#FFEB3B';
+        });
+
+        // Dynamic Lightning Effect
+        const flash = document.getElementById('flash');
+        
+        function strike() {
+            if (Math.random() > 0.96) {
+                flash.style.opacity = '0.3';
+                setTimeout(() => {
+                    flash.style.opacity = '0';
+                    setTimeout(() => {
+                        flash.style.opacity = '0.5';
+                        setTimeout(() => {
+                            flash.style.opacity = '0';
+                        }, 50);
+                    }, 50);
+                }, 50);
+
+                // Trigger AOS animation manually for an extra flash feel
+                const card = document.querySelector('.storm-card');
+                card.style.boxShadow = '0 0 50px var(--accent)';
+                setTimeout(() => {
+                    card.style.boxShadow = '0 25px 50px -12px rgba(0, 0, 0, 0.5)';
+                }, 300);
+            }
+        }
+
+        setInterval(strike, 1000);
+
+        // Vanilla Counter Init
+        document.addEventListener('DOMContentLoaded', () => {
+            VanillaCounter();
+        });
+
+        // Form Submission Effects
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const btn = form.querySelector('.btn-forge');
+                const originalText = btn.innerText;
+                btn.innerHTML = '<i class="fas fa-bolt fa-spin me-2"></i>Processing...';
+                btn.disabled = true;
+                
+                // Simulate forge delay
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="fas fa-check-circle me-2"></i>Forged!';
+                    btn.style.background = '#4CAF50';
+                    setTimeout(() => {
+                        btn.innerHTML = originalText;
+                        btn.style.background = 'var(--accent)';
+                        btn.disabled = false;
+                    }, 2000);
+                }, 1500);
+            });
+        });
+    </script>
+</body>
+</html>
