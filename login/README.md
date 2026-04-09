@@ -20,7 +20,7 @@
 - **3-in-1 Design**: Login, Signup & Forgot Password in one smooth experience  
 - **Live Theme Toggler** (Light / Dark Mode)
 - **Advanced Color Customizer** – Real-time color picker + reset button
-- Built with your favorite fonts: **Nunito • Ubuntu • Open Sans**
+- Built with premium fonts: **Nunito • Ubuntu • Open Sans**
 - Premium animations powered by AOS + Swiper
 - Fully responsive & production-ready
 
@@ -29,53 +29,67 @@
 - Seamless tab navigation between Login, Signup, and Forgot Password
 - Interactive Settings Panel with live CSS variable editing
 - Beautiful micro-interactions and hover effects
-- Glassmorphism, Neumorphism, Gradient, and Cyber styles available
-- Zero dependencies beyond CDNs (fast loading)
+- Multiple unique styles (Glassmorphism, Cyberpunk, Luxury, Nature, etc.)
+- Zero dependencies beyond CDNs
 
 ## 📸 Gallery
 
 Here are some of the beautiful templates included:
 
-<div align="center">
-  
-  <!-- Replace these placeholder links with your actual screenshot URLs later -->
-  
-  <img src="https://via.placeholder.com/600x380/4B0082/00FFFF?text=NebulaVault" width="32%" alt="NebulaVault">
-  <img src="https://via.placeholder.com/600x380/FF00FF/00FF9F?text=CyberPulse" width="32%" alt="CyberPulse">
-  <img src="https://via.placeholder.com/600x380/00C853/C39BD3?text=AuroraAccess" width="32%" alt="AuroraAccess">
-  
-  <br><br>
-  
-  <img src="https://via.placeholder.com/600x380/BFFF00/000000?text=QuantumShield" width="32%" alt="QuantumShield">
-  <img src="https://via.placeholder.com/600x380/800020/FFD700?text=VelvetDream" width="32%" alt="VelvetDream">
-  <div class="gal-cont">
-    <img src="https://via.placeholder.com/600x380/9B59B6/E5E5E5?text=MysticVeil" width="32%" alt="StormForge">
-    <a class="streched-link" href="https://github.com/PMM016/WebUI-Showcase/blob/efa0c526623693f4830fb9aec72e37a1ef9eaf46/login/stormforge.html">Visit</a>
+<div align="center" style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin: 30px 0;">
+
+  <div style="width: 32%; min-width: 280px;">
+    <img src="https://via.placeholder.com/600x380/4B0082/00FFFF?text=NebulaVault" style="width:100%; border-radius: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.3);" alt="NebulaVault">
+    <p><strong>NebulaVault</strong></p>
+  </div>
+
+  <div style="width: 32%; min-width: 280px;">
+    <img src="https://via.placeholder.com/600x380/FF00FF/00FF9F?text=CyberPulse" style="width:100%; border-radius: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.3);" alt="CyberPulse">
+    <p><strong>CyberPulse</strong></p>
+  </div>
+
+  <div style="width: 32%; min-width: 280px;">
+    <img src="https://via.placeholder.com/600x380/00C853/C39BD3?text=AuroraAccess" style="width:100%; border-radius: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.3);" alt="AuroraAccess">
+    <p><strong>AuroraAccess</strong></p>
+  </div>
+
+  <div style="width: 32%; min-width: 280px;">
+    <img src="https://via.placeholder.com/600x380/BFFF00/000000?text=QuantumShield" style="width:100%; border-radius: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.3);" alt="QuantumShield">
+    <p><strong>QuantumShield</strong></p>
+  </div>
+
+  <div style="width: 32%; min-width: 280px;">
+    <img src="https://via.placeholder.com/600x380/800020/FFD700?text=VelvetDream" style="width:100%; border-radius: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.3);" alt="VelvetDream">
+    <p><strong>VelvetDream</strong></p>
+  </div>
+
+  <div style="width: 32%; min-width: 280px;">
+    <img src="https://i.ibb.co/bgQjfrHD/Screenshot-2026-04-09-at-09-23-53-login2.png" style="width:100%; border-radius: 12px; box-shadow: 0 8px 25px rgba(0,0,0,0.3);" alt="StormForge">
+    <p><strong>StormForge</strong></p>
+    <a href="https://github.com/PMM016/WebUI-Showcase/blob/efa0c526623693f4830fb9aec72e37a1ef9eaf46/login/stormforge.html" style="text-decoration: none; color: #00ffcc;">→ View Template</a>
   </div>
 
 </div>
 
 ## 🚀 Quick Start
 
-1. Clone or download this repository
-2. Open any `.html` file in your browser
-3. Click the **⚙️ Settings** icon to customize colors live
-4. Use the **🌗 Theme Toggler** for light/dark mode
-5. Modify text, images, or links as needed
+1. Open any `.html` file directly in your browser
+2. Click the **⚙️ Settings** icon to customize colors live
+3. Use the **🌗 Theme Toggler** for light/dark mode
+4. Replace images, text, and links as needed
 
 ## 📁 What's Inside
 
-This folder contains **many unique** login templates with completely different aesthetics — ranging from futuristic and cyberpunk to elegant luxury, nature-inspired, and ultra-minimal designs.
+This folder contains **many unique** login templates with completely different aesthetics — from futuristic and cyberpunk to elegant luxury, nature-inspired, and ultra-minimal designs.
 
-Each template is carefully crafted with attention to typography, spacing, and modern UI/UX principles.
+Each template is carefully crafted with excellent typography, spacing, and modern UI/UX principles.
 
 ## 🛠️ Tech Stack
 
-- **Fonts**: Nunito, Ubuntu, Open Sans (via Google Fonts)
+- **Fonts**: Nunito, Ubuntu, Open Sans (Google Fonts)
 - **Framework**: Bootstrap 5
 - **Icons**: Font Awesome + Bootstrap Icons
-- **Animations**: AOS (Animate On Scroll)
-- **Others**: Swiper.js, Vanilla Counter
+- **Animations**: AOS, Swiper.js, Vanilla Counter
 
 ## 🎯 Perfect For
 
@@ -87,8 +101,8 @@ Each template is carefully crafted with attention to typography, spacing, and mo
 
 ## 📄 License
 
-Open source. Feel free to use in both personal and commercial projects.  
-A backlink to this repository is appreciated but not required.
+Open source. Free to use in both personal and commercial projects.  
+A backlink is appreciated but not required.
 
 ---
 
@@ -96,12 +110,3 @@ A backlink to this repository is appreciated but not required.
   <strong>Made with passion for beautiful interfaces</strong><br>
   <i>Designed for excellence by a UI Designer</i>
 </div>
-<style>
-  .gal-con {
-    display: flex;
-    padding: 10px;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-  }
-</style>
