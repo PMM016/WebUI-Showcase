@@ -37,7 +37,7 @@ Each template includes:
 | #  | Template Name                    | Industry                  | Live Demo |
 |----|----------------------------------|---------------------------|---------|
 | 1  | Nexlify Finance                 | Fintech                   | [Demo](https://pmm016.github.io/WebUI-Showcase/landing/nexlify) |
-| 2  | **Thunder Eagles**              | Sports / Football         | [Demo 1](https://pmm016.github.io/WebUI-Showcase/landing/thuneagles) [Demo 1](https://pmm016.github.io/WebUI-Showcase/landing/thuneaglesfc) |
+| 2  | **Thunder Eagles**              | Sports / Football         | [Demo 1](https://pmm016.github.io/WebUI-Showcase/landing/thuneagles) [Demo 2](https://pmm016.github.io/WebUI-Showcase/landing/thuneaglesfc) |
 | 3  | **IronForge Fitness**           | Gym / Fitness             | [Demo](https://pmm016.github.io/WebUI-Showcase/landing/ironforge) |
 | 4  | **SpiceRoute**                  | Food Delivery / Restaurant| [Demo 1](https://pmm016.github.io/WebUI-Showcase/landing/spiceroute) [Demo 2](https://pmm016.github.io/WebUI-Showcase/landing/spiceroute2) |
 | 5  | **Lumina Wear**                 | Fashion E-commerce        | [Demo 1](https://pmm016.github.io/WebUI-Showcase/landing/lumina) [Demo 2](https://pmm016.github.io/WebUI-Showcase/landing/lumina2)|
