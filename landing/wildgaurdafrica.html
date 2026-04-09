@@ -1,0 +1,1881 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WildGuard Africa — Protect. Preserve. Prosper.</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <!-- AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&family=Caveat:wght@700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ========== CSS VARIABLES ========== */
+        :root {
+            --primary: #2d5016;
+            --primary-light: #4a7c2e;
+            --secondary: #8B6914;
+            --secondary-light: #b8942a;
+            --accent: #d4a017;
+            --accent-glow: rgba(212, 160, 23, 0.3);
+            --bg: #faf8f0;
+            --bg-alt: #f0ead6;
+            --bg-card: #ffffff;
+            --text: #2c2c2c;
+            --text-muted: #6b6b6b;
+            --text-light: #f5f0e1;
+            --border: #d4c9a8;
+            --shadow: rgba(45, 80, 22, 0.12);
+            --gradient-hero: linear-gradient(135deg, #1a3a0a 0%, #2d5016 40%, #4a7c2e 100%);
+            --squiggle-color: var(--accent);
+            --preloader-bg: #1a3a0a;
+            --transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        [data-theme="dark"] {
+            --bg: #121a0e;
+            --bg-alt: #1a2614;
+            --bg-card: #1e2e16;
+            --text: #e8e0cc;
+            --text-muted: #a0a080;
+            --text-light: #f5f0e1;
+            --border: #3a4a2e;
+            --shadow: rgba(0, 0, 0, 0.4);
+            --gradient-hero: linear-gradient(135deg, #0a1a04 0%, #1a3008 40%, #2d5016 100%);
+            --preloader-bg: #0a1206;
+        }
+
+        /* ========== BASE ========== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+            transition: background var(--transition), color var(--transition);
+        }
+        h1, h2, h3, h4, h5 { font-family: 'Playfair Display', serif; }
+        ::selection { background: var(--primary); color: var(--text-light); }
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--bg-alt); }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 5px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary-light); }
+
+        /* ========== PRELOADER ========== */
+        #preloader {
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            background: var(--preloader-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
+        #preloader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        .preloader-paw {
+            width: 80px;
+            height: 80px;
+            animation: pawBounce 1s ease-in-out infinite;
+        }
+        .preloader-paw svg { fill: var(--accent); width: 100%; height: 100%; }
+        .preloader-text {
+            color: var(--accent);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-top: 1.5rem;
+            letter-spacing: 3px;
+            animation: fadeInOut 1.5s ease-in-out infinite;
+        }
+        @keyframes pawBounce {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-20px) scale(1.1); }
+        }
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+
+        /* ========== NAVBAR ========== */
+        .navbar {
+            background: transparent !important;
+            padding: 1rem 0;
+            transition: all var(--transition);
+            z-index: 1050;
+        }
+        .navbar.scrolled {
+            background: var(--bg) !important;
+            box-shadow: 0 4px 30px var(--shadow);
+            padding: 0.5rem 0;
+            backdrop-filter: blur(10px);
+        }
+        [data-theme="dark"] .navbar.scrolled {
+            background: rgba(18, 26, 14, 0.95) !important;
+        }
+        .navbar-brand {
+            font-family: 'Playfair Display', serif;
+            font-weight: 900;
+            font-size: 1.6rem;
+            color: var(--text-light) !important;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .navbar.scrolled .navbar-brand { color: var(--primary) !important; }
+        [data-theme="dark"] .navbar.scrolled .navbar-brand { color: var(--text) !important; }
+        .navbar-brand .brand-icon {
+            width: 42px; height: 42px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem;
+            color: var(--primary);
+            transition: transform 0.3s ease;
+        }
+        .navbar-brand:hover .brand-icon { transform: rotate(15deg) scale(1.1); }
+        .nav-link {
+            color: rgba(255,255,255,0.85) !important;
+            font-weight: 500;
+            padding: 0.5rem 1rem !important;
+            position: relative;
+            transition: color var(--transition);
+        }
+        .navbar.scrolled .nav-link { color: var(--text) !important; }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 50%;
+            width: 0; height: 2px;
+            background: var(--accent);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+        .nav-link:hover::after { width: 70%; }
+        .nav-link:hover { color: var(--accent) !important; }
+        .nav-cta {
+            background: var(--accent) !important;
+            color: var(--primary) !important;
+            border-radius: 50px;
+            font-weight: 600 !important;
+            padding: 0.5rem 1.5rem !important;
+            border: none;
+            transition: all 0.3s ease !important;
+        }
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px var(--accent-glow);
+        }
+        .navbar.scrolled .nav-cta { color: var(--primary) !important; }
+        .theme-toggle-nav {
+            background: none;
+            border: 2px solid rgba(255,255,255,0.3);
+            color: #fff;
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+        .navbar.scrolled .theme-toggle-nav {
+            border-color: var(--border);
+            color: var(--text);
+        }
+        .theme-toggle-nav:hover {
+            background: var(--accent);
+            color: var(--primary);
+            border-color: var(--accent);
+            transform: rotate(180deg);
+        }
+
+        /* ========== HERO ========== */
+        .hero {
+            min-height: 100vh;
+            background: var(--gradient-hero);
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        .hero-particles {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+        .particle {
+            position: absolute;
+            background: rgba(212, 160, 23, 0.15);
+            border-radius: 50%;
+            animation: floatParticle linear infinite;
+        }
+        @keyframes floatParticle {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-10vh) rotate(720deg); opacity: 0; }
+        }
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            padding-top: 80px;
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(212, 160, 23, 0.15);
+            border: 1px solid rgba(212, 160, 23, 0.3);
+            color: var(--accent);
+            padding: 0.4rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s ease;
+        }
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 900;
+            color: #fff;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+        .hero h1 span {
+            color: var(--accent);
+            position: relative;
+            display: inline-block;
+        }
+        .hero-desc {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.75);
+            max-width: 550px;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease 0.6s both;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Custom Buttons */
+        .btn-wild {
+            background: var(--accent);
+            color: var(--primary);
+            border: none;
+            padding: 0.85rem 2.2rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .btn-wild::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 0; height: 0;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+        .btn-wild:hover::before { width: 300px; height: 300px; }
+        .btn-wild:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(212, 160, 23, 0.35);
+            color: var(--primary);
+        }
+        .btn-outline-wild {
+            background: transparent;
+            color: #fff;
+            border: 2px solid rgba(255,255,255,0.4);
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .btn-outline-wild:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        /* Walking Animal SVG */
+        .hero-animal-container {
+            position: absolute;
+            bottom: 8%;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            z-index: 5;
+            pointer-events: none;
+        }
+        .walking-lion {
+            position: absolute;
+            bottom: 0;
+            animation: walkRight 18s linear infinite;
+        }
+        .walking-elephant {
+            position: absolute;
+            bottom: 0;
+            animation: walkRight 25s linear infinite;
+            animation-delay: 8s;
+            opacity: 0;
+        }
+        @keyframes walkRight {
+            0% { left: -250px; opacity: 0; }
+            5% { opacity: 0.7; }
+            90% { opacity: 0.7; }
+            100% { left: 110%; opacity: 0; }
+        }
+        .hero-grass {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            z-index: 6;
+        }
+        .hero-silhouette {
+            position: absolute;
+            bottom: 0;
+            right: -5%;
+            width: 55%;
+            max-width: 700px;
+            z-index: 3;
+            opacity: 0.15;
+        }
+
+        /* ========== SQUIGGLE LINK ========== */
+        .squiggle-link {
+            position: relative;
+            text-decoration: none;
+            color: var(--accent);
+            font-weight: 700;
+            font-family: 'Caveat', cursive;
+            font-size: 1.6em;
+            display: inline-block;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .squiggle-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: -3%;
+            width: 106%;
+            height: 10px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 10'%3E%3Cpath d='M0 5 Q 10 0, 20 5 T 40 5 T 60 5 T 80 5 T 100 5 T 120 5 T 140 5 T 160 5 T 180 5 T 200 5' stroke='%23d4a017' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x;
+            background-size: 40px 10px;
+            animation: squiggle 0.8s linear infinite;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+        .squiggle-link:hover::after { opacity: 1; }
+        .squiggle-link:hover { color: var(--secondary); }
+        @keyframes squiggle {
+            0% { background-position: 0 0; }
+            100% { background-position: 40px 0; }
+        }
+
+        /* ========== SECTION STYLES ========== */
+        section { padding: 6rem 0; }
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 900;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+        [data-theme="dark"] .section-title { color: var(--text); }
+        .section-subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 3rem;
+        }
+        .accent-line {
+            width: 60px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 2px;
+            margin: 1rem auto 1.5rem;
+        }
+
+        /* ========== IMPACT STATS ========== */
+        .stats-section {
+            background: var(--bg-alt);
+            position: relative;
+        }
+        .stat-card {
+            text-align: center;
+            padding: 2.5rem 1.5rem;
+            background: var(--bg-card);
+            border-radius: 20px;
+            box-shadow: 0 8px 30px var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid var(--border);
+        }
+        .stat-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px var(--shadow);
+        }
+        .stat-icon {
+            width: 70px; height: 70px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            border-radius: 20px;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 1.8rem;
+            color: #fff;
+            transition: transform 0.3s ease;
+        }
+        .stat-card:hover .stat-icon { transform: scale(1.1) rotate(5deg); }
+        .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--primary);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        [data-theme="dark"] .stat-number { color: var(--accent); }
+        .stat-label {
+            color: var(--text-muted);
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        /* ========== ABOUT ========== */
+        .about-section { background: var(--bg); }
+        .about-img-wrapper {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        .about-img-wrapper img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 20px;
+            transition: transform 0.5s ease;
+        }
+        .about-img-wrapper:hover img { transform: scale(1.05); }
+        .about-img-badge {
+            position: absolute;
+            bottom: 20px; left: 20px;
+            background: var(--accent);
+            color: var(--primary);
+            padding: 0.8rem 1.5rem;
+            border-radius: 15px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        .about-text h2 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+        }
+        .about-text p {
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+        .about-feature {
+            display: flex;
+            align-items: start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .about-feature-icon {
+            width: 45px; height: 45px;
+            min-width: 45px;
+            background: var(--bg-alt);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        /* ========== PROJECT GALLERY ========== */
+        .gallery-section { background: var(--bg-alt); }
+        .masonry-grid {
+            columns: 3;
+            column-gap: 1.5rem;
+        }
+        @media (max-width: 992px) { .masonry-grid { columns: 2; } }
+        @media (max-width: 576px) { .masonry-grid { columns: 1; } }
+        .gallery-item {
+            break-inside: avoid;
+            margin-bottom: 1.5rem;
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            background: var(--bg-card);
+            box-shadow: 0 4px 20px var(--shadow);
+            border: 1px solid var(--border);
+        }
+        .gallery-item img {
+            width: 100%;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        .gallery-item:hover img { transform: scale(1.08); }
+        .gallery-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(45, 80, 22, 0.9) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 1.5rem;
+        }
+        .gallery-item:hover .gallery-overlay { opacity: 1; }
+        .gallery-overlay h4 {
+            color: #fff;
+            font-size: 1.2rem;
+            margin-bottom: 0.3rem;
+        }
+        .gallery-overlay p {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.85rem;
+            margin: 0;
+        }
+        .gallery-tag {
+            position: absolute;
+            top: 15px; right: 15px;
+            background: var(--accent);
+            color: var(--primary);
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+        .gallery-item:hover .gallery-tag { opacity: 1; transform: translateY(0); }
+
+        /* ========== DONATION ========== */
+        .donation-section { background: var(--bg); }
+        .donation-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 30px var(--shadow);
+            border: 1px solid var(--border);
+            transition: transform 0.3s ease;
+            height: 100%;
+        }
+        .donation-card:hover { transform: translateY(-5px); }
+        .donation-card h4 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .donation-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        .progress-bar-custom {
+            background: var(--bg-alt);
+            border-radius: 50px;
+            height: 14px;
+            overflow: hidden;
+            position: relative;
+        }
+        .progress-fill {
+            height: 100%;
+            border-radius: 50px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            width: 0%;
+            transition: width 2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+        }
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        .donation-amount {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        .donation-amount .raised { color: var(--primary); font-weight: 700; }
+        [data-theme="dark"] .donation-amount .raised { color: var(--accent); }
+
+        /* ========== TESTIMONIALS ========== */
+        .testimonials-section {
+            background: var(--gradient-hero);
+            color: #fff;
+        }
+        .testimonial-card {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        .testimonial-card:hover { transform: translateY(-5px); }
+        .testimonial-card img {
+            width: 70px; height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent);
+            margin-bottom: 1rem;
+        }
+        .testimonial-card p {
+            color: rgba(255,255,255,0.8);
+            line-height: 1.7;
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+        .testimonial-card h5 { color: var(--accent); margin-bottom: 0; }
+        .testimonial-card small { color: rgba(255,255,255,0.5); }
+
+        /* ========== ADOPT SECTION ========== */
+        .adopt-section { background: var(--bg-alt); }
+        .adopt-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px var(--shadow);
+            border: 1px solid var(--border);
+            transition: all 0.4s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .adopt-card:hover {
+            transform: translateY(-10px) rotate(-0.5deg);
+            box-shadow: 0 20px 50px var(--shadow);
+        }
+        .adopt-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .adopt-card:hover img { transform: scale(1.05); }
+        .adopt-card-body {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .adopt-card-body h4 { font-size: 1.3rem; margin-bottom: 0.3rem; }
+        .adopt-card-body .species {
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 0.8rem;
+        }
+        .adopt-card-body p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            flex: 1;
+        }
+        .btn-adopt {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        .btn-adopt:hover {
+            background: var(--accent);
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        /* ========== NEWSLETTER ========== */
+        .newsletter-section {
+            background: var(--primary);
+            padding: 4rem 0;
+        }
+        .newsletter-section h3 { color: #fff; }
+        .newsletter-section p { color: rgba(255,255,255,0.7); }
+        .newsletter-input {
+            display: flex;
+            gap: 0.5rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .newsletter-input input {
+            flex: 1;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            border: 2px solid rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        .newsletter-input input::placeholder { color: rgba(255,255,255,0.5); }
+        .newsletter-input input:focus { border-color: var(--accent); }
+
+        /* ========== FOOTER ========== */
+        footer {
+            background: #0a1a04;
+            color: rgba(255,255,255,0.6);
+            padding: 4rem 0 2rem;
+        }
+        footer h5 { color: #fff; margin-bottom: 1.2rem; }
+        footer a {
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        footer a:hover { color: var(--accent); }
+        .footer-social a {
+            width: 42px; height: 42px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.15);
+            margin-right: 0.5rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        .footer-social a:hover {
+            background: var(--accent);
+            color: var(--primary);
+            border-color: var(--accent);
+            transform: translateY(-3px);
+        }
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 2rem;
+            margin-top: 3rem;
+        }
+
+        /* ========== SETTINGS GEAR ========== */
+        .settings-gear {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1rem;
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            cursor: pointer;
+            z-index: 9999;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+        .settings-gear:hover {
+            background: var(--accent);
+            color: var(--primary);
+            transform: rotate(90deg) scale(1.1);
+        }
+        .settings-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 99999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+        }
+        .settings-modal-overlay.show { display: flex; }
+        .settings-modal {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 420px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            border: 1px solid var(--border);
+            animation: modalIn 0.3s ease;
+        }
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.9) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .settings-modal h4 {
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .settings-group {
+            margin-bottom: 1.2rem;
+        }
+        .settings-group label {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            display: block;
+            color: var(--text);
+        }
+        .settings-group input[type="color"] {
+            width: 100%;
+            height: 42px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            padding: 3px;
+            cursor: pointer;
+            background: var(--bg);
+        }
+        .settings-theme-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.8rem 1rem;
+            background: var(--bg-alt);
+            border-radius: 12px;
+            margin-bottom: 1.2rem;
+        }
+        .settings-btn-row {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 1.5rem;
+        }
+        .btn-reset {
+            flex: 1;
+            padding: 0.7rem;
+            border: 2px solid var(--border);
+            background: transparent;
+            color: var(--text);
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-reset:hover {
+            background: var(--bg-alt);
+            border-color: var(--primary);
+        }
+        .btn-save {
+            flex: 1;
+            padding: 0.7rem;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-save:hover { background: var(--primary-light); }
+
+        /* ========== BACK TO TOP ========== */
+        .back-to-top {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 4.5rem;
+            width: 46px;
+            height: 46px;
+            background: var(--secondary);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            cursor: pointer;
+            z-index: 9998;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .back-to-top.visible { opacity: 1; visibility: visible; }
+        .back-to-top:hover {
+            background: var(--accent);
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        /* ========== PARALLAX LEAF ========== */
+        .floating-leaf {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9990;
+            opacity: 0.15;
+            animation: leafFall linear infinite;
+        }
+        @keyframes leafFall {
+            0% { transform: translateY(-10vh) rotate(0deg); }
+            100% { transform: translateY(110vh) rotate(720deg); }
+        }
+
+        /* ========== CUSTOM ANIMATED LINKS ========== */
+        .link-underline-animated {
+            position: relative;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .link-underline-animated::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+        .link-underline-animated:hover::after { width: 100%; }
+        .link-bracket {
+            position: relative;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        .link-bracket::before, .link-bracket::after {
+            content: '';
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        .link-bracket::before {
+            content: '[ ';
+            margin-right: 0;
+        }
+        .link-bracket::after {
+            content: ' ]';
+            margin-left: 0;
+        }
+        .link-bracket:hover::before { margin-right: 4px; opacity: 1; }
+        .link-bracket:hover::after { margin-left: 4px; opacity: 1; }
+        .link-bracket:hover { color: var(--accent); }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.2rem; }
+            .hero-animal-container { height: 120px; }
+            section { padding: 4rem 0; }
+            .settings-gear { width: 44px; height: 44px; font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ========== PRELOADER ========== -->
+    <div id="preloader">
+        <div class="preloader-paw">
+            <svg viewBox="0 0 100 100"><path d="M50 15c-5 0-9 4-9 9s4 9 9 9 9-4 9-9-4-9-9-9zm-20 12c-4 0-7 3-7 7s3 7 7 7 7-3 7-7-3-7-7-7zm40 0c-4 0-7 3-7 7s3 7 7 7 7-3 7-7-3-7-7-7zM18 45c-4 0-7 3-7 7s3 7 7 7 7-3 7-7-3-7-7-7zm64 0c-4 0-7 3-7 7s3 7 7 7 7-3 7-7-3-7-7-7zM50 40c-12 0-22 10-22 22 0 8 4 12 10 16 3 2 6 5 7 9h10c1-4 4-7 7-9 6-4 10-8 10-16 0-12-10-22-22-22z"/></svg>
+        </div>
+        <div class="preloader-text">WildGuard Africa</div>
+    </div>
+
+    <!-- ========== FLOATING LEAVES ========== -->
+    <div id="leaves-container"></div>
+
+    <!-- ========== NAVBAR ========== -->
+    <nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <span class="brand-icon"><i class="fas fa-paw"></i></span>
+                WildGuard
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" style="color:#fff; font-size:1.3rem;">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav ms-auto align-items-center gap-1">
+                    <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#gallery">Projects</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#donate">Donate</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#adopt">Adopt</a></li>
+                    <li class="nav-item ms-2">
+                        <button class="theme-toggle-nav" id="themeToggleNav" title="Toggle Theme">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                    </li>
+                    <li class="nav-item ms-2">
+                        <a class="nav-link nav-cta" href="#donate">
+                            <i class="fas fa-heart me-1"></i> Donate Now
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========== HERO ========== -->
+    <section class="hero" id="home">
+        <div class="hero-overlay"></div>
+        <div class="hero-particles" id="heroParticles"></div>
+
+        <!-- Silhouette tree -->
+        <svg class="hero-silhouette" viewBox="0 0 500 400" fill="#0a1a04">
+            <ellipse cx="400" cy="380" rx="120" ry="20"/>
+            <path d="M380 380 Q385 300 390 280 Q370 260 360 220 Q350 170 380 140 Q400 110 420 130 Q440 100 440 140 Q460 120 450 170 Q470 160 450 200 Q470 220 440 250 Q450 270 430 280 Q420 300 410 380Z"/>
+            <path d="M100 380 Q120 320 130 290 Q110 280 100 240 Q90 200 120 180 Q140 160 150 190 Q160 170 155 210 Q170 200 160 240 Q170 260 150 280 Q160 300 140 310 Q130 340 120 380Z"/>
+            <path d="M250 380 Q260 330 265 300 Q245 280 240 240 Q235 200 255 175 Q270 155 280 180 Q290 165 285 200 Q300 190 290 230 Q300 250 280 270 Q290 290 270 300 Q260 330 255 380Z"/>
+        </svg>
+
+        <div class="container hero-content">
+            <div class="row">
+                <div class="col-lg-7">
+                    <div class="hero-badge">
+                        <i class="fas fa-globe-africa"></i>
+                        Protecting Africa's Wildlife Since 2005
+                    </div>
+                    <h1>Every Paw Print<br>Tells a <span>Story</span></h1>
+                    <p class="hero-desc">
+                        Join us in the fight to protect Africa's most magnificent creatures. 
+                        From the savannas of Kenya to the deltas of Botswana, we're safeguarding 
+                        wildlife for generations to come.
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="#donate" class="btn-wild">
+                            <i class="fas fa-hand-holding-heart"></i> Make a Difference
+                        </a>
+                        <a href="#about" class="btn-outline-wild">
+                            <i class="fas fa-play-circle"></i> Our Story
+                        </a>
+                    </div>
+                    <div class="mt-4" style="animation: fadeInUp 0.8s ease 0.8s both;">
+                        <a href="#adopt" class="squiggle-link">
+                            <i class="fas fa-heart me-1"></i> Adopt an Animal
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Walking Animals -->
+        <div class="hero-animal-container">
+            <!-- Walking Lion SVG -->
+            <div class="walking-lion">
+                <svg width="220" height="160" viewBox="0 0 220 160">
+                    <g fill="#2a1a00" opacity="0.5">
+                        <!-- Body -->
+                        <ellipse cx="100" cy="85" rx="50" ry="30"/>
+                        <!-- Mane -->
+                        <circle cx="60" cy="65" r="30"/>
+                        <!-- Head -->
+                        <circle cx="55" cy="60" r="20"/>
+                        <!-- Ear -->
+                        <circle cx="42" cy="45" r="6"/>
+                        <!-- Eye -->
+                        <circle cx="48" cy="55" r="3" fill="#d4a017"/>
+                        <!-- Nose -->
+                        <circle cx="38" cy="63" r="3"/>
+                        <!-- Tail -->
+                        <path d="M150 80 Q170 60 175 70 Q180 80 170 85" stroke="#2a1a00" stroke-width="3" fill="none"/>
+                        <ellipse cx="170" cy="87" rx="5" ry="4"/>
+                        <!-- Legs (animated) -->
+                        <rect x="70" y="105" width="10" height="35" rx="5">
+                            <animateTransform attributeName="transform" type="rotate" values="-10 75 105;10 75 105;-10 75 105" dur="0.6s" repeatCount="indefinite"/>
+                        </rect>
+                        <rect x="90" y="108" width="10" height="35" rx="5">
+                            <animateTransform attributeName="transform" type="rotate" values="10 95 108;-10 95 108;10 95 108" dur="0.6s" repeatCount="indefinite"/>
+                        </rect>
+                        <rect x="115" y="105" width="10" height="35" rx="5">
+                            <animateTransform attributeName="transform" type="rotate" values="-10 120 105;10 120 105;-10 120 105" dur="0.6s" repeatCount="indefinite"/>
+                        </rect>
+                        <rect x="130" y="108" width="10" height="35" rx="5">
+                            <animateTransform attributeName="transform" type="rotate" values="10 135 108;-10 135 108;10 135 108" dur="0.6s" repeatCount="indefinite"/>
+                        </rect>
+                    </g>
+                </svg>
+            </div>
+            <!-- Walking Elephant SVG -->
+            <div class="walking-elephant">
+                <svg width="280" height="170" viewBox="0 0 280 170">
+                    <g fill="#3a3020" opacity="0.4">
+                        <!-- Body -->
+                        <ellipse cx="130" cy="85" rx="65" ry="40"/>
+                        <!-- Head -->
+                        <circle cx="60" cy="65" r="30"/>
+                        <!-- Ear -->
+                        <ellipse cx="38" cy="55" rx="18" ry="25"/>
+                        <!-- Eye -->
+                        <circle cx="52" cy="58" r="3" fill="#d4a017"/>
+                        <!-- Trunk -->
+                        <path d="M42 72 Q30 85 25 100 Q22 110 28 115" stroke="#3a3020" stroke-width="10" fill="none" stroke-linecap="round">
+                            <animate attributeName="d" values="M42 72 Q30 85 25 100 Q22 110 28 115;M42 72 Q28 88 22 105 Q20 115 25 118;M42 72 Q30 85 25 100 Q22 110 28 115" dur="2s" repeatCount="indefinite"/>
+                        </path>
+                        <!-- Tusks -->
+                        <path d="M45 78 Q38 90 40 95" stroke="#f5f0e1" stroke-width="4" fill="none"/>
+                        <!-- Tail -->
+                        <path d="M195 78 Q210 65 215 80 Q218 90 210 92" stroke="#3a3020" stroke-width="3" fill="none"/>
+                        <!-- Legs -->
+                        <rect x="80" y="110" width="14" height="40" rx="7">
+                            <animateTransform attributeName="transform" type="rotate" values="-8 87 110;8 87 110;-8 87 110" dur="0.8s" repeatCount="indefinite"/>
+                        </rect>
+                        <rect x="105" y="112" width="14" height="40" rx="7">
+                            <animateTransform attributeName="transform" type="rotate" values="8 112 112;-8 112 112;8 112 112" dur="0.8s" repeatCount="indefinite"/>
+                        </rect>
+                        <rect x="145" y="110" width="14" height="40" rx="7">
+                            <animateTransform attributeName="transform" type="rotate" values="-8 152 110;8 152 110;-8 152 110" dur="0.8s" repeatCount="indefinite"/>
+                        </rect>
+                        <rect x="165" y="112" width="14" height="40" rx="7">
+                            <animateTransform attributeName="transform" type="rotate" values="8 172 112;-8 172 112;8 172 112" dur="0.8s" repeatCount="indefinite"/>
+                        </rect>
+                    </g>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Grass -->
+        <svg class="hero-grass" viewBox="0 0 1440 60" preserveAspectRatio="none">
+            <path d="M0,60 L0,40 Q20,10 40,35 Q60,5 80,30 Q100,0 120,35 Q140,15 160,40 Q180,8 200,30 Q220,5 240,35 Q260,12 280,38 Q300,2 320,32 Q340,18 360,40 Q380,6 400,30 Q420,12 440,38 Q460,0 480,35 Q500,15 520,30 Q540,5 560,40 Q580,10 600,32 Q620,2 640,36 Q660,14 680,38 Q700,6 720,30 Q740,18 760,40 Q780,4 800,35 Q820,12 840,28 Q860,6 880,38 Q900,2 920,32 Q940,16 960,40 Q980,8 1000,30 Q1020,4 1040,36 Q1060,14 1080,32 Q1100,6 1120,40 Q1140,10 1160,28 Q1180,2 1200,38 Q1220,16 1240,34 Q1260,4 1280,30 Q1300,12 1320,40 Q1340,6 1360,32 Q1380,14 1400,38 Q1420,8 1440,35 L1440,60 Z" fill="#1a3a0a"/>
+        </svg>
+    </section>
+
+    <!-- ========== IMPACT STATS ========== -->
+    <section class="stats-section" id="stats">
+        <div class="container">
+            <div class="text-center" data-aos="fade-up">
+                <h2 class="section-title">Our Impact</h2>
+                <div class="accent-line"></div>
+                <p class="section-subtitle">Every number represents a life saved, a habitat restored, and a future secured.</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-6 col-lg-3" data-aos="fade-up" data-aos-delay="0">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-elephant"></i></div>
+                        <div class="stat-number" data-target="12500">0</div>
+                        <div class="stat-label">Animals Protected</div>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-tree"></i></div>
+                        <div class="stat-number" data-target="85000">0</div>
+                        <div class="stat-label">Acres Preserved</div>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-users"></i></div>
+                        <div class="stat-number" data-target="340">0</div>
+                        <div class="stat-label">Rangers Employed</div>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-globe-africa"></i></div>
+                        <div class="stat-number" data-target="12">0</div>
+                        <div class="stat-label">Countries Active</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== ABOUT ========== -->
+    <section class="about-section" id="about">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6" data-aos="fade-right">
+                    <div class="about-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?w=800&q=80" alt="Elephants in the wild">
+                        <div class="about-img-badge">
+                            <i class="fas fa-award me-1"></i> 18+ Years of Impact
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 about-text" data-aos="fade-left">
+                    <h2>Why <span style="color:var(--primary);">WildGuard</span> Matters</h2>
+                    <p>Across Africa, majestic species face unprecedented threats from poaching, habitat loss, and climate change. WildGuard Africa stands as a beacon of hope — a unified force of conservationists, scientists, and local communities working together.</p>
+                    <p>Our holistic approach combines boots-on-the-ground protection with cutting-edge technology and community empowerment programs.</p>
+                    <div class="about-feature">
+                        <div class="about-feature-icon"><i class="fas fa-shield-alt"></i></div>
+                        <div>
+                            <strong>Anti-Poaching Patrols</strong>
+                            <p style="margin:0;color:var(--text-muted);font-size:0.9rem;">24/7 ranger units protecting wildlife corridors</p>
+                        </div>
+                    </div>
+                    <div class="about-feature">
+                        <div class="about-feature-icon"><i class="fas fa-satellite-dish"></i></div>
+                        <div>
+                            <strong>GPS Tracking Program</strong>
+                            <p style="margin:0;color:var(--text-muted);font-size:0.9rem;">Real-time monitoring of endangered species</p>
+                        </div>
+                    </div>
+                    <div class="about-feature">
+                        <div class="about-feature-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+                        <div>
+                            <strong>Community Education</strong>
+                            <p style="margin:0;color:var(--text-muted);font-size:0.9rem;">Teaching coexistence between people and wildlife</p>
+                        </div>
+                    </div>
+                    <a href="#gallery" class="btn-wild mt-3">
+                        <i class="fas fa-binoculars"></i> View Our Projects
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== PROJECT GALLERY ========== -->
+    <section class="gallery-section" id="gallery">
+        <div class="container">
+            <div class="text-center" data-aos="fade-up">
+                <h2 class="section-title">Conservation Projects</h2>
+                <div class="accent-line"></div>
+                <p class="section-subtitle">From savanna restoration to marine protection, every project is a step toward a wilder future.</p>
+            </div>
+            <div class="masonry-grid">
+                <div class="gallery-item" data-aos="fade-up" data-aos-delay="0">
+                    <img src="https://images.unsplash.com/photo-1517960413843-0aee8e2b3285?w=600&q=80" alt="Lion conservation">
+                    <div class="gallery-tag"><i class="fas fa-star me-1"></i> Featured</div>
+                    <div class="gallery-overlay">
+                        <h4>Project Simba</h4>
+                        <p>Protecting Kenya's last free-roaming lion populations across the Masai Mara</p>
+                    </div>
+                </div>
+                <div class="gallery-item" data-aos="fade-up" data-aos-delay="50">
+                    <img src="https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?w=600&q=80" alt="Elephant sanctuary">
+                    <div class="gallery-overlay">
+                        <h4>Elephant Corridors</h4>
+                        <p>Creating safe migration pathways for elephants in Tanzania and Botswana</p>
+                    </div>
+                </div>
+                <div class="gallery-item" data-aos="fade-up" data-aos-delay="100">
+                    <img src="https://images.unsplash.com/photo-1590691566903-692bf5ca7493?w=600&q=80" alt="Rhino protection">
+                    <div class="gallery-tag">Urgent</div>
+                    <div class="gallery-overlay">
+                        <h4>Rhino Shield</h4>
+                        <p>Intensive anti-poaching operations for critically endangered black rhinos</p>
+                    </div>
+                </div>
+                <div class="gallery-item" data-aos="fade-up" data-aos-delay="150">
+                    <img src="https://images.unsplash.com/photo-1518709766631-a6a7f45921c3?w=600&q=80" alt="Gorilla conservation">
+                    <div class="gallery-overlay">
+                        <h4>Gorilla Guardians</h4>
+                        <p>Mountain gorilla protection in the Virunga mountains of Rwanda</p>
+                    </div>
+                </div>
+                <div class="gallery-item" data-aos="fade-up" data-aos-delay="200">
+                    <img src="https://images.unsplash.com/photo-1601379329542-31daf1b3b26e?w=600&q=80" alt="Marine conservation">
+                    <div class="gallery-tag">New</div>
+                    <div class="gallery-overlay">
+                        <h4>Ocean Sentinel</h4>
+                        <p>Protecting sea turtles and coral reefs along the East African coast</p>
+                    </div>
+                </div>
+                <div class="gallery-item" data-aos="fade-up" data-aos-delay="250">
+                    <img src="https://images.unsplash.com/photo-1535338454528-1b22a4e3db84?w=600&q=80" alt="Giraffe project">
+                    <div class="gallery-overlay">
+                        <h4>Towering Grace</h4>
+                        <p>Giraffe conservation and habitat restoration in Namibia</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== DONATION ========== -->
+    <section class="donation-section" id="donate">
+        <div class="container">
+            <div class="text-center" data-aos="fade-up">
+                <h2 class="section-title">Fund the Future</h2>
+                <div class="accent-line"></div>
+                <p class="section-subtitle">Your generosity fuels every rescue, every patrol, and every acre of protected wilderness.</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="0">
+                    <div class="donation-card">
+                        <h4><i class="fas fa-hippo" style="color:var(--accent)"></i> Rhino Sanctuary</h4>
+                        <p>Build a secure sanctuary for orphaned rhinos to grow and thrive before rewilding.</p>
+                        <div class="progress-bar-custom">
+                            <div class="progress-fill" data-width="78"></div>
+                        </div>
+                        <div class="donation-amount">
+                            <span class="raised">$78,450</span>
+                            <span>$100,000</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
+                    <div class="donation-card">
+                        <h4><i class="fas fa-water" style="color:var(--accent)"></i> Water Wells</h4>
+                        <p>Provide clean water sources for wildlife during devastating dry seasons.</p>
+                        <div class="progress-bar-custom">
+                            <div class="progress-fill" data-width="53"></div>
+                        </div>
+                        <div class="donation-amount">
+                            <span class="raised">$26,500</span>
+                            <span>$50,000</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
+                    <div class="donation-card">
+                        <h4><i class="fas fa-helicopter" style="color:var(--accent)"></i> Aerial Patrols</h4>
+                        <p>Fund drone and helicopter surveillance to detect poachers in real-time.</p>
+                        <div class="progress-bar-custom">
+                            <div class="progress-fill" data-width="91"></div>
+                        </div>
+                        <div class="donation-amount">
+                            <span class="raised">$182,000</span>
+                            <span>$200,000</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
+                    <div class="donation-card">
+                        <h4><i class="fas fa-seedling" style="color:var(--accent)"></i> Reforestation</h4>
+                        <p>Plant 100,000 indigenous trees to restore degraded wildlife habitats.</p>
+                        <div class="progress-bar-custom">
+                            <div class="progress-fill" data-width="42"></div>
+                        </div>
+                        <div class="donation-amount">
+                            <span class="raised">$21,000</span>
+                            <span>$50,000</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-5" data-aos="fade-up">
+                <a href="#" class="btn-wild btn-lg">
+                    <i class="fas fa-donate"></i> Contribute Today
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== TESTIMONIALS ========== -->
+    <section class="testimonials-section">
+        <div class="container">
+            <div class="text-center" data-aos="fade-up">
+                <h2 class="section-title" style="color:#fff;">Voices of Hope</h2>
+                <div class="accent-line" style="background:var(--accent);"></div>
+                <p class="section-subtitle" style="color:rgba(255,255,255,0.7);">Real stories from rangers, volunteers, and community members.</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="0">
+                    <div class="testimonial-card">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&q=80" alt="Ranger">
+                        <p>"Every morning I wake up knowing my patrol might save a rhino's life. WildGuard gave me the training and tools to make a real difference."</p>
+                        <h5>Jabari Moyo</h5>
+                        <small>Lead Ranger, Kenya</small>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="testimonial-card">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&q=80" alt="Volunteer">
+                        <p>"Volunteering with WildGuard was the most transformative experience. Seeing elephants up close, knowing they're safe — that changes you forever."</p>
+                        <h5>Dr. Sarah Mitchell</h5>
+                        <small>Veterinary Volunteer, UK</small>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="testimonial-card">
+                        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&q=80" alt="Community leader">
+                        <p>"Thanks to WildGuard's education programs, our children now understand why wildlife is our greatest treasure. We are proud to coexist."</p>
+                        <h5>Chief Amara Diallo</h5>
+                        <small>Community Leader, Senegal</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== ADOPT ========== -->
+    <section class="adopt-section" id="adopt">
+        <div class="container">
+            <div class="text-center" data-aos="fade-up">
+                <h2 class="section-title">
+                    <a href="#" class="squiggle-link" style="font-family:'Playfair Display',serif; font-size:1em;">
+                        <i class="fas fa-paw me-2"></i>Adopt an Animal
+                    </a>
+                </h2>
+                <div class="accent-line"></div>
+                <p class="section-subtitle">Symbolically adopt an animal and receive updates, photos, and GPS tracking of your sponsored friend.</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3" data-aos="zoom-in" data-aos-delay="0">
+                    <div class="adopt-card">
+                        <img src="https://images.unsplash.com/photo-1614027164847-1b28cfe1df60?w=500&q=80" alt="Lion">
+                        <div class="adopt-card-body">
+                            <h4>Leo</h4>
+                            <div class="species"><i class="fas fa-crown me-1"></i> African Lion</div>
+                            <p>A dominant male patrolling the Masai Mara. Leo's pride depends on him for survival.</p>
+                            <a href="#" class="btn-adopt"><i class="fas fa-heart me-1"></i> Adopt Leo — $25/mo</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="adopt-card">
+                        <img src="https://images.unsplash.com/photo-1557050543-4d5f4e07ef46?w=500&q=80" alt="Elephant">
+                        <div class="adopt-card-body">
+                            <h4>Nala</h4>
+                            <div class="species"><i class="fas fa-mountain me-1"></i> African Elephant</div>
+                            <p>A gentle matriarch leading her herd through Botswana's Okavango Delta.</p>
+                            <a href="#" class="btn-adopt"><i class="fas fa-heart me-1"></i> Adopt Nala — $30/mo</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="adopt-card">
+                        <img src="https://images.unsplash.com/photo-1590691566903-692bf5ca7493?w=500&q=80" alt="Rhino">
+                        <div class="adopt-card-body">
+                            <h4>Raj</h4>
+                            <div class="species"><i class="fas fa-shield-alt me-1"></i> Black Rhino</div>
+                            <p>A rare black rhino under 24/7 protection. Raj represents hope for his species.</p>
+                            <a href="#" class="btn-adopt"><i class="fas fa-heart me-1"></i> Adopt Raj — $40/mo</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="adopt-card">
+                        <img src="https://images.unsplash.com/photo-1535338454528-1b22a4e3db84?w=500&q=80" alt="Giraffe">
+                        <div class="adopt-card-body">
+                            <h4>Zara</h4>
+                            <div class="species"><i class="fas fa-cloud-sun me-1"></i> Masai Giraffe</div>
+                            <p>A graceful giraffe roaming the Serengeti. Zara's calves bring new hope each year.</p>
+                            <a href="#" class="btn-adopt"><i class="fas fa-heart me-1"></i> Adopt Zara — $20/mo</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== NEWSLETTER ========== -->
+    <section class="newsletter-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-5 text-center text-lg-start mb-3 mb-lg-0" data-aos="fade-right">
+                    <h3><i class="fas fa-envelope-open-text me-2"></i> Stay in the Wild</h3>
+                    <p class="mb-0">Get weekly stories from the field, conservation updates, and ways to help.</p>
+                </div>
+                <div class="col-lg-7" data-aos="fade-left">
+                    <div class="newsletter-input">
+                        <input type="email" placeholder="Enter your email address...">
+                        <button class="btn-wild" style="white-space:nowrap;">Subscribe <i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer>
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <h5><i class="fas fa-paw me-2" style="color:var(--accent)"></i>WildGuard Africa</h5>
+                    <p style="line-height:1.8;">A non-profit dedicated to preserving Africa's wildlife through direct protection, community engagement, and habitat restoration.</p>
+                    <div class="footer-social mt-3">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-2">
+                    <h5>Explore</h5>
+                    <ul class="list-unstyled" style="line-height:2.2;">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#gallery">Projects</a></li>
+                        <li><a href="#donate">Donate</a></li>
+                        <li><a href="#adopt">Adopt</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <h5>Get Involved</h5>
+                    <ul class="list-unstyled" style="line-height:2.2;">
+                        <li><a href="#" class="link-underline-animated">Volunteer</a></li>
+                        <li><a href="#" class="link-underline-animated">Corporate Partners</a></li>
+                        <li><a href="#" class="link-underline-animated">Research Programs</a></li>
+                        <li><a href="#" class="link-underline-animated">Gift Catalog</a></li>
+                        <li><a href="#" class="link-underline-animated">Legacy Giving</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3">
+                    <h5>Contact</h5>
+                    <ul class="list-unstyled" style="line-height:2.2;">
+                        <li><i class="fas fa-map-marker-alt me-2" style="color:var(--accent)"></i> Nairobi, Kenya</li>
+                        <li><i class="fas fa-phone me-2" style="color:var(--accent)"></i> +254 700 123 456</li>
+                        <li><i class="fas fa-envelope me-2" style="color:var(--accent)"></i> info@wildguardafrica.org</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom text-center">
+                <p class="mb-0">&copy; 2024 WildGuard Africa. All rights reserved. Made with <i class="fas fa-heart" style="color:var(--accent)"></i> for wildlife.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========== SETTINGS GEAR ========== -->
+    <button class="settings-gear" id="settingsGear" title="Settings">
+        <i class="fas fa-cog"></i>
+    </button>
+
+    <!-- Settings Modal -->
+    <div class="settings-modal-overlay" id="settingsOverlay">
+        <div class="settings-modal">
+            <h4><i class="fas fa-palette" style="color:var(--accent)"></i> Customize Theme</h4>
+
+            <div class="settings-theme-row">
+                <span style="font-weight:600;"><i class="fas fa-adjust me-2"></i>Dark Mode</span>
+                <div class="form-check form-switch mb-0">
+                    <input class="form-check-input" type="checkbox" id="settingsThemeToggle" style="cursor:pointer;">
+                </div>
+            </div>
+
+            <div class="settings-group">
+                <label><i class="fas fa-circle me-1" style="color:var(--primary)"></i> Primary Color</label>
+                <input type="color" id="colorPrimary" value="#2d5016">
+            </div>
+            <div class="settings-group">
+                <label><i class="fas fa-circle me-1" style="color:var(--secondary)"></i> Secondary Color</label>
+                <input type="color" id="colorSecondary" value="#8B6914">
+            </div>
+            <div class="settings-group">
+                <label><i class="fas fa-circle me-1" style="color:var(--accent)"></i> Accent Color</label>
+                <input type="color" id="colorAccent" value="#d4a017">
+            </div>
+
+            <div class="settings-btn-row">
+                <button class="btn-reset" id="btnReset"><i class="fas fa-undo me-1"></i> Reset to Default</button>
+                <button class="btn-save" id="btnSave"><i class="fas fa-check me-1"></i> Save Settings</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== BACK TO TOP ========== -->
+    <button class="back-to-top" id="backToTop" title="Back to Top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- ========== SCRIPTS ========== -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // ============ INIT AOS ============
+        AOS.init({
+            duration: 800,
+            easing: 'ease-out-cubic',
+            once: true,
+            offset: 80
+        });
+
+        // ============ PRELOADER ============
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('preloader').classList.add('hidden');
+            }, 1500);
+        });
+
+        // ============ HERO PARTICLES ============
+        (function createParticles() {
+            const container = document.getElementById('heroParticles');
+            for (let i = 0; i < 25; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                const size = Math.random() * 8 + 3;
+                p.style.width = size + 'px';
+                p.style.height = size + 'px';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.animationDuration = (Math.random() * 10 + 8) + 's';
+                p.style.animationDelay = (Math.random() * 10) + 's';
+                container.appendChild(p);
+            }
+        })();
+
+        // ============ FLOATING LEAVES ============
+        (function createLeaves() {
+            const container = document.getElementById('leaves-container');
+            const leaves = ['🍃', '🌿', '🍂'];
+            for (let i = 0; i < 5; i++) {
+                const leaf = document.createElement('div');
+                leaf.className = 'floating-leaf';
+                leaf.textContent = leaves[Math.floor(Math.random() * leaves.length)];
+                leaf.style.left = Math.random() * 100 + '%';
+                leaf.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                leaf.style.animationDuration = (Math.random() * 15 + 12) + 's';
+                leaf.style.animationDelay = (Math.random() * 15) + 's';
+                container.appendChild(leaf);
+            }
+        })();
+
+        // ============ NAVBAR SCROLL ============
+        const navbar = document.getElementById('mainNav');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+            // Back to top
+            const btn = document.getElementById('backToTop');
+            btn.classList.toggle('visible', window.scrollY > 400);
+        });
+
+        // ============ BACK TO TOP ============
+        document.getElementById('backToTop').addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // ============ COUNTER ANIMATION ============
+        const counters = document.querySelectorAll('.stat-number');
+        let countersAnimated = false;
+
+        function animateCounters() {
+            if (countersAnimated) return;
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                const duration = 2000;
+                const step = target / (duration / 16);
+                let current = 0;
+                const timer = setInterval(() => {
+                    current += step;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(timer);
+                    }
+                    counter.textContent = Math.floor(current).toLocaleString();
+                }, 16);
+            });
+            countersAnimated = true;
+        }
+
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) animateCounters();
+            });
+        }, { threshold: 0.3 });
+        document.getElementById('stats') && statsObserver.observe(document.getElementById('stats'));
+
+        // ============ PROGRESS BAR ANIMATION ============
+        const progressObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.querySelectorAll('.progress-fill').forEach(bar => {
+                        const width = bar.getAttribute('data-width');
+                        setTimeout(() => { bar.style.width = width + '%'; }, 300);
+                    });
+                }
+            });
+        }, { threshold: 0.2 });
+        document.getElementById('donate') && progressObserver.observe(document.getElementById('donate'));
+
+        // ============ THEME TOGGLE ============
+        const html = document.documentElement;
+        const themeToggleNav = document.getElementById('themeToggleNav');
+        const settingsThemeToggle = document.getElementById('settingsThemeToggle');
+
+        function setTheme(theme) {
+            html.setAttribute('data-theme', theme);
+            const icon = themeToggleNav.querySelector('i');
+            icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            settingsThemeToggle.checked = theme === 'dark';
+            localStorage.setItem('wg-theme', theme);
+        }
+
+        function loadTheme() {
+            const saved = localStorage.getItem('wg-theme');
+            if (saved) setTheme(saved);
+            else if (window.matchMedia('(prefers-color-scheme: dark)').matches) setTheme('dark');
+        }
+        loadTheme();
+
+        themeToggleNav.addEventListener('click', () => {
+            setTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+        });
+        settingsThemeToggle.addEventListener('change', function() {
+            setTheme(this.checked ? 'dark' : 'light');
+        });
+
+        // ============ SETTINGS MODAL ============
+        const settingsGear = document.getElementById('settingsGear');
+        const settingsOverlay = document.getElementById('settingsOverlay');
+
+        settingsGear.addEventListener('click', () => {
+            settingsOverlay.classList.add('show');
+        });
+        settingsOverlay.addEventListener('click', (e) => {
+            if (e.target === settingsOverlay) settingsOverlay.classList.remove('show');
+        });
+
+        // Load saved colors
+        function loadColors() {
+            const saved = localStorage.getItem('wg-colors');
+            if (saved) {
+                const colors = JSON.parse(saved);
+                document.documentElement.style.setProperty('--primary', colors.primary);
+                document.documentElement.style.setProperty('--secondary', colors.secondary);
+                document.documentElement.style.setProperty('--accent', colors.accent);
+                document.getElementById('colorPrimary').value = colors.primary;
+                document.getElementById('colorSecondary').value = colors.secondary;
+                document.getElementById('colorAccent').value = colors.accent;
+                // Update derived colors
+                updateDerivedColors(colors.primary);
+            }
+        }
+
+        function updateDerivedColors(primary) {
+            // Simple light version
+            document.documentElement.style.setProperty('--primary-light', primary);
+            document.documentElement.style.setProperty('--accent-glow', primary + '4D');
+            document.documentElement.style.setProperty('--gradient-hero', `linear-gradient(135deg, ${primary}CC 0%, ${primary} 40%, ${primary}E6 100%)`);
+        }
+
+        loadColors();
+
+        document.getElementById('btnSave').addEventListener('click', () => {
+            const colors = {
+                primary: document.getElementById('colorPrimary').value,
+                secondary: document.getElementById('colorSecondary').value,
+                accent: document.getElementById('colorAccent').value
+            };
+            document.documentElement.style.setProperty('--primary', colors.primary);
+            document.documentElement.style.setProperty('--secondary', colors.secondary);
+            document.documentElement.style.setProperty('--accent', colors.accent);
+            updateDerivedColors(colors.primary);
+            localStorage.setItem('wg-colors', JSON.stringify(colors));
+            settingsOverlay.classList.remove('show');
+
+            // Toast notification
+            showToast('Settings saved successfully! 🎨');
+        });
+
+        document.getElementById('btnReset').addEventListener('click', () => {
+            const defaults = { primary: '#2d5016', secondary: '#8B6914', accent: '#d4a017' };
+            document.documentElement.style.setProperty('--primary', defaults.primary);
+            document.documentElement.style.setProperty('--secondary', defaults.secondary);
+            document.documentElement.style.setProperty('--accent', defaults.accent);
+            document.documentElement.style.setProperty('--primary-light', '#4a7c2e');
+            document.documentElement.style.setProperty('--accent-glow', 'rgba(212, 160, 23, 0.3)');
+            document.documentElement.style.setProperty('--gradient-hero', 'linear-gradient(135deg, #1a3a0a 0%, #2d5016 40%, #4a7c2e 100%)');
+            document.getElementById('colorPrimary').value = defaults.primary;
+            document.getElementById('colorSecondary').value = defaults.secondary;
+            document.getElementById('colorAccent').value = defaults.accent;
+            localStorage.removeItem('wg-colors');
+            showToast('Reset to default theme! 🌿');
+        });
+
+        // ============ TOAST ============
+        function showToast(msg) {
+            const existing = document.querySelector('.custom-toast');
+            if (existing) existing.remove();
+            const toast = document.createElement('div');
+            toast.className = 'custom-toast';
+            toast.textContent = msg;
+            Object.assign(toast.style, {
+                position: 'fixed',
+                bottom: '5rem',
+                right: '1rem',
+                background: 'var(--primary)',
+                color: '#fff',
+                padding: '0.8rem 1.5rem',
+                borderRadius: '12px',
+                fontWeight: '600',
+                fontSize: '0.9rem',
+                zIndex: '999999',
+                boxShadow: '0 8px 25px rgba(0,0,0,0.3)',
+                animation: 'fadeInUp 0.4s ease',
+                maxWidth: '300px'
+            });
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(10px)';
+                toast.style.transition = 'all 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 2500);
+        }
+
+        // ============ SMOOTH SCROLL FOR NAV ============
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    // Close mobile menu
+                    const navCollapse = document.getElementById('navMenu');
+                    const bsCollapse = bootstrap.Collapse.getInstance(navCollapse);
+                    if (bsCollapse) bsCollapse.hide();
+                }
+            });
+        });
+
+        // ============ PARALLAX SUBTLE ON SCROLL ============
+        window.addEventListener('scroll', () => {
+            const scrolled = window.scrollY;
+            const heroSilhouette = document.querySelector('.hero-silhouette');
+            if (heroSilhouette) {
+                heroSilhouette.style.transform = `translateY(${scrolled * 0.15}px)`;
+            }
+        });
+
+        // ============ COLOR PICKER LIVE PREVIEW ============
+        document.getElementById('colorPrimary').addEventListener('input', function() {
+            document.documentElement.style.setProperty('--primary', this.value);
+            updateDerivedColors(this.value);
+        });
+        document.getElementById('colorSecondary').addEventListener('input', function() {
+            document.documentElement.style.setProperty('--secondary', this.value);
+        });
+        document.getElementById('colorAccent').addEventListener('input', function() {
+            document.documentElement.style.setProperty('--accent', this.value);
+        });
+    </script>
+</body>
+</html>
