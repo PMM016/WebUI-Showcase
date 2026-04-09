@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VelvetDream | Elegant Luxury Authentication Experience</title>
+
+    <!-- Google Fonts: Nunito (Headings), Ubuntu (Body), Open Sans (Forms) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&family=Open+Sans:wght@300;400;600&family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap 5 CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Tailwind CSS (v4) -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    <!-- AOS (Animate on Scroll) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+
+    <!-- Swiper JS CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+
+    <style>
+        :root {
+            /* Theme Variables */
+            --primary: #800020; /* Deep Burgundy */
+            --accent: #FFD700; /* Luxurious Gold */
+            --bg-color: #0d0a0b; /* Rich Obsidian/Dark Charcoal */
+            --card-bg: rgba(26, 15, 18, 0.85);
+            --text-main: #f5f0f2;
+            --text-muted: #b8abb0;
+
+            /* Fonts */
+            --font-headings: 'Nunito', sans-serif;
+            --font-body: 'Ubuntu', sans-serif;
+            --font-forms: 'Open Sans', sans-serif;
+        }
+
+        [data-theme="light"] {
+            --bg-color: #faf5f5; /* Elegant Ivory */
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --text-main: #1a0f12;
+            --text-muted: #5e5155;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-headings);
+        }
+
+        input, button, select, textarea {
+            font-family: var(--font-forms);
+        }
+
+        /* Velvet Texture Effect */
+        .velvet-bg {
+            position: relative;
+            background: linear-gradient(135deg, var(--primary) 0%, rgba(60, 0, 15, 0.9) 100%);
+        }
+
+        .velvet-bg::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: radial-gradient(rgba(255, 215, 0, 0.15) 1px, transparent 1px),
+                              radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 24px 24px, 16px 16px;
+            background-position: 0 0, 8px 8px;
+            opacity: 0.6;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Forms Styling */
+        .luxury-input {
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid rgba(255, 215, 0, 0.4);
+            color: var(--text-main);
+            border-radius: 0;
+            padding-left: 2.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .luxury-input:focus {
+            outline: none;
+            box-shadow: none;
+            background: rgba(255, 215, 0, 0.03);
+            border-color: var(--accent);
+        }
+
+        .input-icon {
+            position: absolute;
+            top: 50%;
+            left: 0.75rem;
+            transform: translateY(-50%);
+            color: var(--accent);
+            transition: all 0.3s ease;
+        }
+
+        /* Luxury Floating Labels & Floating Glows */
+        .glow-effect {
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.15);
+        }
+
+        .btn-luxury {
+            background: linear-gradient(45deg, var(--accent), #ccac00);
+            color: #111;
+            font-weight: 700;
+            letter-spacing: 1px;
+            border: none;
+            transition: all 0.4s ease;
+        }
+
+        .btn-luxury:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+        }
+
+        /* Custom Tabs */
+        .auth-tab {
+            position: relative;
+            cursor: pointer;
+            padding-bottom: 0.5rem;
+            font-family: var(--font-headings);
+            font-weight: 600;
+            color: var(--text-muted);
+            transition: color 0.3s ease;
+        }
+
+        .auth-tab.active {
+            color: var(--accent);
+        }
+
+        .auth-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent);
+            box-shadow: 0 0 10px var(--accent);
+        }
+
+        /* Gold Shimmer Animation */
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .gold-shimmer {
+            background: linear-gradient(90deg, var(--accent) 0%, #fff 50%, var(--accent) 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 4s linear infinite;
+        }
+
+        /* Glass / Settings Card styling */
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body class="min-vh-100 d-flex flex-column">
+
+    <!-- Velvet Magic Particles & Patterns Canvas -->
+    <canvas id="particleCanvas" class="position-fixed top-0 start-0 w-100 h-100" style="z-index: 0; pointer-events: none; opacity: 0.3;"></canvas>
+
+    <!-- Navigation / Top Header -->
+    <header class="py-4 px-4 px-md-5 d-flex justify-content-between align-items-center position-relative z-3">
+        <!-- Logo -->
+        <div class="d-flex align-items-center gap-3">
+            <div class="rounded-circle d-flex align-items-center justify-content-center velvet-bg border border-warning" style="width: 50px; height: 50px;">
+                <i class="bi bi-gem fs-4" style="color: var(--accent);"></i>
+            </div>
+            <div>
+                <h3 class="m-0 gold-shimmer fw-bold" style="letter-spacing: 2px;">VELVETDREAM</h3>
+                <small class="text-uppercase" style="font-size: 10px; letter-spacing: 3px; color: var(--accent); opacity: 0.8;">Haute Couture Heritage</small>
+            </div>
+        </div>
+
+        <!-- Controls (Theme & Settings) -->
+        <div class="d-flex align-items-center gap-3">
+            <!-- Theme Toggler -->
+            <button id="themeToggle" class="btn rounded-circle border border-warning d-flex align-items-center justify-content-center" style="width: 45px; height: 45px; background: rgba(255, 215, 0, 0.1); color: var(--accent);" title="Toggle Theme">
+                <i class="bi bi-brightness-high-fill fs-5" id="themeIcon"></i>
+            </button>
+
+            <!-- Settings / Color Picker Toggle -->
+            <button id="settingsToggle" class="btn rounded-circle border border-warning d-flex align-items-center justify-content-center" style="width: 45px; height: 45px; background: rgba(255, 215, 0, 0.1); color: var(--accent);" title="Customize Palette">
+                <i class="bi bi-gear-fill fs-5"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow-1 container-fluid px-4 px-md-5 py-3 position-relative z-1 d-flex align-items-center">
+        <div class="row w-100 align-items-stretch g-5" style="min-height: 80vh;">
+            
+            <!-- LEFT SIDE: Velvet Brand Info & Carousel -->
+            <div class="col-lg-6 d-none d-lg-flex flex-column justify-content-between rounded-5 overflow-hidden velvet-bg p-5 position-relative shadow-lg border border-warning" style="border-width: 1px !important; border-color: rgba(255, 215, 0, 0.3) !important;" data-aos="fade-right" data-aos-duration="1000">
+                <!-- Decorative Top Elements -->
+                <div class="d-flex justify-content-between align-items-start">
+                    <span class="badge px-4 py-2 text-uppercase" style="background: rgba(255,215,0,0.15); color: var(--accent); letter-spacing: 2px;">
+                        Exclusive Access
+                    </span>
+                    <i class="fa-solid fa-crown fs-1" style="color: var(--accent); opacity: 0.5;"></i>
+                </div>
+
+                <!-- Swiper Luxury Inspiration Slider -->
+                <div class="swiper mySwiper w-100 flex-grow-1 d-flex align-items-center my-4">
+                    <div class="swiper-wrapper">
+                        <!-- Slide 1 -->
+                        <div class="swiper-slide d-flex flex-column justify-content-center">
+                            <h1 class="display-4 fw-bolder text-white mb-4" style="line-height: 1.2;">
+                                Uncompromised <br>
+                                <span class="gold-shimmer">Elegance.</span>
+                            </h1>
+                            <p class="fs-5 text-white opacity-75 mb-4" style="max-width: 480px; font-weight: 300;">
+                                Experience a sanctuary of refined prestige. At VelvetDream, we redefine the standard for ultimate luxury and bespoke security.
+                            </p>
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="d-flex">
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                </div>
+                                <span class="text-white-50 fs-6">"Unmatched refinement & beauty"</span>
+                            </div>
+                        </div>
+
+                        <!-- Slide 2 -->
+                        <div class="swiper-slide d-flex flex-column justify-content-center">
+                            <h1 class="display-4 fw-bolder text-white mb-4" style="line-height: 1.2;">
+                                Impeccable <br>
+                                <span class="gold-shimmer">Craftsmanship.</span>
+                            </h1>
+                            <p class="fs-5 text-white opacity-75 mb-4" style="max-width: 480px; font-weight: 300;">
+                                Handcrafted details, secure protocols, and dedicated 24/7 concierge assistance elevate your membership experience.
+                            </p>
+                            <div class="d-flex align-items-center gap-3">
+                                <i class="bi bi-shield-lock-fill fs-3" style="color: var(--accent);"></i>
+                                <span class="text-white-50 fs-6">End-to-end luxury encryption</span>
+                            </div>
+                        </div>
+
+                        <!-- Slide 3 -->
+                        <div class="swiper-slide d-flex flex-column justify-content-center">
+                            <h1 class="display-4 fw-bolder text-white mb-4" style="line-height: 1.2;">
+                                Timeless <br>
+                                <span class="gold-shimmer">Tradition.</span>
+                            </h1>
+                            <p class="fs-5 text-white opacity-75 mb-4" style="max-width: 480px; font-weight: 300;">
+                                Curated for the discerning few. Enter the portal of legacy and let us cater to your highest expectations.
+                            </p>
+                            <div class="d-flex align-items-center gap-3">
+                                <i class="bi bi-clock-history fs-3" style="color: var(--accent);"></i>
+                                <span class="text-white-50 fs-6">Since 1894 • Legacy & Prestige</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Swiper Controls -->
+                    <div class="swiper-pagination position-relative mt-4 text-start"></div>
+                </div>
+
+                <!-- Vanilla Stats / Counter -->
+                <div class="row border-top border-warning border-opacity-25 pt-4">
+                    <div class="col-4">
+                        <h2 class="fw-bold gold-shimmer m-0 d-flex align-items-center">
+                            <span class="purecounter" data-purecounter-start="0" data-purecounter-end="15" data-purecounter-duration="2.5">0</span>
+                            <span>K+</span>
+                        </h2>
+                        <span class="text-white-50" style="font-size: 13px;">Global Members</span>
+                    </div>
+                    <div class="col-4">
+                        <h2 class="fw-bold gold-shimmer m-0 d-flex align-items-center">
+                            <span class="purecounter" data-purecounter-start="0" data-purecounter-end="130" data-purecounter-duration="2.5">0</span>
+                        </h2>
+                        <span class="text-white-50" style="font-size: 13px;">Bespoke Events</span>
+                    </div>
+                    <div class="col-4">
+                        <h2 class="fw-bold gold-shimmer m-0 d-flex align-items-center">
+                            <span class="purecounter" data-purecounter-start="0" data-purecounter-end="99" data-purecounter-duration="2.5">0</span>
+                            <span>%</span>
+                        </h2>
+                        <span class="text-white-50" style="font-size: 13px;">Satisfaction Rate</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT SIDE: Authentication Card -->
+            <div class="col-lg-6 d-flex align-items-center justify-content-center" data-aos="fade-left" data-aos-duration="1000">
+                <div class="glass-card rounded-5 p-4 p-md-5 w-100 position-relative overflow-hidden" style="max-width: 550px;">
+                    <!-- Elegant Header/Switch Tabs -->
+                    <div class="d-flex justify-content-between border-bottom pb-3 mb-4" style="border-color: rgba(255,215,0,0.2) !important;">
+                        <span class="auth-tab active" onclick="switchTab('login')">
+                            <i class="bi bi-box-arrow-in-right me-1"></i> Sign In
+                        </span>
+                        <span class="auth-tab" onclick="switchTab('signup')">
+                            <i class="bi bi-person-plus me-1"></i> Enroll
+                        </span>
+                        <span class="auth-tab" onclick="switchTab('forgot')">
+                            <i class="bi bi-key me-1"></i> Recover
+                        </span>
+                    </div>
+
+                    <!-- 1. LOGIN SECTION -->
+                    <div id="section-login" class="auth-section">
+                        <div class="mb-4">
+                            <h3 class="fw-bold mb-1" style="font-family: var(--font-headings);">Welcome Back</h3>
+                            <p style="color: var(--text-muted); font-size: 14px;">Enter your distinguished credentials to continue.</p>
+                        </div>
+
+                        <form onsubmit="handleFormSubmit(event, 'login')">
+                            <!-- Email Input -->
+                            <div class="position-relative mb-4">
+                                <i class="bi bi-envelope input-icon"></i>
+                                <input type="email" class="form-control luxury-input w-100 py-3" placeholder="Premium ID (Email Address)" required>
+                            </div>
+
+                            <!-- Password Input -->
+                            <div class="position-relative mb-4">
+                                <i class="bi bi-shield-lock input-icon"></i>
+                                <input type="password" id="loginPassword" class="form-control luxury-input w-100 py-3" placeholder="Secret Key (Password)" required>
+                                <span class="position-absolute end-0 top-50 translate-middle-y me-3 cursor-pointer" onclick="togglePassword('loginPassword', this)">
+                                    <i class="bi bi-eye-slash" style="color: var(--accent);"></i>
+                                </span>
+                            </div>
+
+                            <!-- Options: Remember Me & Quick Forgot Link -->
+                            <div class="d-flex justify-content-between align-items-center mb-4" style="font-size: 13px;">
+                                <div class="form-check">
+                                    <input class="form-check-input border-warning" type="checkbox" id="rememberMe">
+                                    <label class="form-check-label text-opacity-75" for="rememberMe" style="color: var(--text-main);">
+                                        Remember My Credentials
+                                    </label>
+                                </div>
+                                <a href="javascript:void(0)" onclick="switchTab('forgot')" style="color: var(--accent); text-decoration: none; font-weight: 600;">
+                                    Forgot Key?
+                                </a>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button type="submit" class="btn btn-luxury w-100 py-3 rounded-pill d-flex align-items-center justify-content-center gap-2 mb-4">
+                                <i class="bi bi-box-arrow-in-right fs-5"></i>
+                                <span>Access Sanctum</span>
+                            </button>
+
+                            <!-- Social / Or -->
+                            <div class="position-relative text-center mb-4">
+                                <hr style="border-color: rgba(255,215,0,0.2);">
+                                <span class="position-absolute top-50 start-50 translate-middle px-3" style="background: var(--bg-color); font-size: 12px; color: var(--accent);">
+                                    OR CONTINUE WITH
+                                </span>
+                            </div>
+
+                            <div class="d-flex gap-3">
+                                <button type="button" class="btn border border-warning w-50 py-2 d-flex align-items-center justify-content-center gap-2" style="color: var(--accent);">
+                                    <i class="bi bi-google"></i> <small>Google</small>
+                                </button>
+                                <button type="button" class="btn border border-warning w-50 py-2 d-flex align-items-center justify-content-center gap-2" style="color: var(--accent);">
+                                    <i class="bi bi-apple"></i> <small>Apple</small>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- 2. SIGNUP SECTION -->
+                    <div id="section-signup" class="auth-section d-none">
+                        <div class="mb-4">
+                            <h3 class="fw-bold mb-1" style="font-family: var(--font-headings);">Membership Enrollment</h3>
+                            <p style="color: var(--text-muted); font-size: 14px;">Apply for exclusive membership to the Velvet Sanctum.</p>
+                        </div>
+
+                        <form onsubmit="handleFormSubmit(event, 'signup')">
+                            <!-- Full Name -->
+                            <div class="position-relative mb-4">
+                                <i class="bi bi-person input-icon"></i>
+                                <input type="text" class="form-control luxury-input w-100 py-3" placeholder="Legal Name / Moniker" required>
+                            </div>
+
+                            <!-- Email Input -->
+                            <div class="position-relative mb-4">
+                                <i class="bi bi-envelope input-icon"></i>
+                                <input type="email" class="form-control luxury-input w-100 py-3" placeholder="Premium ID (Email Address)" required>
+                            </div>
+
+                            <!-- Password Input with Strength Meter -->
+                            <div class="position-relative mb-3">
+                                <i class="bi bi-shield-lock input-icon"></i>
+                                <input type="password" id="signupPassword" class="form-control luxury-input w-100 py-3" placeholder="Passphrase (8+ Characters)" required oninput="checkPasswordStrength(this.value)">
+                                <span class="position-absolute end-0 top-50 translate-middle-y me-3 cursor-pointer" onclick="togglePassword('signupPassword', this)">
+                                    <i class="bi bi-eye-slash" style="color: var(--accent);"></i>
+                                </span>
+                            </div>
+
+                            <!-- Strength Meter UI -->
+                            <div class="d-flex align-items-center gap-2 mb-4">
+                                <div class="progress flex-grow-1" style="height: 4px; background: rgba(255,215,0,0.1);">
+                                    <div id="strengthMeter" class="progress-bar bg-warning" role="progressbar" style="width: 0%;"></div>
+                                </div>
+                                <small id="strengthText" style="color: var(--accent); font-size: 11px;">Weak</small>
+                            </div>
+
+                            <!-- Agree Checkbox -->
+                            <div class="form-check mb-4" style="font-size: 13px;">
+                                <input class="form-check-input border-warning" type="checkbox" id="termsCheck" required>
+                                <label class="form-check-label text-opacity-75" for="termsCheck" style="color: var(--text-main);">
+                                    I pledge to abide by the <span style="color: var(--accent); text-decoration: underline;">Heritage Concordat</span> & Privacy Policy.
+                                </label>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button type="submit" class="btn btn-luxury w-100 py-3 rounded-pill d-flex align-items-center justify-content-center gap-2">
+                                <i class="bi bi-send-check fs-5"></i>
+                                <span>Submit Enrollment</span>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- 3. FORGOT PASSWORD SECTION -->
+                    <div id="section-forgot" class="auth-section d-none">
+                        <div class="mb-4">
+                            <h3 class="fw-bold mb-1" style="font-family: var(--font-headings);">Recover Sanctum Keys</h3>
+                            <p style="color: var(--text-muted); font-size: 14px;">In the event of forgotten credentials, present your ID to receive a recovery talisman.</p>
+                        </div>
+
+                        <form onsubmit="handleFormSubmit(event, 'forgot')">
+                            <!-- Email Input -->
+                            <div class="position-relative mb-4">
+                                <i class="bi bi-envelope input-icon"></i>
+                                <input type="email" class="form-control luxury-input w-100 py-3" placeholder="Premium ID (Email Address)" required>
+                            </div>
+
+                            <!-- Back to Login Link -->
+                            <div class="mb-4 text-end">
+                                <a href="javascript:void(0)" onclick="switchTab('login')" style="color: var(--accent); text-decoration: none; font-size: 13px; font-weight: 600;">
+                                    <i class="bi bi-arrow-left me-1"></i> Return to Gateway
+                                </a>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button type="submit" class="btn btn-luxury w-100 py-3 rounded-pill d-flex align-items-center justify-content-center gap-2">
+                                <i class="bi bi-arrow-clockwise fs-5"></i>
+                                <span>Send Recovery Talisman</span>
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-3 px-4 px-md-5 d-flex justify-content-between align-items-center border-top border-warning border-opacity-10" style="font-size: 12px; color: var(--text-muted);">
+        <div>&copy; <span id="currentYear"></span> VelvetDream. All Rights Reserved.</div>
+        <div class="d-flex gap-3">
+            <a href="#" style="color: inherit; text-decoration: none;">Privacy & Concierge</a>
+            <span>•</span>
+            <a href="#" style="color: inherit; text-decoration: none;">Bespoke Terms</a>
+        </div>
+    </footer>
+
+
+    <!-- MODAL: Color Palette & Settings Manipulator -->
+    <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content glass-card border border-warning" style="background: var(--bg-color); color: var(--text-main);">
+                <div class="modal-header border-bottom border-warning border-opacity-25">
+                    <h5 class="modal-title d-flex align-items-center gap-2" id="settingsModalLabel">
+                        <i class="bi bi-sliders text-warning"></i>
+                        <span>VelvetDream Main Color(s) Manipulator</span>
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1) grayscale(100%) brightness(200%);"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <p class="text-opacity-75 mb-4" style="font-size: 14px;">Tailor the ambiance of your experience by adjusting the base velvet and gold metallic accent tones.</p>
+
+                    <!-- Color Picker: Primary (Burgundy) -->
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <span class="fw-bold d-block">Velvet Base (Primary)</span>
+                            <small style="color: var(--text-muted);">Main atmospheric color</small>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <input type="color" id="primaryColorInput" class="form-control form-control-color bg-dark border-warning p-1" value="#800020" style="width: 50px; height: 50px; cursor: pointer;">
+                            <span id="primaryHex" class="badge border border-warning" style="font-family: monospace;">#800020</span>
+                        </div>
+                    </div>
+
+                    <!-- Color Picker: Accent (Gold) -->
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <span class="fw-bold d-block">Luxe Embellishment (Accent)</span>
+                            <small style="color: var(--text-muted);">Metallic highlights & buttons</small>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <input type="color" id="accentColorInput" class="form-control form-control-color bg-dark border-warning p-1" value="#FFD700" style="width: 50px; height: 50px; cursor: pointer;">
+                            <span id="accentHex" class="badge border border-warning" style="font-family: monospace;">#FFD700</span>
+                        </div>
+                    </div>
+
+                    <!-- Live Mini Preview -->
+                    <div class="p-3 rounded-4 mb-4" style="background: linear-gradient(135deg, var(--primary), #111); border: 2px solid var(--accent);">
+                        <h6 class="m-0 fw-bold" style="color: var(--accent);">VelvetDream Preview</h6>
+                        <small class="text-white opacity-75">Your curated visual presentation is instantaneously applied to the sanctuary.</small>
+                    </div>
+
+                </div>
+                <div class="modal-footer border-top border-warning border-opacity-25">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-luxury" onclick="resetDefaultColors()">
+                        <i class="bi bi-arrow-counterclockwise"></i> Reset to Default
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- AOS JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <!-- PureCounter JS (Vanilla Counter CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/@srexi/purecounterjs/dist/purecounter_vanilla.js"></script>
+
+    <!-- Custom Functionality -->
+    <script>
+        // 1. Set current year in Footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // 2. Initialize AOS (Animate on Scroll)
+        AOS.init({
+            once: true,
+            easing: 'ease-out-quart',
+        });
+
+        // 3. Initialize PureCounter
+        new PureCounter();
+
+        // 4. Initialize Swiper Slider
+        const swiper = new Swiper('.mySwiper', {
+            loop: true,
+            autoplay: {
+                delay: 4500,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            effect: 'fade',
+        });
+
+        // 5. Switching Tabs for Authentication Sections
+        function switchTab(section) {
+            // Hide all sections
+            document.querySelectorAll('.auth-section').forEach(el => el.classList.add('d-none'));
+            // Remove active classes
+            document.querySelectorAll('.auth-tab').forEach(el => el.classList.remove('active'));
+
+            // Show selected section
+            const targetSection = document.getElementById(`section-${section}`);
+            targetSection.classList.remove('d-none');
+            
+            // Add active class to corresponding tab
+            const tabs = {
+                'login': document.querySelectorAll('.auth-tab')[0],
+                'signup': document.querySelectorAll('.auth-tab')[1],
+                'forgot': document.querySelectorAll('.auth-tab')[2],
+            };
+            tabs[section].classList.add('active');
+        }
+
+        // 6. Eye / Password Visibility Toggle
+        function togglePassword(inputId, iconElement) {
+            const input = document.getElementById(inputId);
+            const icon = iconElement.querySelector('i');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'bi bi-eye';
+            } else {
+                input.type = 'password';
+                icon.className = 'bi bi-eye-slash';
+            }
+        }
+
+        // 7. Theme Toggler (Sun/Moon)
+        const themeToggleBtn = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+
+        themeToggleBtn.addEventListener('click', () => {
+            const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+            if (isLight) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                themeIcon.className = 'bi bi-brightness-high-fill fs-5';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                themeIcon.className = 'bi bi-moon-stars-fill fs-5';
+            }
+        });
+
+        // 8. Password Strength Meter
+        function checkPasswordStrength(val) {
+            const meter = document.getElementById('strengthMeter');
+            const txt = document.getElementById('strengthText');
+            let score = 0;
+
+            if (val.length > 5) score += 25;
+            if (val.length > 8) score += 25;
+            if (/[A-Z]/.test(val)) score += 25;
+            if (/[0-9!@#\$%\^\&*\)\(+=._-]/.test(val)) score += 25;
+
+            meter.style.width = score + '%';
+
+            if (score <= 25) {
+                meter.className = 'progress-bar bg-danger';
+                txt.textContent = 'Weak';
+                txt.style.color = '#dc3545';
+            } else if (score <= 50) {
+                meter.className = 'progress-bar bg-warning';
+                txt.textContent = 'Moderate';
+                txt.style.color = '#ffc107';
+            } else if (score <= 75) {
+                meter.className = 'progress-bar bg-info';
+                txt.textContent = 'Strong';
+                txt.style.color = '#0dcaf0';
+            } else {
+                meter.className = 'progress-bar bg-success';
+                txt.textContent = 'Impenetrable';
+                txt.style.color = '#198754';
+            }
+        }
+
+        // 9. Toast / Form Submission Handling
+        function handleFormSubmit(event, type) {
+            event.preventDefault();
+            let message = '';
+            if (type === 'login') message = '🔑 Welcome back to the Velvet Sanctum!';
+            if (type === 'signup') message = '✨ Enrollment accepted! Preparing your exclusive portal...';
+            if (type === 'forgot') message = '✉️ Recovery Talisman sent securely to your electronic mail.';
+
+            alert(message);
+        }
+
+        // 10. Settings Popup & Main Colors Manipulator
+        const settingsToggleBtn = document.getElementById('settingsToggle');
+        const settingsModal = new bootstrap.Modal(document.getElementById('settingsModal'));
+
+        settingsToggleBtn.addEventListener('click', () => {
+            settingsModal.show();
+        });
+
+        const primaryInput = document.getElementById('primaryColorInput');
+        const accentInput = document.getElementById('accentColorInput');
+        const primaryHex = document.getElementById('primaryHex');
+        const accentHex = document.getElementById('accentHex');
+
+        // Apply primary color changes
+        primaryInput.addEventListener('input', (e) => {
+            const color = e.target.value;
+            document.documentElement.style.setProperty('--primary', color);
+            primaryHex.textContent = color;
+        });
+
+        // Apply accent color changes
+        accentInput.addEventListener('input', (e) => {
+            const color = e.target.value;
+            document.documentElement.style.setProperty('--accent', color);
+            accentHex.textContent = color;
+        });
+
+        // Reset Colors Function
+        function resetDefaultColors() {
+            const defaultPrimary = '#800020';
+            const defaultAccent = '#FFD700';
+
+            document.documentElement.style.setProperty('--primary', defaultPrimary);
+            document.documentElement.style.setProperty('--accent', defaultAccent);
+
+            primaryInput.value = defaultPrimary;
+            accentInput.value = defaultAccent;
+            primaryHex.textContent = defaultPrimary;
+            accentHex.textContent = defaultAccent;
+
+            alert('🎨 Colors reverted to default Velvet & Gold scheme.');
+        }
+
+        // 11. Subtle Velvet Glitter/Particles Background Effect
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        let particles = [];
+
+        for (let i = 0; i < 40; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 2 + 1,
+                speedX: (Math.random() - 0.5) * 0.4,
+                speedY: (Math.random() - 0.5) * 0.4,
+                alpha: Math.random() * 0.5 + 0.2
+            });
+        }
+
+        function drawParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 215, 0, ${p.alpha})`;
+                ctx.fill();
+
+                p.x += p.speedX;
+                p.y += p.speedY;
+
+                if (p.x < 0) p.x = canvas.width;
+                if (p.x > canvas.width) p.x = 0;
+                if (p.y < 0) p.y = canvas.height;
+                if (p.y > canvas.height) p.y = 0;
+            });
+            requestAnimationFrame(drawParticles);
+        }
+
+        drawParticles();
+
+    </script>
+</body>
+</html>
