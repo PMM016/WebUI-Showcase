@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexlify Finance</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600&amp;family=Ubuntu:wght@400;500&amp;family=Open+Sans:wght@400;500&amp;display=swap');
+        
+        :root {
+            --accent: 165 243 252;
+        }
+        
+        .dark {
+            color-scheme: dark;
+        }
+        
+        .hero-bg {
+            background: radial-gradient(at center bottom, rgb(15 23 42), rgb(2 6 23));
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: rgb(165 243 252);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+        }
+        
+        .squiggle {
+            position: relative;
+        }
+        
+        .squiggle:after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 20' fill='none' stroke='%2314b8a6' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M0 10 Q10 2 20 10 Q30 18 40 10 Q50 2 60 10 Q70 18 80 10 Q90 2 100 10 Q110 18 120 10'/%3E%3C/svg%3E") repeat-x;
+            background-size: 40px 8px;
+            opacity: 0.4;
+            animation: squiggle-anim 1.5s linear infinite;
+        }
+        
+        @keyframes squiggle-anim {
+            0% { background-position: 0 0; }
+            100% { background-position: -40px 0; }
+        }
+        
+        .chart-line {
+            stroke-dasharray: 800;
+            stroke-dashoffset: 800;
+            animation: draw 3s ease forwards;
+        }
+        
+        @keyframes draw {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+        
+        .money-path {
+            stroke-dasharray: 20;
+            stroke-dashoffset: 20;
+            animation: moneyflow 2s linear infinite;
+        }
+        
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-12px) scale(1.03);
+            box-shadow: 0 25px 50px -12px rgb(0 0 0);
+        }
+        
+        .testimonial-slide {
+            transition: all 0.5s cubic-bezier(0.32, 0.72, 0, 1);
+        }
+        
+        .stat-number {
+            font-variant-numeric: tabular-nums;
+        }
+    </style>
+</head>
+<body class="bg-zinc-950 text-zinc-200 dark">
+    <div class="max-w-screen-xl mx-auto">
+        <!-- NAVBAR -->
+        <nav class="fixed top-0 left-0 right-0 z-50 border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-lg">
+            <div class="max-w-screen-2xl mx-auto px-8 py-5 flex items-center justify-between">
+                <!-- logo -->
+                <div class="flex items-center gap-x-3">
+                    <div class="w-9 h-9 bg-cyan-400 flex items-center justify-center rounded-2xl shadow-inner">
+                        <span class="text-zinc-950 font-bold text-3xl leading-none mt-0.5">N</span>
+                    </div>
+                    <div>
+                        <span class="font-semibold tracking-tighter text-4xl text-white" style="font-family: 'Nunito', sans-serif;">nexlify</span>
+                    </div>
+                </div>
+
+                <!-- menu -->
+                <div class="hidden md:flex items-center gap-x-8 text-sm font-medium">
+                    <a href="#" onclick="scrollToSection('features')" class="nav-link text-zinc-400 hover:text-white">Features</a>
+                    <a href="#" onclick="scrollToSection('testimonials')" class="nav-link text-zinc-400 hover:text-white">Stories</a>
+                    <a href="#" onclick="scrollToSection('pricing')" class="nav-link text-zinc-400 hover:text-white">Pricing</a>
+                    <a href="#" class="nav-link text-zinc-400 hover:text-white">Resources</a>
+                </div>
+
+                <div class="flex items-center gap-x-6">
+                    <button onclick="toggleTheme()" 
+                            class="w-9 h-9 flex items-center justify-center text-zinc-400 hover:text-white transition-colors">
+                        <i id="theme-icon" class="fa-solid fa-moon text-lg"></i>
+                    </button>
+                    
+                    <button onclick="toggleSettings()" 
+                            class="w-9 h-9 flex items-center justify-center text-zinc-400 hover:text-white transition-colors relative">
+                        <i class="fa-solid fa-gear text-lg"></i>
+                    </button>
+                    
+                    <button onclick="showLoginModal()"
+                            class="px-6 py-2.5 text-sm font-semibold rounded-3xl border border-white/30 hover:border-white/70 transition-colors">
+                        Log in
+                    </button>
+                    
+                    <button onclick="showDemoModal()"
+                            class="px-8 py-2.5 bg-white text-zinc-900 rounded-3xl font-semibold flex items-center gap-x-2 hover:scale-105 active:scale-95 transition-all">
+                        <span>Get started</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- HERO -->
+        <header class="hero-bg pt-24 min-h-screen flex items-center relative overflow-hidden">
+            <div class="max-w-screen-2xl mx-auto px-8 grid grid-cols-12 gap-8 items-center">
+                <!-- left content -->
+                <div class="col-span-12 lg:col-span-6 pt-12">
+                    <div class="inline-flex items-center gap-x-2 bg-white/5 text-white text-xs tracking-[0.5px] font-medium px-5 h-7 rounded-3xl border border-white/10 mb-6">
+                        <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                        NOW IN PUBLIC BETA
+                    </div>
+                    
+                    <h1 class="text-7xl md:text-8xl font-semibold tracking-tighter leading-none text-white mb-3" style="font-family: 'Nunito', sans-serif;">
+                        YOUR MONEY.<br>REIMAGINED.
+                    </h1>
+                    
+                    <p class="max-w-md text-xl text-zinc-400 mb-10" style="font-family: 'Open Sans', sans-serif;">
+                        Intelligent investing, instant payments, and AI-powered financial clarity. 
+                        Built for the next generation of wealth builders.
+                    </p>
+                    
+                    <div class="flex items-center gap-x-4">
+                        <button onclick="showDemoModal()" 
+                                class="px-10 py-6 bg-white text-zinc-900 rounded-3xl font-semibold text-xl flex items-center gap-x-3 group relative overflow-hidden">
+                            <span class="relative z-10 flex items-center gap-x-3">
+                                Start free trial
+                                <span class="block w-3 h-3 bg-emerald-400 rounded-full group-active:animate-ping"></span>
+                            </span>
+                            <div class="squiggle absolute bottom-3 left-8 right-8"></div>
+                        </button>
+                        
+                        <button onclick="watchDemo()" 
+                                class="px-7 py-6 border border-white/30 hover:border-white/60 rounded-3xl text-white font-medium flex items-center gap-x-2 transition-all">
+                            <i class="fa-solid fa-play text-xs"></i>
+                            <span>Watch 1:42</span>
+                        </button>
+                    </div>
+                    
+                    <div class="mt-16 flex items-center gap-x-8 text-xs">
+                        <div class="flex -space-x-4">
+                            <div class="w-6 h-6 bg-zinc-700 border-2 border-zinc-900 rounded-2xl flex items-center justify-center text-[10px]">👩‍💼</div>
+                            <div class="w-6 h-6 bg-zinc-700 border-2 border-zinc-900 rounded-2xl flex items-center justify-center text-[10px]">🧔</div>
+                            <div class="w-6 h-6 bg-zinc-700 border-2 border-zinc-900 rounded-2xl flex items-center justify-center text-[10px]">👨🏻‍💻</div>
+                        </div>
+                        <div class="text-zinc-500 text-sm leading-tight">
+                            Trusted by<br>
+                            <span class="text-emerald-300 font-medium">142,394 investors</span>
+                        </div>
+                    </div>
+                    
+                    <!-- HERO STATS -->
+                    <div class="mt-20 grid grid-cols-3 gap-8">
+                        <div>
+                            <div id="stat-1" class="stat-number text-5xl font-semibold text-white tabular-nums">248</div>
+                            <div class="text-xs uppercase tracking-widest text-zinc-500 mt-1">Billion AUM</div>
+                        </div>
+                        <div>
+                            <div id="stat-2" class="stat-number text-5xl font-semibold text-white tabular-nums">4.8</div>
+                            <div class="text-xs uppercase tracking-widest text-zinc-500 mt-1">Avg. return</div>
+                        </div>
+                        <div>
+                            <div id="stat-3" class="stat-number text-5xl font-semibold text-white tabular-nums">92</div>
+                            <div class="text-xs uppercase tracking-widest text-zinc-500 mt-1">% retention</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- RIGHT VISUAL -->
+                <div class="col-span-12 lg:col-span-6 relative">
+                    <div class="relative bg-zinc-900 border border-zinc-700 rounded-3xl shadow-2xl p-3 mx-auto max-w-[520px]">
+                        <!-- dashboard mock -->
+                        <div class="bg-zinc-950 rounded-3xl p-6">
+                            <!-- header -->
+                            <div class="flex justify-between items-center mb-8">
+                                <div class="flex items-center gap-x-2">
+                                    <div class="px-3 py-1 bg-teal-400/10 text-teal-400 text-xs font-medium rounded-3xl flex items-center gap-x-1">
+                                        <i class="fa-solid fa-chart-line"></i>
+                                        <span>Portfolio</span>
+                                    </div>
+                                </div>
+                                <div onclick="switchChart()" class="flex bg-zinc-900 rounded-3xl text-xs cursor-pointer">
+                                    <div id="chart-tab-1" onclick="event.stopImmediatePropagation()" class="tab px-5 py-2 rounded-3xl bg-white text-zinc-900">1M</div>
+                                    <div id="chart-tab-2" onclick="event.stopImmediatePropagation()" class="tab px-5 py-2 text-zinc-400">3M</div>
+                                    <div id="chart-tab-3" onclick="event.stopImmediatePropagation()" class="tab px-5 py-2 text-zinc-400">ALL</div>
+                                </div>
+                            </div>
+                            
+                            <!-- animated chart -->
+                            <div class="relative h-64 mb-6">
+                                <svg id="hero-chart" width="100%" height="100%" viewBox="0 0 600 260" fill="none" xmlns="http://www.w3.org/2000/svg" class="overflow-visible">
+                                    <!-- gradient -->
+                                    <defs>
+                                        <linearGradient id="chartGradient" x1="0%" y1="100%" x2="0%" y2="0%">
+                                            <stop offset="0%" stop-color="#67e8f9" stop-opacity="0.15"/>
+                                            <stop offset="100%" stop-color="#67e8f9" stop-opacity="0"/>
+                                        </linearGradient>
+                                        <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                            <stop offset="0%" stop-color="#67e8f9"/>
+                                            <stop offset="100%" stop-color="#22d3ee"/>
+                                        </linearGradient>
+                                    </defs>
+                                    
+                                    <!-- area -->
+                                    <path id="chart-area" d="M0 260 Q150 210 280 190 Q420 150 520 170 L600 260 Z" fill="url(#chartGradient)" opacity="0.6"/>
+                                    
+                                    <!-- line -->
+                                    <path id="chart-path" 
+                                          d="M10 220 Q80 195 150 205 Q220 165 310 175 Q400 130 490 145 Q560 95 590 110" 
+                                          stroke="url(#lineGradient)" 
+                                          stroke-width="5" 
+                                          stroke-linecap="round"
+                                          fill="none"
+                                          class="chart-line"/>
+                                    
+                                    <!-- dots -->
+                                    <circle cx="150" cy="205" r="7" fill="#67e8f9"/>
+                                    <circle cx="310" cy="175" r="7" fill="#67e8f9"/>
+                                    <circle cx="490" cy="145" r="7" fill="#67e8f9"/>
+                                    <circle cx="590" cy="110" r="7" fill="#22d3ee"/>
+                                </svg>
+                                
+                                <!-- floating labels -->
+                                <div class="absolute top-6 left-12 bg-zinc-900 border border-zinc-700 text-xs px-4 py-2.5 rounded-2xl shadow-xl">
+                                    <div class="flex items-center gap-x-2">
+                                        <div class="text-emerald-400">
+                                            <i class="fa-solid fa-caret-up"></i>
+                                        </div>
+                                        <div>
+                                            <div class="font-mono text-emerald-300 text-sm">+$4,291</div>
+                                            <div class="text-[10px] text-zinc-500 -mt-1">today</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- money flow svg overlay -->
+                                <div class="absolute bottom-6 right-8 bg-zinc-900/70 backdrop-blur-md border border-cyan-300/30 p-4 rounded-3xl">
+                                    <svg width="160" height="70" viewBox="0 0 160 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <!-- from account -->
+                                        <rect x="10" y="10" width="35" height="35" rx="6" fill="#27272a" stroke="#67e8f9" stroke-width="2"/>
+                                        <text x="27" y="32" font-size="13" fill="#a1a1aa" text-anchor="middle">💰</text>
+                                        
+                                        <!-- arrow path -->
+                                        <path id="flow-path-1" d="M55 28 Q80 28 95 28" fill="none" stroke="#67e8f9" stroke-width="3" stroke-dasharray="8 8"/>
+                                        <polygon points="95,23 110,28 95,33" fill="#67e8f9"/>
+                                        
+                                        <!-- to investment -->
+                                        <rect x="115" y="10" width="35" height="35" rx="6" fill="#27272a" stroke="#22d3ee" stroke-width="2"/>
+                                        <text x="132" y="32" font-size="13" fill="#a1a1aa" text-anchor="middle">📈</text>
+                                    </svg>
+                                </div>
+                            </div>
+                            
+                            <!-- bottom portfolio summary -->
+                            <div class="grid grid-cols-3 gap-4 text-center">
+                                <div class="bg-zinc-900 rounded-2xl p-4">
+                                    <div class="text-xs text-zinc-400">Stocks</div>
+                                    <div class="text-3xl font-semibold text-white mt-1">$184k</div>
+                                    <div class="flex justify-center gap-x-1 text-emerald-400 text-xs mt-3">
+                                        <span>+18.4%</span>
+                                    </div>
+                                </div>
+                                <div class="bg-zinc-900 rounded-2xl p-4">
+                                    <div class="text-xs text-zinc-400">Crypto</div>
+                                    <div class="text-3xl font-semibold text-amber-300 mt-1">$41k</div>
+                                    <div class="flex justify-center gap-x-1 text-amber-400 text-xs mt-3">
+                                        <span>-3.1%</span>
+                                    </div>
+                                </div>
+                                <div class="bg-zinc-900 rounded-2xl p-4">
+                                    <div class="text-xs text-zinc-400">Bonds</div>
+                                    <div class="text-3xl font-semibold text-sky-300 mt-1">$62k</div>
+                                    <div class="flex justify-center gap-x-1 text-sky-400 text-xs mt-3">
+                                        <span>+2.9%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- floating badge thing -->
+                    <div class="absolute -left-6 top-40 bg-zinc-900 border border-white/10 rounded-3xl px-5 py-4 shadow-2xl flex items-center gap-x-4">
+                        <div class="text-4xl">🚀</div>
+                        <div>
+                            <div class="font-semibold">Portfolio up</div>
+                            <div class="text-emerald-400 text-sm font-medium">+29% this quarter</div>
+                        </div>
+                    </div>
+                    
+                    <!-- another badge -->
+                    <div class="absolute -right-8 bottom-28 rotate-12 bg-white text-zinc-900 text-xs font-semibold px-6 py-3 rounded-3xl shadow-2xl flex items-center gap-x-2">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <span>SECURE • FDIC</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- bottom scroll prompt -->
+            <div class="absolute bottom-12 left-1/2 flex flex-col items-center gap-y-1 text-zinc-500 text-xs">
+                <div class="w-px h-12 bg-gradient-to-b from-transparent via-zinc-400 to-transparent"></div>
+                <span class="tracking-[1px]">SCROLL FOR MORE</span>
+            </div>
+            
+            <!-- animated particles -->
+            <div id="particles" class="absolute inset-0 pointer-events-none"></div>
+        </header>
+        
+        <!-- TRUST BAR -->
+        <div class="border-b border-zinc-800 py-8">
+            <div class="max-w-screen-2xl mx-auto px-8">
+                <div class="flex flex-wrap justify-center items-center gap-x-12 gap-y-6 opacity-40">
+                    <div class="flex items-center gap-x-2 text-xl font-light">
+                        <span class="text-white">VISA</span>
+                    </div>
+                    <div class="text-3xl font-bold text-white/70">stripe</div>
+                    <div class="font-semibold text-xl">plaid</div>
+                    <div class="font-mono text-lg">coinbase</div>
+                    <div class="text-emerald-400 text-2xl">• • •</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- FEATURES -->
+        <section id="features" class="max-w-screen-2xl mx-auto px-8 py-28">
+            <div class="flex flex-col items-center text-center mb-16">
+                <div class="inline px-5 py-2 bg-white/5 text-cyan-300 text-sm font-medium rounded-3xl mb-6">POWERFUL TOOLS</div>
+                <h2 class="text-6xl font-semibold tracking-tighter text-white" style="font-family: 'Nunito', sans-serif;">Finance that works<br>for you</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- card 1 -->
+                <div onclick="this.classList.toggle('ring-2');this.classList.toggle('ring-cyan-400')" 
+                     class="card-hover bg-zinc-900 border border-zinc-800 rounded-3xl p-8 group cursor-pointer">
+                    <div class="h-12 w-12 bg-gradient-to-br from-cyan-400 to-teal-400 flex items-center justify-center rounded-2xl mb-8 text-3xl transition-all group-active:rotate-12">📈</div>
+                    <div class="text-2xl font-semibold mb-3 text-white" style="font-family: 'Ubuntu', sans-serif;">Smart Portfolios</div>
+                    <div class="text-zinc-400 leading-relaxed">
+                        AI rebalances your assets automatically based on risk profile, goals and market conditions.
+                    </div>
+                    <div class="text-xs mt-12 text-cyan-300 flex items-center gap-x-2">
+                        <span class="uppercase tracking-widest">Learn more</span> 
+                        <i class="fa-solid fa-arrow-right text-xs transition-transform group-hover:translate-x-1"></i>
+                    </div>
+                </div>
+                
+                <!-- card 2 -->
+                <div onclick="this.classList.toggle('ring-2');this.classList.toggle('ring-cyan-400')" 
+                     class="card-hover bg-zinc-900 border border-zinc-800 rounded-3xl p-8 group cursor-pointer">
+                    <div class="h-12 w-12 bg-gradient-to-br from-violet-400 to-purple-400 flex items-center justify-center rounded-2xl mb-8 text-3xl transition-all group-active:rotate-12">⚡</div>
+                    <div class="text-2xl font-semibold mb-3 text-white" style="font-family: 'Ubuntu', sans-serif;">Instant Transfers</div>
+                    <div class="text-zinc-400 leading-relaxed">
+                        Send money globally in seconds with zero fees. Real-time settlement using our blockchain rails.
+                    </div>
+                    <div class="text-xs mt-12 text-violet-300 flex items-center gap-x-2">
+                        <span class="uppercase tracking-widest">Learn more</span> 
+                        <i class="fa-solid fa-arrow-right text-xs transition-transform group-hover:translate-x-1"></i>
+                    </div>
+                </div>
+                
+                <!-- card 3 -->
+                <div onclick="this.classList.toggle('ring-2');this.classList.toggle('ring-cyan-400')" 
+                     class="card-hover bg-zinc-900 border border-zinc-800 rounded-3xl p-8 group cursor-pointer">
+                    <div class="h-12 w-12 bg-gradient-to-br from-amber-400 to-orange-400 flex items-center justify-center rounded-2xl mb-8 text-3xl transition-all group-active:rotate-12">🧠</div>
+                    <div class="text-2xl font-semibold mb-3 text-white" style="font-family: 'Ubuntu', sans-serif;">AI Insights</div>
+                    <div class="text-zinc-400 leading-relaxed">
+                        Personalized market commentary, tax optimization suggestions and predictive cashflow models.
+                    </div>
+                    <div class="text-xs mt-12 text-amber-300 flex items-center gap-x-2">
+                        <span class="uppercase tracking-widest">Learn more</span> 
+                        <i class="fa-solid fa-arrow-right text-xs transition-transform group-hover:translate-x-1"></i>
+                    </div>
+                </div>
+                
+                <!-- card 4 -->
+                <div onclick="this.classList.toggle('ring-2');this.classList.toggle('ring-cyan-400')" 
+                     class="card-hover bg-zinc-900 border border-zinc-800 rounded-3xl p-8 group cursor-pointer">
+                    <div class="h-12 w-12 bg-gradient-to-br from-rose-400 to-pink-400 flex items-center justify-center rounded-2xl mb-8 text-3xl transition-all group-active:rotate-12">🔒</div>
+                    <div class="text-2xl font-semibold mb-3 text-white" style="font-family: 'Ubuntu', sans-serif;">Vault Security</div>
+                    <div class="text-zinc-400 leading-relaxed">
+                        Military grade encryption, biometric access, and insurance up to $10M per account.
+                    </div>
+                    <div class="text-xs mt-12 text-rose-300 flex items-center gap-x-2">
+                        <span class="uppercase tracking-widest">Learn more</span> 
+                        <i class="fa-solid fa-arrow-right text-xs transition-transform group-hover:translate-x-1"></i>
+                    </div>
+                </div>
+                
+                <!-- card 5 -->
+                <div onclick="this.classList.toggle('ring-2');this.classList.toggle('ring-cyan-400')" 
+                     class="card-hover bg-zinc-900 border border-zinc-800 rounded-3xl p-8 group cursor-pointer">
+                    <div class="h-12 w-12 bg-gradient-to-br from-sky-400 to-blue-400 flex items-center justify-center rounded-2xl mb-8 text-3xl transition-all group-active:rotate-12">📊</div>
+                    <div class="text-2xl font-semibold mb-3 text-white" style="font-family: 'Ubuntu', sans-serif;">Real-time Tracking</div>
+                    <div class="text-zinc-400 leading-relaxed">
+                        Beautiful dashboards that update every 30 seconds. See every transaction, dividend and gain.
+                    </div>
+                    <div class="text-xs mt-12 text-sky-300 flex items-center gap-x-2">
+                        <span class="uppercase tracking-widest">Learn more</span> 
+                        <i class="fa-solid fa-arrow-right text-xs transition-transform group-hover:translate-x-1"></i>
+                    </div>
+                </div>
+                
+                <!-- card 6 -->
+                <div onclick="this.classList.toggle('ring-2');this.classList.toggle('ring-cyan-400')" 
+                     class="card-hover bg-zinc-900 border border-zinc-800 rounded-3xl p-8 group cursor-pointer">
+                    <div class="h-12 w-12 bg-gradient-to-br from-lime-400 to-green-400 flex items-center justify-center rounded-2xl mb-8 text-3xl transition-all group-active:rotate-12">👥</div>
+                    <div class="text-2xl font-semibold mb-3 text-white" style="font-family: 'Ubuntu', sans-serif;">Community Signals</div>
+                    <div class="text-zinc-400 leading-relaxed">
+                        See what top investors in your network are buying and selling in real time (anonymously).
+                    </div>
+                    <div class="text-xs mt-12 text-lime-300 flex items-center gap-x-2">
+                        <span class="uppercase tracking-widest">Learn more</span> 
+                        <i class="fa-solid fa-arrow-right text-xs transition-transform group-hover:translate-x-1"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- TESTIMONIALS -->
+        <section id="testimonials" class="bg-zinc-900 py-20">
+            <div class="max-w-screen-2xl mx-auto px-8">
+                <div class="flex justify-between items-end mb-10">
+                    <div>
+                        <span class="px-4 py-1.5 text-xs font-semibold bg-teal-300 text-teal-950 rounded-3xl">TESTIMONIALS</span>
+                        <h2 class="text-5xl font-semibold tracking-tighter mt-3">Real people.<br>Real growth.</h2>
+                    </div>
+                    
+                    <div class="flex items-center gap-x-3">
+                        <button onclick="prevTestimonial()" 
+                                class="w-12 h-12 border border-white/30 hover:border-white flex items-center justify-center rounded-2xl transition-colors">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </button>
+                        <button onclick="nextTestimonial()" 
+                                class="w-12 h-12 bg-white text-zinc-900 flex items-center justify-center rounded-2xl transition-colors">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="testimonial-container" class="overflow-hidden rounded-3xl">
+                    <div id="testimonial-track" class="flex transition-transform duration-700">
+                        <!-- populated by JS -->
+                    </div>
+                </div>
+                
+                <!-- dots -->
+                <div class="flex justify-center gap-x-3 mt-8" id="testimonial-dots">
+                    <!-- populated by JS -->
+                </div>
+            </div>
+        </section>
+        
+        <!-- PRICING -->
+        <section id="pricing" class="max-w-screen-2xl mx-auto px-8 py-28">
+            <div class="max-w-md mx-auto text-center mb-16">
+                <div class="text-teal-400 text-sm font-medium mb-4 tracking-wider">PLANS FOR EVERYONE</div>
+                <h2 class="text-6xl font-semibold tracking-tighter">Simple pricing.<br>No surprises.</h2>
+            </div>
+            
+            <div class="flex justify-center mb-8">
+                <div onclick="togglePricingPeriod()" id="pricing-toggle"
+                     class="flex items-center bg-zinc-900 border border-zinc-700 rounded-3xl p-1 cursor-pointer">
+                    <div id="toggle-monthly" 
+                         class="px-7 py-3 text-sm font-semibold rounded-3xl transition-all">MONTHLY</div>
+                    <div id="toggle-yearly" 
+                         class="px-7 py-3 text-sm font-semibold rounded-3xl bg-white text-zinc-900 transition-all">YEARLY <span class="text-emerald-500 text-xs align-super">−25%</span></div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                <!-- tier 1 -->
+                <div class="bg-zinc-900 border border-zinc-700 rounded-3xl p-8 flex flex-col">
+                    <div class="flex-1">
+                        <div class="uppercase text-xs font-medium tracking-widest mb-6 text-zinc-400">Starter</div>
+                        <div class="flex items-baseline gap-x-1">
+                            <span id="price-1" class="text-7xl font-semibold tabular-nums">$9</span>
+                            <span class="text-zinc-400 text-lg">/mo</span>
+                        </div>
+                        <div class="text-zinc-400 text-sm mt-1 mb-8">Billed monthly</div>
+                        
+                        <ul class="space-y-6 mb-12">
+                            <li class="flex items-center gap-x-3 text-sm"><i class="fa-solid fa-check text-emerald-400"></i> Basic portfolio tracking</li>
+                            <li class="flex items-center gap-x-3 text-sm"><i class="fa-solid fa-check text-emerald-400"></i> 3 free transfers/mo</li>
+                            <li class="flex items-center gap-x-3 text-sm"><i class="fa-solid fa-check text-emerald-400"></i> Community forum access</li>
+                            <li class="flex items-center gap-x-3 text-sm text-zinc-500"><i class="fa-solid fa-xmark"></i> No AI insights</li>
+                        </ul>
+                    </div>
+                    
+                    <button onclick="selectPlan(1)" 
+                            class="mt-auto w-full h-14 border border-white/40 hover:bg-white/5 transition-colors rounded-3xl text-white font-medium">
+                        Get started
+                    </button>
+                </div>
+                
+                <!-- tier 2 - featured -->
+                <div class="bg-white text-zinc-900 rounded-3xl p-8 flex flex-col relative ring-1 ring-offset-8 ring-offset-zinc-950 ring-cyan-300">
+                    <div class="absolute -top-4 right-8 bg-cyan-400 text-zinc-950 uppercase text-xs font-bold tracking-widest px-8 py-2 rounded-3xl">MOST POPULAR</div>
+                    
+                    <div class="flex-1">
+                        <div class="uppercase text-xs font-medium tracking-widest mb-6 text-teal-500">PRO</div>
+                        <div class="flex items-baseline gap-x-1">
+                            <span id="price-2" class="text-7xl font-semibold tabular-nums">$29</span>
+                            <span class="text-zinc-400 text-lg">/mo</span>
+                        </div>
+                        <div class="text-zinc-400 text-sm mt-1 mb-8">Billed monthly • cancel anytime</div>
+                        
+                        <ul class="space-y-6 mb-12">
+                            <li class="flex items-center gap-x-3 text-sm"><i class="fa-solid fa-check text-teal-500"></i> Everything in Starter</li>
+                            <li class="flex items-center gap-x-3 text-sm"><i class="fa-solid fa-check text-teal-500"></i> AI financial advisor</li>
+                            <li class="flex items-center gap-x-3 text-sm"><i class="fa-solid fa-check text-teal-500"></i> Unlimited transfers</li>
+                            <li class="flex items-center gap-x-3 text-sm"><i class="fa-solid fa-check text-teal-500"></i> Tax loss harvesting</li>
+                            <li class="flex items-center gap-x-3 text-sm"><i class="fa-solid fa-check text-teal-500"></i> Priority support</li>
+                        </ul>
+                    </div>
+                    
+                    <button onclick="selectPlan(2)" 
+                            class="mt-auto w-full h-14 bg-zinc-900 text-white rounded-3xl font-semibold">
+                        Upgrade to Pro
+                    </button>
+                </div>
+                
+                <!-- tier 3 -->
+                <div class="bg-zinc-900 border border-zinc-700 rounded-3xl p-8 flex flex-col">
+                    <div class="flex-1">
+                        <div class="uppercase text-xs font-medium tracking-widest mb-6 text-white">Enterprise</div>
+                        <div class="flex items-baseline gap-x-1">
+                            <span id="price-3" class="text-7xl font-semibold tabular-nums">99</span>
+                            <span class="text-zinc-400 text-lg">/mo</span>
+                        </div>
+                        <div class="text-zinc-400 text-sm mt-1 mb-8">For teams and advisors</div>
+                        
+                        <ul class="space-y-6 mb-12">
+                            <li class="flex items-center gap-x-3 text-sm"><i class="fa-solid fa-check"></i> All Pro features</li>
+                            <li class="flex items-center gap-x-3 text-sm"><i class="fa-solid fa-check"></i> Multi-user accounts</li>
+                            <li class="flex items-center gap-x-3 text-sm"><i class="fa-solid fa-check"></i> API access</li>
+                            <li class="flex items-center gap-x-3 text-sm"><i class="fa-solid fa-check"></i> Dedicated relationship manager</li>
+                            <li class="flex items-center gap-x-3 text-sm"><i class="fa-solid fa-check"></i> Custom reporting</li>
+                        </ul>
+                    </div>
+                    
+                    <button onclick="selectPlan(3)" 
+                            class="mt-auto w-full h-14 border border-white/40 hover:bg-white/5 transition-colors rounded-3xl font-medium">
+                        Contact sales
+                    </button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- FINAL CTA -->
+        <div class="mx-8 mb-8 bg-gradient-to-r from-cyan-400 via-teal-400 to-cyan-300 rounded-3xl py-16 px-16 text-zinc-950">
+            <div class="max-w-screen-xl mx-auto grid grid-cols-12 items-center">
+                <div class="col-span-12 lg:col-span-7">
+                    <div class="text-6xl font-semibold tracking-tighter leading-none">Ready to level up your finances?</div>
+                    <div class="mt-6 max-w-xs text-xl opacity-70">Join 142k others who are already building their future with Nexlify.</div>
+                    
+                    <button onclick="showDemoModal()" 
+                            class="mt-10 px-14 py-7 bg-zinc-950 text-white text-xl font-semibold rounded-3xl inline-flex items-center gap-x-4">
+                        CREATE FREE ACCOUNT
+                        <div class="w-4 h-px bg-white"></div>
+                        <span class="text-xs opacity-40">takes 45 seconds</span>
+                    </button>
+                </div>
+                
+                <div class="col-span-12 lg:col-span-5 flex justify-end">
+                    <div class="relative">
+                        <svg width="300" height="220" class="text-white/10">
+                            <circle cx="140" cy="110" r="80" fill="none" stroke="currentColor" stroke-width="30"/>
+                            <circle cx="140" cy="110" r="80" fill="none" stroke="#052e16" stroke-width="15" stroke-dasharray="200 400" stroke-dashoffset="30"/>
+                        </svg>
+                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+                            <div class="text-6xl font-bold text-zinc-900">4.9s</div>
+                            <div class="uppercase text-xs tracking-widest text-zinc-900/70">average signup time</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- FOOTER -->
+        <footer class="bg-black text-zinc-400">
+            <div class="max-w-screen-2xl mx-auto px-8 pt-20 pb-8">
+                <div class="grid grid-cols-12 gap-y-16">
+                    <div class="col-span-12 md:col-span-5">
+                        <div class="flex items-center gap-x-3 mb-6">
+                            <div class="w-8 h-8 bg-white flex items-center justify-center rounded-2xl">
+                                <span class="text-black text-4xl font-black leading-none">N</span>
+                            </div>
+                            <span class="font-semibold text-4xl text-white tracking-tighter">nexlify</span>
+                        </div>
+                        <p class="max-w-xs text-zinc-500">Modern finance infrastructure for humans who want more from their money.</p>
+                        
+                        <div class="mt-16 text-xs flex gap-x-5">
+                            <div class="cursor-pointer hover:text-white">TWITTER</div>
+                            <div class="cursor-pointer hover:text-white">DISCORD</div>
+                            <div class="cursor-pointer hover:text-white">LINKEDIN</div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-span-6 md:col-span-2">
+                        <div class="uppercase text-xs mb-6 text-white">Product</div>
+                        <div class="space-y-6 text-sm">
+                            <div class="cursor-pointer hover:text-white">Invest</div>
+                            <div class="cursor-pointer hover:text-white">Spend</div>
+                            <div class="cursor-pointer hover:text-white">Borrow</div>
+                            <div class="cursor-pointer hover:text-white">Earn</div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-span-6 md:col-span-2">
+                        <div class="uppercase text-xs mb-6 text-white">Company</div>
+                        <div class="space-y-6 text-sm">
+                            <div class="cursor-pointer hover:text-white">About</div>
+                            <div class="cursor-pointer hover:text-white">Blog</div>
+                            <div class="cursor-pointer hover:text-white">Careers</div>
+                            <div class="cursor-pointer hover:text-white">Press</div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-span-12 md:col-span-3">
+                        <div class="bg-zinc-900 rounded-3xl p-6 text-xs">
+                            <div class="font-medium mb-4 flex items-center gap-x-2">
+                                <span class="text-emerald-400">●</span> 
+                                <span class="text-white">Nexlify is SOC2 and GDPR compliant</span>
+                            </div>
+                            <div class="text-zinc-500 text-[10px] leading-relaxed">
+                                All funds held in FDIC insured partner banks. Cryptocurrency services provided by Nexlify Digital Assets LLC. 
+                                Not investment advice.
+                            </div>
+                            
+                            <div class="h-px bg-white/10 my-8"></div>
+                            
+                            <button onclick="toggleSettings()" 
+                                    class="flex items-center justify-center gap-x-2 w-full py-6 text-zinc-400 hover:text-white border border-dashed border-zinc-700 hover:border-zinc-300 transition-colors rounded-2xl text-xs">
+                                <i class="fa-solid fa-palette"></i>
+                                <span>CUSTOMIZE ACCENT COLOR</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-[10px] mt-20 pt-8 border-t border-white/5 flex items-center justify-between text-zinc-500">
+                    <div>© 2026 Nexlify Finance, Inc. All rights reserved.</div>
+                    <div class="flex items-center gap-x-5 text-xs">
+                        <div>Privacy</div>
+                        <div>Legal</div>
+                        <div class="flex items-center gap-x-1">
+                            <div class="w-3 h-3 bg-emerald-400 rounded-full animate-pulse"></div>
+                            <span class="font-medium text-emerald-300">SYSTEMS OPERATIONAL</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+    <!-- SETTINGS MODAL -->
+    <div onclick="if(event.target.id === 'settings-modal') toggleSettings()" id="settings-modal"
+         class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-[9999]">
+        <div onclick="event.stopImmediatePropagation()" 
+             class="bg-zinc-900 w-full max-w-md mx-4 rounded-3xl">
+            
+            <div class="px-8 pt-8 pb-6 border-b border-zinc-800 flex items-center justify-between">
+                <div class="font-semibold text-xl">Customize Nexlify</div>
+                <button onclick="toggleSettings()" class="text-zinc-400 hover:text-white">
+                    <i class="fa-solid fa-xmark text-2xl"></i>
+                </button>
+            </div>
+            
+            <div class="p-8 space-y-10">
+                <!-- accent color -->
+                <div>
+                    <div class="flex justify-between text-xs uppercase mb-4 text-zinc-400">
+                        <div>Accent hue</div>
+                        <div id="current-accent" class="font-mono text-cyan-400">#67e8f9</div>
+                    </div>
+                    
+                    <div class="flex gap-4">
+                        <button onclick="setAccentColor('#67e8f9')" 
+                                class="w-10 h-10 rounded-2xl bg-cyan-400 ring-2 ring-offset-2 ring-offset-zinc-900 ring-cyan-300"></button>
+                        <button onclick="setAccentColor('#a5f3fc')" 
+                                class="w-10 h-10 rounded-2xl bg-sky-300"></button>
+                        <button onclick="setAccentColor('#22d3ee')" 
+                                class="w-10 h-10 rounded-2xl bg-teal-400"></button>
+                        <button onclick="setAccentColor('#f472b6')" 
+                                class="w-10 h-10 rounded-2xl bg-pink-400"></button>
+                        <button onclick="setAccentColor('#c084fc')" 
+                                class="w-10 h-10 rounded-2xl bg-purple-400"></button>
+                    </div>
+                    
+                    <div class="mt-8">
+                        <label class="block text-xs uppercase mb-3 text-zinc-400">Custom color</label>
+                        <input id="color-picker" type="color" value="#67e8f9" 
+                               class="w-full h-12 bg-transparent border-0 p-0 cursor-pointer accent-current"
+                               onchange="applyCustomColor(this.value)">
+                    </div>
+                </div>
+                
+                <div class="h-px bg-white/5"></div>
+                
+                <!-- theme switch -->
+                <div class="flex items-center justify-between">
+                    <div class="text-sm">Dark theme</div>
+                    <label class="relative inline-flex cursor-pointer">
+                        <input id="theme-switch" type="checkbox" checked onchange="toggleTheme()" class="sr-only peer">
+                        <div class="w-14 h-7 bg-zinc-700 rounded-full peer peer-checked:bg-emerald-500"></div>
+                        <div class="absolute left-1 top-1 bg-white w-5 h-5 rounded-full transition-all peer-checked:translate-x-7"></div>
+                    </label>
+                </div>
+                
+                <div class="text-xs text-zinc-500 max-w-[260px]">
+                    All changes are saved instantly to your browser. Refresh the page to reset.
+                </div>
+            </div>
+            
+            <div class="px-8 py-6 border-t border-zinc-800 text-xs flex items-center justify-between text-zinc-400">
+                <button onclick="resetToDefaults()" class="underline">Reset to defaults</button>
+                <button onclick="toggleSettings()" 
+                        class="bg-white text-zinc-900 px-10 py-4 rounded-3xl text-sm font-semibold">DONE</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- LOGIN MODAL -->
+    <div onclick="if(event.target.id === 'login-modal') hideLoginModal()" id="login-modal" 
+         class="hidden fixed inset-0 z-[9999] bg-black/70 flex items-center justify-center">
+        <div onclick="event.stopImmediatePropagation()" 
+             class="max-w-md w-full mx-5 bg-zinc-900 rounded-3xl overflow-hidden">
+            <div class="p-10">
+                <div class="flex justify-center mb-6">
+                    <div class="flex items-center gap-x-2">
+                        <div class="w-6 h-6 bg-cyan-400 rounded-2xl"></div>
+                        <span class="font-bold text-3xl text-white">nexlify</span>
+                    </div>
+                </div>
+                
+                <h3 class="text-center text-3xl font-medium mb-8">Sign in to your account</h3>
+                
+                <div class="space-y-6">
+                    <div>
+                        <div class="text-xs mb-2 text-zinc-400">EMAIL ADDRESS</div>
+                        <input type="email" value="maya@nexlify.co" 
+                               class="w-full bg-zinc-800 border border-transparent focus:border-cyan-400 rounded-2xl px-5 py-6 outline-none text-white">
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-xs mb-2 text-zinc-400">
+                            <div>PASSWORD</div>
+                            <div class="text-cyan-300 cursor-pointer">Forgot?</div>
+                        </div>
+                        <input type="password" value="demo1234" 
+                               class="w-full bg-zinc-800 border border-transparent focus:border-cyan-400 rounded-2xl px-5 py-6 outline-none text-white">
+                    </div>
+                </div>
+                
+                <button onclick="fakeLogin()" 
+                        class="w-full mt-8 py-6 bg-white text-zinc-950 font-semibold rounded-3xl">SIGN IN SECURELY</button>
+                
+                <div onclick="hideLoginModal()" 
+                     class="text-center mt-8 text-xs cursor-pointer hover:text-white">Nevermind, take me back</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- DEMO SUCCESS MODAL -->
+    <div onclick="if(event.target.id === 'demo-modal') hideDemoModal()" id="demo-modal" 
+         class="hidden fixed inset-0 z-[99999] bg-black/80 flex items-center justify-center">
+        <div onclick="event.stopImmediatePropagation()" 
+             class="bg-zinc-900 w-full max-w-lg rounded-3xl text-center px-8 py-12">
+            <div class="mx-auto w-20 h-20 bg-gradient-to-br from-emerald-400 to-cyan-400 rounded-3xl flex items-center justify-center mb-8 shadow-inner">
+                <i class="fa-solid fa-check text-5xl text-zinc-950"></i>
+            </div>
+            
+            <div class="text-4xl font-semibold tracking-tight mb-2">Welcome to Nexlify</div>
+            <div class="text-zinc-400">Your account has been created.</div>
+            
+            <div class="my-14 border border-dashed border-zinc-700 rounded-3xl p-8 text-left text-sm">
+                <div class="flex justify-between mb-6">
+                    <div class="text-zinc-400">Initial deposit</div>
+                    <div class="font-medium">$2,500</div>
+                </div>
+                <div class="h-px bg-white/10"></div>
+                <div class="pt-6 flex justify-between text-emerald-400 text-xs font-medium">
+                    <div>YOUR FIRST INVESTMENT IS LIVE</div>
+                    <div class="font-mono">AAPL • 14 shares</div>
+                </div>
+            </div>
+            
+            <button onclick="hideDemoModal()" 
+                    class="w-full py-7 bg-white text-black rounded-3xl font-semibold">GO TO DASHBOARD →</button>
+            
+            <div class="text-xs text-zinc-500 mt-8">This is a fictional demo. No money was moved.</div>
+        </div>
+    </div>
+    
+    <script>
+        // Tailwind script
+        function initializeTailwind() {
+            document.documentElement.style.setProperty('--accent', '165 243 252')
+        }
+        
+        let currentAccent = '#67e8f9'
+        
+        function setAccentColor(hex) {
+            currentAccent = hex
+            document.getElementById('current-accent').textContent = hex
+            document.documentElement.style.setProperty('--accent', hexToRgb(hex))
+            applyAccentStyles()
+        }
+        
+        function hexToRgb(hex) {
+            let r = parseInt(hex.slice(1,3),16)
+            let g = parseInt(hex.slice(3,5),16)
+            let b = parseInt(hex.slice(5,7),16)
+            return `${r} ${g} ${b}`
+        }
+        
+        function applyCustomColor(hex) {
+            setAccentColor(hex)
+        }
+        
+        function applyAccentStyles() {
+            const style = document.createElement('style')
+            style.innerHTML = `
+                .text-cyan-400, .text-teal-400 { color: ${currentAccent}; }
+                .bg-cyan-400 { background-color: ${currentAccent}; }
+                .border-cyan-400 { border-color: ${currentAccent}; }
+                .ring-cyan-400 { --tw-ring-color: ${currentAccent}; }
+            `
+            // Remove previous injected styles if any
+            const previous = document.getElementById('dynamic-accent')
+            if (previous) previous.remove()
+            style.id = 'dynamic-accent'
+            document.head.append(style)
+        }
+        
+        // Fake testimonials
+        const testimonials = [
+            {
+                name: "Priya Sharma",
+                role: "Product @ Figma",
+                avatar: "🧿",
+                quote: "Nexlify turned my messy spreadsheets into an elegant experience. I made 39% last year without lifting a finger.",
+                return: "+39%",
+                color: "emerald"
+            },
+            {
+                name: "Marcus Rivera",
+                role: "Founder, Lumen",
+                avatar: "🌊",
+                quote: "The AI actually understands my goals. I can finally stop checking the market every hour.",
+                return: "+64%",
+                color: "sky"
+            },
+            {
+                name: "Elena Petrova",
+                role: "Engineer @ OpenAI",
+                avatar: "📡",
+                quote: "I love how the interface feels like something from the future. Transfers are actually instant.",
+                return: "+22%",
+                color: "violet"
+            }
+        ]
+        
+        let currentSlide = 0
+        let testimonialInterval = null
+        
+        function renderTestimonials() {
+            const track = document.getElementById('testimonial-track')
+            track.innerHTML = ''
+            
+            testimonials.forEach((t, index) => {
+                const slideHTML = `
+                <div class="testimonial-slide min-w-full bg-zinc-950 border border-zinc-800 p-10 rounded-3xl">
+                    <div class="flex gap-x-4 items-center">
+                        <div class="w-12 h-12 bg-zinc-800 rounded-2xl flex items-center justify-center text-4xl">${t.avatar}</div>
+                        <div>
+                            <div class="font-medium">${t.name}</div>
+                            <div class="text-xs text-zinc-500">${t.role}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="my-8 text-2xl leading-tight text-white">
+                        “${t.quote}”
+                    </div>
+                    
+                    <div class="flex justify-between items-end">
+                        <div>
+                            <div class="inline-flex items-center gap-x-2 text-xs uppercase bg-zinc-900 px-5 h-7 rounded-3xl">
+                                <span class="text-${t.color}-400">↑</span> 
+                                <span class="font-semibold text-${t.color}-300">${t.return}</span>
+                            </div>
+                        </div>
+                        <div class="text-xs text-zinc-500">— verified Nexlify user</div>
+                    </div>
+                </div>`
+                track.innerHTML += slideHTML
+            })
+            
+            // render dots
+            const dotsContainer = document.getElementById('testimonial-dots')
+            dotsContainer.innerHTML = ''
+            for (let i = 0; i < testimonials.length; i++) {
+                const dot = document.createElement('div')
+                dot.className = `w-3 h-3 rounded-full transition-all cursor-pointer ${i === 0 ? 'bg-white scale-125' : 'bg-white/30'}`
+                dot.onclick = () => goToSlide(i)
+                dotsContainer.append(dot)
+            }
+        }
+        
+        function updateTestimonialPosition() {
+            const track = document.getElementById('testimonial-track')
+            track.style.transform = `translateX(-${currentSlide * 100}%)`
+            
+            // update dots
+            const dots = document.getElementById('testimonial-dots').children
+            for (let i = 0; i < dots.length; i++) {
+                if (i === currentSlide) {
+                    dots[i].classList.add('bg-white', 'scale-125')
+                    dots[i].classList.remove('bg-white/30')
+                } else {
+                    dots[i].classList.remove('bg-white', 'scale-125')
+                    dots[i].classList.add('bg-white/30')
+                }
+            }
+        }
+        
+        function nextTestimonial() {
+            currentSlide = (currentSlide + 1) % testimonials.length
+            updateTestimonialPosition()
+        }
+        
+        function prevTestimonial() {
+            currentSlide = (currentSlide - 1 + testimonials.length) % testimonials.length
+            updateTestimonialPosition()
+        }
+        
+        function goToSlide(index) {
+            currentSlide = index
+            updateTestimonialPosition()
+        }
+        
+        function startTestimonialCarousel() {
+            if (testimonialInterval) clearInterval(testimonialInterval)
+            testimonialInterval = setInterval(() => {
+                nextTestimonial()
+            }, 4600)
+        }
+        
+        // Counter animation
+        function animateValue(id, start, end, duration, prefix = '', suffix = '') {
+            const obj = document.getElementById(id)
+            if (!obj) return
+            const range = end - start
+            let startTimestamp = null
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1)
+                const value = Math.floor(progress * range + start)
+                obj.innerHTML = prefix + value + suffix
+                if (progress < 1) {
+                    window.requestAnimationFrame(step)
+                } else {
+                    obj.innerHTML = prefix + end + suffix
+                }
+            }
+            window.requestAnimationFrame(step)
+        }
+        
+        function runCounters() {
+            // run only once
+            animateValue("stat-1", 40, 248, 2100, "", "B")
+            animateValue("stat-2", 1.2, 4.8, 1900, "", "%")
+            animateValue("stat-3", 22, 92, 1600, "", "%")
+        }
+        
+        // Chart tab interactivity
+        function switchChart() {
+            const tabs = [
+                document.getElementById('chart-tab-1'),
+                document.getElementById('chart-tab-2'),
+                document.getElementById('chart-tab-3')
+            ]
+            
+            let activeIndex = 0
+            tabs.forEach((tab, i) => {
+                if (tab.classList.contains('bg-white')) activeIndex = i
+            })
+            
+            const nextIndex = (activeIndex + 1) % 3
+            
+            tabs.forEach((tab, i) => {
+                if (i === nextIndex) {
+                    tab.classList.add('bg-white', 'text-zinc-900')
+                    tab.classList.remove('text-zinc-400')
+                } else {
+                    tab.classList.remove('bg-white', 'text-zinc-900')
+                    tab.classList.add('text-zinc-400')
+                }
+            })
+            
+            // animate the chart path again
+            const path = document.getElementById('chart-path')
+            path.style.animation = 'none'
+            void path.offsetWidth
+            path.style.animation = 'draw 2.2s ease forwards'
+        }
+        
+        function toggleTheme() {
+            if (document.documentElement.classList.contains('light')) {
+                document.documentElement.classList.remove('light')
+                document.getElementById('theme-icon').classList.remove('fa-sun')
+                document.getElementById('theme-icon').classList.add('fa-moon')
+            } else {
+                document.documentElement.classList.add('light')
+                document.getElementById('theme-icon').classList.remove('fa-moon')
+                document.getElementById('theme-icon').classList.add('fa-sun')
+            }
+        }
+        
+        let settingsOpen = false
+        
+        function toggleSettings() {
+            const modal = document.getElementById('settings-modal')
+            settingsOpen = !settingsOpen
+            if (settingsOpen) {
+                modal.classList.remove('hidden')
+                modal.classList.add('flex')
+            } else {
+                modal.classList.add('hidden')
+                modal.classList.remove('flex')
+            }
+        }
+        
+        function showLoginModal() {
+            const modal = document.getElementById('login-modal')
+            modal.classList.remove('hidden')
+            modal.classList.add('flex')
+        }
+        
+        function hideLoginModal() {
+            const modal = document.getElementById('login-modal')
+            modal.classList.add('hidden')
+            modal.classList.remove('flex')
+        }
+        
+        function fakeLogin() {
+            hideLoginModal()
+            setTimeout(() => {
+                showDemoModal()
+            }, 400)
+        }
+        
+        function showDemoModal() {
+            const modal = document.getElementById('demo-modal')
+            modal.classList.remove('hidden')
+            modal.classList.add('flex')
+        }
+        
+        function hideDemoModal() {
+            const modal = document.getElementById('demo-modal')
+            modal.classList.add('hidden')
+            modal.classList.remove('flex')
+        }
+        
+        function watchDemo() {
+            const messages = [
+                "Loading market data...",
+                "Connecting to exchange...",
+                "Simulating portfolio growth..."
+            ]
+            let i = 0
+            const toast = document.createElement('div')
+            toast.style.cssText = 'position:fixed; bottom:40px; left:50%; transform:translateX(-50%); background:rgb(9 9 11); color:white; padding:16px 24px; border-radius:9999px; font-size:13px; box-shadow: 0 10px 15px -3px rgb(0 0 0); display:flex; align-items:center; gap:12px; z-index:99999;'
+            toast.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i><span id="toast-text">${messages[0]}</span>`
+            document.body.appendChild(toast)
+            
+            const interval = setInterval(() => {
+                i++
+                if (i < messages.length) {
+                    document.getElementById('toast-text').textContent = messages[i]
+                } else {
+                    clearInterval(interval)
+                    toast.style.transitionDuration = '700ms'
+                    toast.style.opacity = 0
+                    setTimeout(() => toast.remove(), 700)
+                }
+            }, 1100)
+        }
+        
+        function togglePricingPeriod() {
+            const monthlyEl = document.getElementById('toggle-monthly')
+            const yearlyEl = document.getElementById('toggle-yearly')
+            
+            if (monthlyEl.classList.contains('bg-white')) {
+                // switch to yearly
+                monthlyEl.classList.remove('bg-white', 'text-zinc-900')
+                yearlyEl.classList.add('bg-white', 'text-zinc-900')
+                
+                document.getElementById('price-1').textContent = '6'
+                document.getElementById('price-2').textContent = '22'
+                document.getElementById('price-3').textContent = '79'
+            } else {
+                monthlyEl.classList.add('bg-white', 'text-zinc-900')
+                yearlyEl.classList.remove('bg-white', 'text-zinc-900')
+                
+                document.getElementById('price-1').textContent = '9'
+                document.getElementById('price-2').textContent = '29'
+                document.getElementById('price-3').textContent = '99'
+            }
+        }
+        
+        function selectPlan(tier) {
+            hideDemoModal()
+            setTimeout(() => {
+                showDemoModal()
+            }, 300)
+        }
+        
+        function scrollToSection(section) {
+            let el
+            if (section === 'features') el = document.getElementById('features')
+            else if (section === 'testimonials') el = document.getElementById('testimonials')
+            else if (section === 'pricing') el = document.getElementById('pricing')
+            
+            if (el) {
+                el.scrollIntoView({ behavior: "smooth" })
+            }
+        }
+        
+        function resetToDefaults() {
+            currentAccent = '#67e8f9'
+            document.getElementById('color-picker').value = '#67e8f9'
+            document.getElementById('current-accent').textContent = '#67e8f9'
+            document.documentElement.style.setProperty('--accent', '103 232 249')
+            const dynamicStyle = document.getElementById('dynamic-accent')
+            if (dynamicStyle) dynamicStyle.remove()
+            toggleSettings()
+        }
+        
+        function createFloatingParticles() {
+            const container = document.getElementById('particles')
+            for (let i = 0; i < 65; i++) {
+                const particle = document.createElement('div')
+                const size = Math.random() * 5 + 2
+                particle.style.cssText = `
+                    position: absolute;
+                    width: ${size}px;
+                    height: ${size}px;
+                    background: rgb(103 232 249);
+                    border-radius: 50%;
+                    left: ${Math.random() * 100}%;
+                    top: ${Math.random() * 85 + 10}%;
+                    opacity: ${Math.random() * 0.35 + 0.1};
+                    animation: floatParticle ${15 + Math.random() * 25}s linear infinite;
+                    animation-delay: -${Math.random() * 25}s;
+                    z-index: 1;
+                `
+                container.appendChild(particle)
+            }
+            
+            const style = document.createElement('style')
+            style.innerHTML = `
+                @keyframes floatParticle {
+                    0% { transform: translateY(0) scale(1); }
+                    100% { transform: translateY(-120vh) scale(0.6); }
+                }
+            `
+            document.head.append(style)
+        }
+        
+        function drawMoneyFlow() {
+            // already static SVG but could be animated further
+            const path = document.getElementById('flow-path-1')
+            if (path) {
+                path.style.animation = 'moneyflow 1800ms linear infinite'
+            }
+        }
+        
+        // Keyboard shortcuts
+        function handleKeys(e) {
+            if (e.metaKey && e.key === "k") {
+                e.preventDefault()
+                toggleSettings()
+            }
+        }
+        
+        // Main initialization
+        function initialize() {
+            // Tailwind ready
+            initializeTailwind()
+            
+            // Render testimonials
+            renderTestimonials()
+            updateTestimonialPosition()
+            startTestimonialCarousel()
+            
+            // Counters
+            setTimeout(() => {
+                runCounters()
+            }, 1200)
+            
+            // Particles
+            createFloatingParticles()
+            
+            // Draw money flow
+            setTimeout(() => {
+                drawMoneyFlow()
+            }, 800)
+            
+            // Keyboard
+            document.addEventListener('keydown', handleKeys)
+            
+            // Make chart interactive
+            const chartSVG = document.getElementById('hero-chart')
+            chartSVG.addEventListener('click', () => {
+                const path = document.getElementById('chart-path')
+                path.style.animation = 'none'
+                void path.offsetWidth
+                path.style.animation = 'draw 1400ms cubic-bezier(0.23, 1, 0.32, 1) forwards'
+            })
+            
+            // Make tabs clickable without event propagation issues
+            console.log('%cNexlify Finance demo ready 🚀\nDark fintech experience with interactive elements.', 'font-family:monospace;color:#67e8f9;font-size:10px')
+            
+            // Responsive font fallback
+            const style = document.createElement('style')
+            style.innerHTML = `
+                @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700&amp;family=Ubuntu:wght@500&amp;family=Open+Sans:wght@400;500&amp;display=swap');
+                
+                h1, h2, .font-semibold {
+                    font-family: 'Nunito', system_ui, sans-serif;
+                }
+                
+                .text-xl, .leading-relaxed {
+                    font-family: 'Open Sans', system_ui, sans-serif;
+                }
+            `
+            document.head.append(style)
+        }
+        
+        // Boot app
+        window.onload = initialize
+    </script>
+</body>
+</html>
