@@ -179,6 +179,18 @@
             border: 1px solid rgba(255, 215, 0, 0.2);
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
+
+        /* Fixed Swiper Layout */
+        .swiper {
+            width: 100%;
+            height: 100%;
+        }
+        .swiper-slide {
+            height: auto !important;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
     </style>
 </head>
 <body class="min-vh-100 d-flex flex-column">
@@ -228,10 +240,10 @@
                 </div>
 
                 <!-- Swiper Luxury Inspiration Slider -->
-                <div class="swiper mySwiper w-100 flex-grow-1 d-flex align-items-center my-4">
+                <div class="swiper mySwiper w-100 flex-grow-1 d-flex flex-column my-4">
                     <div class="swiper-wrapper">
                         <!-- Slide 1 -->
-                        <div class="swiper-slide d-flex flex-column justify-content-center">
+                        <div class="swiper-slide">
                             <h1 class="display-4 fw-bolder text-white mb-4" style="line-height: 1.2;">
                                 Uncompromised <br>
                                 <span class="gold-shimmer">Elegance.</span>
@@ -252,7 +264,7 @@
                         </div>
 
                         <!-- Slide 2 -->
-                        <div class="swiper-slide d-flex flex-column justify-content-center">
+                        <div class="swiper-slide">
                             <h1 class="display-4 fw-bolder text-white mb-4" style="line-height: 1.2;">
                                 Impeccable <br>
                                 <span class="gold-shimmer">Craftsmanship.</span>
@@ -267,7 +279,7 @@
                         </div>
 
                         <!-- Slide 3 -->
-                        <div class="swiper-slide d-flex flex-column justify-content-center">
+                        <div class="swiper-slide">
                             <h1 class="display-4 fw-bolder text-white mb-4" style="line-height: 1.2;">
                                 Timeless <br>
                                 <span class="gold-shimmer">Tradition.</span>
@@ -349,102 +361,94 @@
                                 </span>
                             </div>
 
-                            <!-- Options: Remember Me & Quick Forgot Link -->
-                            <div class="d-flex justify-content-between align-items-center mb-4" style="font-size: 13px;">
-                                <div class="form-check">
-                                    <input class="form-check-input border-warning" type="checkbox" id="rememberMe">
-                                    <label class="form-check-label text-opacity-75" for="rememberMe" style="color: var(--text-main);">
-                                        Remember My Credentials
-                                    </label>
-                                </div>
-                                <a href="javascript:void(0)" onclick="switchTab('forgot')" style="color: var(--accent); text-decoration: none; font-weight: 600;">
-                                    Forgot Key?
-                                </a>
+                            <!-- Forgot Password Link -->
+                            <div class="mb-4 text-end">
+                                <a href="javascript:void(0)" onclick="switchTab('forgot')" style="color: var(--accent); text-decoration: none; font-size: 13px; font-weight: 600;">Lost your Key?</a>
                             </div>
 
                             <!-- Submit Button -->
-                            <button type="submit" class="btn btn-luxury w-100 py-3 rounded-pill d-flex align-items-center justify-content-center gap-2 mb-4">
-                                <i class="bi bi-box-arrow-in-right fs-5"></i>
-                                <span>Access Sanctum</span>
+                            <button type="submit" class="btn btn-luxury w-100 py-3 rounded-pill d-flex align-items-center justify-content-center gap-2">
+                                <i class="bi bi-unlock-fill fs-5"></i>
+                                <span>Unlock Access</span>
                             </button>
-
-                            <!-- Social / Or -->
-                            <div class="position-relative text-center mb-4">
-                                <hr style="border-color: rgba(255,215,0,0.2);">
-                                <span class="position-absolute top-50 start-50 translate-middle px-3" style="background: var(--bg-color); font-size: 12px; color: var(--accent);">
-                                    OR CONTINUE WITH
-                                </span>
-                            </div>
-
-                            <div class="d-flex gap-3">
-                                <button type="button" class="btn border border-warning w-50 py-2 d-flex align-items-center justify-content-center gap-2" style="color: var(--accent);">
-                                    <i class="bi bi-google"></i> <small>Google</small>
-                                </button>
-                                <button type="button" class="btn border border-warning w-50 py-2 d-flex align-items-center justify-content-center gap-2" style="color: var(--accent);">
-                                    <i class="bi bi-apple"></i> <small>Apple</small>
-                                </button>
-                            </div>
                         </form>
+
+                        <div class="mt-4 text-center">
+                            <p class="mb-3 text-muted" style="font-size: 12px; letter-spacing: 1px;">AUTHENTICATE VIA PORTAL</p>
+                            <div class="d-flex justify-content-center gap-3">
+                                <button class="btn btn-outline-light rounded-circle border-opacity-25" style="width: 45px; height: 45px;"><i class="bi bi-google"></i></button>
+                                <button class="btn btn-outline-light rounded-circle border-opacity-25" style="width: 45px; height: 45px;"><i class="bi bi-apple"></i></button>
+                                <button class="btn btn-outline-light rounded-circle border-opacity-25" style="width: 45px; height: 45px;"><i class="bi bi-meta"></i></button>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- 2. SIGNUP SECTION -->
+                    <!-- 2. SIGNUP SECTION (Hidden by default) -->
                     <div id="section-signup" class="auth-section d-none">
                         <div class="mb-4">
-                            <h3 class="fw-bold mb-1" style="font-family: var(--font-headings);">Membership Enrollment</h3>
-                            <p style="color: var(--text-muted); font-size: 14px;">Apply for exclusive membership to the Velvet Sanctum.</p>
+                            <h3 class="fw-bold mb-1" style="font-family: var(--font-headings);">New Enrollment</h3>
+                            <p style="color: var(--text-muted); font-size: 14px;">Begin your journey into the Velvet sanctuary.</p>
                         </div>
 
                         <form onsubmit="handleFormSubmit(event, 'signup')">
-                            <!-- Full Name -->
-                            <div class="position-relative mb-4">
-                                <i class="bi bi-person input-icon"></i>
-                                <input type="text" class="form-control luxury-input w-100 py-3" placeholder="Legal Name / Moniker" required>
+                            <!-- Name Input -->
+                            <div class="row g-3 mb-4">
+                                <div class="col-6 position-relative">
+                                    <i class="bi bi-person input-icon"></i>
+                                    <input type="text" class="form-control luxury-input w-100 py-3" placeholder="First Name" required>
+                                </div>
+                                <div class="col-6 position-relative">
+                                    <input type="text" class="form-control luxury-input w-100 py-3" placeholder="Last Name" required style="padding-left: 1rem;">
+                                </div>
                             </div>
 
                             <!-- Email Input -->
                             <div class="position-relative mb-4">
                                 <i class="bi bi-envelope input-icon"></i>
-                                <input type="email" class="form-control luxury-input w-100 py-3" placeholder="Premium ID (Email Address)" required>
+                                <input type="email" class="form-control luxury-input w-100 py-3" placeholder="Email Address" required>
                             </div>
 
-                            <!-- Password Input with Strength Meter -->
-                            <div class="position-relative mb-3">
+                            <!-- Password Input -->
+                            <div class="position-relative mb-2">
                                 <i class="bi bi-shield-lock input-icon"></i>
-                                <input type="password" id="signupPassword" class="form-control luxury-input w-100 py-3" placeholder="Passphrase (8+ Characters)" required oninput="checkPasswordStrength(this.value)">
+                                <input type="password" id="signupPassword" class="form-control luxury-input w-100 py-3" placeholder="Create Secret Key" required onkeyup="checkPasswordStrength(this.value)">
                                 <span class="position-absolute end-0 top-50 translate-middle-y me-3 cursor-pointer" onclick="togglePassword('signupPassword', this)">
                                     <i class="bi bi-eye-slash" style="color: var(--accent);"></i>
                                 </span>
                             </div>
 
-                            <!-- Strength Meter UI -->
-                            <div class="d-flex align-items-center gap-2 mb-4">
-                                <div class="progress flex-grow-1" style="height: 4px; background: rgba(255,215,0,0.1);">
-                                    <div id="strengthMeter" class="progress-bar bg-warning" role="progressbar" style="width: 0%;"></div>
+                            <!-- Password Strength Meter -->
+                            <div class="mb-4">
+                                <div class="progress" style="height: 4px; background: rgba(255,255,255,0.05);">
+                                    <div id="strengthMeter" class="progress-bar" role="progressbar" style="width: 0%"></div>
                                 </div>
-                                <small id="strengthText" style="color: var(--accent); font-size: 11px;">Weak</small>
+                                <div class="d-flex justify-content-between mt-1">
+                                    <small style="font-size: 10px; color: var(--text-muted);">Security Level:</small>
+                                    <small id="strengthText" style="font-size: 10px; font-weight: 700;">Awaiting Input</small>
+                                </div>
                             </div>
 
-                            <!-- Agree Checkbox -->
-                            <div class="form-check mb-4" style="font-size: 13px;">
-                                <input class="form-check-input border-warning" type="checkbox" id="termsCheck" required>
-                                <label class="form-check-label text-opacity-75" for="termsCheck" style="color: var(--text-main);">
-                                    I pledge to abide by the <span style="color: var(--accent); text-decoration: underline;">Heritage Concordat</span> & Privacy Policy.
+                            <!-- Terms Checkbox -->
+                            <div class="form-check mb-4">
+                                <input class="form-check-input bg-transparent border-warning" type="checkbox" value="" id="termsCheck" required>
+                                <label class="form-check-label text-muted" for="termsCheck" style="font-size: 12px;">
+                                    I agree to the <a href="#" style="color: var(--accent);">Bespoke Membership Terms</a> and Privacy Policy.
                                 </label>
                             </div>
 
                             <!-- Submit Button -->
                             <button type="submit" class="btn btn-luxury w-100 py-3 rounded-pill d-flex align-items-center justify-content-center gap-2">
-                                <i class="bi bi-send-check fs-5"></i>
-                                <span>Submit Enrollment</span>
+                                <i class="bi bi-person-check-fill fs-5"></i>
+                                <span>Request Enrollment</span>
                             </button>
                         </form>
                     </div>
 
-                    <!-- 3. FORGOT PASSWORD SECTION -->
+                    <!-- 3. FORGOT SECTION (Hidden by default) -->
                     <div id="section-forgot" class="auth-section d-none">
                         <div class="mb-4">
-                            <h3 class="fw-bold mb-1" style="font-family: var(--font-headings);">Recover Sanctum Keys</h3>
-                            <p style="color: var(--text-muted); font-size: 14px;">In the event of forgotten credentials, present your ID to receive a recovery talisman.</p>
+                            <h3 class="fw-bold mb-1" style="font-family: var(--font-headings);">Recover Access</h3>
+                            <p style="color: var(--text-muted); font-size: 14px;">We will send a recovery talisman to your registered email.</p>
                         </div>
 
                         <form onsubmit="handleFormSubmit(event, 'forgot')">
@@ -579,6 +583,9 @@
                 clickable: true,
             },
             effect: 'fade',
+            fadeEffect: {
+                crossFade: true
+            }
         });
 
         // 5. Switching Tabs for Authentication Sections
