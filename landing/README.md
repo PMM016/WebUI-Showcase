@@ -36,12 +36,12 @@ Each template includes:
 
 | #  | Template Name                    | Industry                  | Live Demo |
 |----|----------------------------------|---------------------------|---------|
-| 1  | Nexlify Finance                 | Fintech                   | [Demo](#) |
-| 2  | Thunder Eagles FC               | Sports / Football         | [Demo](#) |
-| 3  | IronForge Fitness               | Gym / Fitness             | [Demo](#) |
-| 4  | SpiceRoute                      | Food Delivery / Restaurant| [Demo](#) |
-| 5  | Lumina Wear                     | Fashion E-commerce        | [Demo](#) |
-| 6  | **WildGuard Africa**            | Wildlife Conservation     | [Demo](#) |
+| 1  | Nexlify Finance                 | Fintech                   | [Demo](https://pmm016.github.io/WebUI-Showcase/landing/nexlify) |
+| 2  | **Thunder Eagles**              | Sports / Football         | [Demo 1](https://pmm016.github.io/WebUI-Showcase/landing/thuneagles) [Demo 1](https://pmm016.github.io/WebUI-Showcase/landing/thuneaglesfc) |
+| 3  | **IronForge Fitness**           | Gym / Fitness             | [Demo](https://pmm016.github.io/WebUI-Showcase/landing/ironforge) |
+| 4  | **SpiceRoute**                  | Food Delivery / Restaurant| [Demo 1](https://pmm016.github.io/WebUI-Showcase/landing/spiceroute) [Demo 2](https://pmm016.github.io/WebUI-Showcase/landing/spiceroute2) |
+| 5  | **Lumina Wear**                 | Fashion E-commerce        | [Demo 1](https://pmm016.github.io/WebUI-Showcase/landing/lumina) [Demo 2](https://pmm016.github.io/WebUI-Showcase/landing/lumina2)|
+| 6  | **WildGuard Africa**            | Wildlife Conservation     | [Demo 1](https://pmm016.github.io/WebUI-Showcase/landing/wildgaurdafrica) [Demo 2](https://pmm016.github.io/WebUI-Showcase/landing/wildgaurdafrica2) |
 | 7  | Nexus Realms                    | Gaming / Esports          | [Demo](#) |
 | 8  | FlowTask AI                     | SaaS Productivity         | [Demo](#) |
 | 9  | Nomad Trails                    | Travel & Adventure        | [Demo](#) |
@@ -97,8 +97,6 @@ Here are some beautiful previews from the collection:
 
 </div>
 
-**You can replace the 6 placeholder images above with your actual screenshots.**
-
 ---
 
 ## 🚀 How to Use Any Template
@@ -108,6 +106,3 @@ Here are some beautiful previews from the collection:
 3. Click the **⚙️ Settings** button (bottom right) to customize colors
 4. Use the **☀️/☽️** theme toggler in the navbar
 
----
-
-## 📁 Repository Structure
