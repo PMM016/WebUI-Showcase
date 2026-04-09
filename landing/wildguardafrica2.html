@@ -1,0 +1,1890 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WildGuard Africa — Protect. Preserve. Prevail.</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+  <!-- AOS -->
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Lato:wght@300;400;700&family=Caveat:wght@600&display=swap" rel="stylesheet"/>
+
+  <style>
+    /* ===================== CSS VARIABLES ===================== */
+    :root {
+      --primary:   #4a7c59;
+      --secondary: #8b5e3c;
+      --accent:    #d4a843;
+      --bg:        #f9f5ef;
+      --surface:   #ffffff;
+      --text:      #2c2c2c;
+      --text-muted:#6b6b6b;
+      --card-bg:   #ffffff;
+      --navbar-bg: rgba(249,245,239,0.96);
+      --footer-bg: #1e2d23;
+      --hero-overlay: rgba(20,35,15,0.52);
+    }
+    [data-theme="dark"] {
+      --bg:        #121a14;
+      --surface:   #1e2d23;
+      --text:      #e8e0d4;
+      --text-muted:#a0a89a;
+      --card-bg:   #243029;
+      --navbar-bg: rgba(18,26,20,0.97);
+      --footer-bg: #0b120d;
+      --hero-overlay: rgba(5,12,7,0.65);
+    }
+
+    /* ===================== BASE ===================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: 'Lato', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      transition: background 0.4s, color 0.4s;
+      overflow-x: hidden;
+    }
+
+    /* ===================== PRELOADER ===================== */
+    #preloader {
+      position: fixed; inset: 0; z-index: 9999;
+      background: #1e2d23;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+    #preloader.hidden { opacity: 0; visibility: hidden; }
+    .preloader-paw {
+      display: flex; gap: 10px; margin-bottom: 24px;
+    }
+    .preloader-paw span {
+      width: 14px; height: 14px;
+      background: var(--accent, #d4a843);
+      border-radius: 50%;
+      animation: pawBounce 1s infinite ease-in-out;
+    }
+    .preloader-paw span:nth-child(2){ animation-delay:.15s; }
+    .preloader-paw span:nth-child(3){ animation-delay:.30s; }
+    .preloader-paw span:nth-child(4){ animation-delay:.45s; }
+    @keyframes pawBounce {
+      0%,80%,100%{ transform: scale(0.6); opacity:.5; }
+      40%{ transform: scale(1.3); opacity:1; }
+    }
+    .preloader-text {
+      font-family: 'Playfair Display', serif;
+      color: #d4a843; font-size: 1.6rem; letter-spacing: 3px;
+    }
+    .preloader-sub {
+      color: #7a9e7e; font-size:.8rem; letter-spacing:5px;
+      margin-top:6px; text-transform:uppercase;
+    }
+
+    /* ===================== SQUIGGLE CLASS (reusable) ===================== */
+    .squiggle-link {
+      position: relative;
+      display: inline-block;
+      text-decoration: none;
+      color: inherit;
+    }
+    .squiggle-link::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: -4px;
+      width: 100%; height: 6px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='6'%3E%3Cpath d='M0 3 Q5 0 10 3 Q15 6 20 3' fill='none' stroke='%23d4a843' stroke-width='2'/%3E%3C/svg%3E");
+      background-repeat: repeat-x;
+      background-size: 20px 6px;
+      opacity: 0;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: opacity 0.35s, transform 0.35s;
+    }
+    .squiggle-link:hover::after,
+    .squiggle-link.active-squiggle::after {
+      opacity: 1; transform: scaleX(1);
+    }
+
+    /* ===================== NAVBAR ===================== */
+    .wildguard-nav {
+      background: var(--navbar-bg);
+      backdrop-filter: blur(12px);
+      border-bottom: 2px solid var(--primary);
+      transition: background .4s;
+      padding: 0.6rem 0;
+    }
+    .wildguard-nav .navbar-brand {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: 1.5rem;
+      color: var(--primary) !important;
+      letter-spacing: 1px;
+    }
+    .wildguard-nav .navbar-brand span { color: var(--accent); }
+    .wildguard-nav .nav-link {
+      font-family: 'Lato', sans-serif;
+      font-weight: 700;
+      font-size: .88rem;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--text) !important;
+      padding: 0.5rem 1rem !important;
+      position: relative;
+      transition: color .3s;
+    }
+    .wildguard-nav .nav-link::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 50%;
+      width: 0; height: 2px;
+      background: var(--accent);
+      transition: width .3s, left .3s;
+    }
+    .wildguard-nav .nav-link:hover::before,
+    .wildguard-nav .nav-link.active::before { width: 60%; left: 20%; }
+    .wildguard-nav .nav-link:hover { color: var(--primary) !important; }
+
+    /* THEME TOGGLE PILL */
+    .theme-pill {
+      display: flex; align-items: center; gap: 6px;
+      background: var(--primary);
+      border: none; border-radius: 50px;
+      padding: 6px 14px; cursor: pointer;
+      color: #fff; font-size: .82rem; font-weight:700;
+      letter-spacing:.5px;
+      transition: background .3s, transform .2s;
+    }
+    .theme-pill:hover { background: var(--secondary); transform: scale(1.05); }
+
+    /* DONATE BTN */
+    .btn-wild {
+      background: linear-gradient(135deg, var(--accent), var(--secondary));
+      color: #fff !important;
+      border: none; border-radius: 50px;
+      font-weight: 700; letter-spacing: 1px;
+      font-size: .85rem; padding: 10px 24px;
+      position: relative; overflow: hidden;
+      transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 4px 15px rgba(212,168,67,.35);
+    }
+    .btn-wild::before {
+      content: '';
+      position: absolute; top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.25), transparent);
+      transition: left .5s;
+    }
+    .btn-wild:hover::before { left: 100%; }
+    .btn-wild:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(212,168,67,.5); }
+
+    /* ===================== HERO ===================== */
+    .hero-section {
+      min-height: 100vh;
+      background-image: url('https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=1600&q=80');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      position: relative;
+      display: flex; align-items: center;
+      overflow: hidden;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: var(--hero-overlay);
+    }
+    .hero-content { position: relative; z-index: 2; }
+    .hero-eyebrow {
+      font-family: 'Lato', sans-serif;
+      font-size: .75rem; letter-spacing: 5px;
+      color: var(--accent); text-transform: uppercase;
+      font-weight: 700;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 900; line-height: 1.05;
+      color: #fff;
+    }
+    .hero-title em {
+      font-style: italic; color: var(--accent);
+    }
+    .hero-sub {
+      font-size: 1.1rem; color: rgba(255,255,255,.85);
+      max-width: 520px; line-height: 1.7;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap:8px;
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.25);
+      border-radius: 50px; padding: 6px 16px;
+      color: #fff; font-size: .8rem; letter-spacing:1px;
+      backdrop-filter: blur(6px);
+    }
+    .hero-badge i { color: var(--accent); }
+    .scroll-hint {
+      position: absolute; bottom: 30px; left: 50%;
+      transform: translateX(-50%); z-index: 3;
+      display: flex; flex-direction: column; align-items: center;
+      color: rgba(255,255,255,.6); font-size:.72rem; letter-spacing:2px;
+      text-transform: uppercase; gap: 6px;
+      animation: floatHint 2s infinite ease-in-out;
+    }
+    .scroll-hint .arrow-down {
+      width: 24px; height: 24px;
+      border-right: 2px solid rgba(255,255,255,.6);
+      border-bottom: 2px solid rgba(255,255,255,.6);
+      transform: rotate(45deg);
+    }
+    @keyframes floatHint {
+      0%,100%{ transform: translateX(-50%) translateY(0); }
+      50%{ transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ===================== ANIMAL SVG PARADE ===================== */
+    .animal-parade {
+      position: absolute; bottom: 0; left: 0;
+      width: 100%; height: 130px;
+      overflow: hidden; z-index: 2;
+      pointer-events: none;
+    }
+    .parade-ground {
+      position: absolute; bottom: 0; left: 0;
+      width: 100%; height: 24px;
+      background: rgba(30,45,35,.7);
+    }
+    .animal-walk {
+      position: absolute; bottom: 24px;
+      animation: walkAcross linear infinite;
+    }
+    .animal-walk svg { display: block; }
+    .lion-anim { animation-duration: 22s; animation-delay: 0s; }
+    .elephant-anim { animation-duration: 30s; animation-delay: 8s; }
+    .giraffe-anim { animation-duration: 26s; animation-delay: 16s; }
+    @keyframes walkAcross {
+      from { left: -220px; }
+      to   { left: calc(100% + 220px); }
+    }
+    /* Leg oscillation */
+    .leg { transform-origin: top center; animation: legSwing .55s ease-in-out infinite alternate; }
+    .leg-b { animation-delay: .27s; }
+    @keyframes legSwing {
+      from { transform: rotate(-12deg); }
+      to   { transform: rotate(12deg); }
+    }
+    .elephant-ear { transform-origin: top left; animation: earFlap 1.2s ease-in-out infinite alternate; }
+    @keyframes earFlap {
+      from { transform: rotate(-5deg); }
+      to   { transform: rotate(8deg); }
+    }
+    .lion-tail { transform-origin: bottom center; animation: tailWag .8s ease-in-out infinite alternate; }
+    @keyframes tailWag {
+      from { transform: rotate(-20deg); }
+      to   { transform: rotate(20deg); }
+    }
+    .giraffe-neck { transform-origin: bottom center; animation: neckBob 1.4s ease-in-out infinite alternate; }
+    @keyframes neckBob {
+      from { transform: rotate(-3deg); }
+      to   { transform: rotate(3deg); }
+    }
+
+    /* ===================== WAVE DIVIDER ===================== */
+    .wave-divider svg { display:block; width:100%; }
+
+    /* ===================== SECTION TITLES ===================== */
+    .section-label {
+      font-size: .72rem; letter-spacing: 5px; text-transform: uppercase;
+      color: var(--accent); font-weight: 700;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      font-weight: 900; color: var(--text);
+      line-height: 1.2;
+    }
+    .section-title span { color: var(--primary); }
+    .title-line {
+      width: 60px; height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      border-radius: 2px; margin: 14px auto;
+    }
+
+    /* ===================== IMPACT STATS ===================== */
+    .impact-section {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      padding: 80px 0; position: relative; overflow: hidden;
+    }
+    .impact-section::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .stat-card {
+      text-align: center; padding: 30px 20px;
+      position: relative;
+    }
+    .stat-icon {
+      font-size: 2.5rem; color: rgba(255,255,255,.35);
+      margin-bottom: 12px; display: block;
+    }
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.2rem; font-weight: 900;
+      color: #fff; line-height: 1;
+    }
+    .stat-suffix { color: var(--accent); font-size: 2rem; }
+    .stat-label {
+      color: rgba(255,255,255,.8); font-size: .88rem;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      margin-top: 8px;
+    }
+    .stat-divider {
+      width: 1px; height: 80px;
+      background: rgba(255,255,255,.2);
+      margin: auto;
+    }
+
+    /* ===================== ABOUT / MISSION ===================== */
+    .about-section { padding: 100px 0; background: var(--bg); }
+    .feature-icon-box {
+      width: 60px; height: 60px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      border-radius: 16px; display: flex;
+      align-items: center; justify-content: center;
+      font-size: 1.4rem; color: #fff; flex-shrink: 0;
+      transition: transform .3s, box-shadow .3s;
+    }
+    .feature-icon-box:hover {
+      transform: rotate(-6deg) scale(1.1);
+      box-shadow: 0 8px 25px rgba(74,124,89,.4);
+    }
+    .about-img-wrapper {
+      border-radius: 24px; overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,.18);
+      position: relative;
+    }
+    .about-img-wrapper::after {
+      content: '';
+      position: absolute; inset: 0;
+      border: 4px solid var(--accent);
+      border-radius: 24px;
+      opacity: .4;
+    }
+    .about-img-wrapper img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform .6s;
+    }
+    .about-img-wrapper:hover img { transform: scale(1.04); }
+    .floating-badge {
+      position: absolute; bottom: -20px; right: -20px;
+      background: var(--accent);
+      color: #fff; border-radius: 16px;
+      padding: 16px 22px; text-align: center;
+      box-shadow: 0 8px 30px rgba(212,168,67,.4);
+      z-index: 3;
+    }
+    .floating-badge .big { font-family:'Playfair Display',serif; font-size:2rem; font-weight:900; }
+    .floating-badge .small { font-size:.72rem; letter-spacing:1.5px; text-transform:uppercase; }
+
+    /* ===================== GALLERY / PROJECTS ===================== */
+    .projects-section { padding: 100px 0; background: var(--surface); }
+    .masonry-grid {
+      columns: 3 280px; column-gap: 20px;
+    }
+    .masonry-item {
+      break-inside: avoid; margin-bottom: 20px;
+      border-radius: 16px; overflow: hidden;
+      position: relative; cursor: pointer;
+    }
+    .masonry-item img {
+      width: 100%; display: block;
+      transition: transform .5s;
+    }
+    .masonry-item:hover img { transform: scale(1.06); }
+    .masonry-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(20,35,15,.85) 0%, transparent 55%);
+      opacity: 0; transition: opacity .4s;
+      display: flex; align-items: flex-end;
+      padding: 20px;
+    }
+    .masonry-item:hover .masonry-overlay { opacity: 1; }
+    .masonry-caption { color: #fff; }
+    .masonry-caption h5 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem; margin-bottom: 4px;
+    }
+    .masonry-caption p { font-size: .78rem; opacity: .8; }
+    .masonry-tag {
+      position: absolute; top: 12px; left: 12px;
+      background: var(--accent); color: #fff;
+      border-radius: 50px; padding: 3px 12px;
+      font-size: .7rem; font-weight: 700; letter-spacing: 1px;
+    }
+
+    /* ===================== ADOPT / DONATION ===================== */
+    .adopt-section { padding: 100px 0; background: var(--bg); }
+    .adopt-card {
+      background: var(--card-bg);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(0,0,0,.1);
+      transition: transform .3s, box-shadow .3s;
+    }
+    .adopt-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 60px rgba(0,0,0,.18);
+    }
+    .adopt-card-img {
+      height: 220px; overflow: hidden; position: relative;
+    }
+    .adopt-card-img img { width:100%; height:100%; object-fit:cover; transition: transform .5s; }
+    .adopt-card:hover .adopt-card-img img { transform: scale(1.08); }
+    .adopt-card-body { padding: 24px; }
+    .adopt-card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem; font-weight: 700; color: var(--text);
+    }
+    .progress-label {
+      display: flex; justify-content: space-between;
+      font-size: .78rem; color: var(--text-muted); margin-bottom: 6px;
+    }
+    .wild-progress {
+      height: 10px; border-radius: 50px;
+      background: rgba(74,124,89,.15);
+      overflow: hidden; position: relative;
+    }
+    .wild-progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      border-radius: 50px;
+      width: 0; transition: width 1.8s cubic-bezier(.4,0,.2,1);
+      position: relative;
+    }
+    .wild-progress-bar::after {
+      content: '';
+      position: absolute; top: 0; right: 0; bottom: 0; left: 0;
+      background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,.3) 50%, transparent 100%);
+      animation: shimmer 2s infinite;
+    }
+    @keyframes shimmer {
+      from { transform: translateX(-100%); }
+      to   { transform: translateX(100%); }
+    }
+    .adopt-price {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem; font-weight: 900;
+      color: var(--primary);
+    }
+    .adopt-price small { font-size: .9rem; font-family: 'Lato', sans-serif; color: var(--text-muted); font-weight: 400; }
+
+    /* ===================== TESTIMONIALS ===================== */
+    .testimonials-section { padding: 100px 0; background: var(--surface); }
+    .testi-card {
+      background: var(--card-bg);
+      border-radius: 20px; padding: 32px;
+      border-left: 4px solid var(--primary);
+      box-shadow: 0 4px 30px rgba(0,0,0,.07);
+      height: 100%;
+      transition: transform .3s;
+    }
+    .testi-card:hover { transform: translateY(-4px); }
+    .testi-quote {
+      font-size: 3rem; line-height: 1;
+      color: var(--accent); font-family: 'Playfair Display', serif;
+    }
+    .testi-text {
+      font-size: .95rem; line-height: 1.7;
+      color: var(--text-muted); font-style: italic;
+    }
+    .testi-author { font-weight: 700; color: var(--text); font-size: .9rem; }
+    .testi-role { font-size: .78rem; color: var(--text-muted); letter-spacing: 1px; }
+    .stars i { color: var(--accent); font-size: .85rem; }
+
+    /* ===================== CTA SECTION ===================== */
+    .cta-section {
+      padding: 100px 0;
+      background-image: url('https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=1600&q=80');
+      background-size: cover; background-position: center;
+      background-attachment: fixed;
+      position: relative;
+    }
+    .cta-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(74,124,89,.9), rgba(139,94,60,.85));
+    }
+    .cta-content { position: relative; z-index: 2; text-align: center; }
+    .cta-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 900; color: #fff; line-height: 1.2;
+    }
+
+    /* ===================== FOOTER ===================== */
+    footer {
+      background: var(--footer-bg);
+      padding: 70px 0 30px;
+      color: rgba(255,255,255,.7);
+    }
+    .footer-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem; font-weight: 900;
+      color: var(--accent); letter-spacing: 1px;
+    }
+    .footer-link {
+      color: rgba(255,255,255,.6);
+      text-decoration: none; font-size: .88rem;
+      transition: color .3s, padding-left .3s;
+      display: block; padding: 4px 0;
+    }
+    .footer-link:hover { color: var(--accent); padding-left: 8px; }
+    .footer-title {
+      color: #fff; font-weight: 700; font-size: .78rem;
+      letter-spacing: 3px; text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .social-btn {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.15);
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,.7); text-decoration: none;
+      transition: background .3s, color .3s, transform .3s;
+    }
+    .social-btn:hover {
+      background: var(--accent); color: #fff;
+      transform: translateY(-4px);
+    }
+    .footer-divider {
+      border-color: rgba(255,255,255,.1); margin: 40px 0 20px;
+    }
+
+    /* ===================== FLOATING SETTINGS GEAR ===================== */
+    #settings-fab {
+      position: fixed; bottom: 1rem; right: 1rem;
+      z-index: 1050;
+      width: 52px; height: 52px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border: none; border-radius: 50%;
+      color: #fff; font-size: 1.3rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,.3);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: transform .4s, box-shadow .3s;
+    }
+    #settings-fab:hover { box-shadow: 0 8px 30px rgba(0,0,0,.4); }
+    #settings-fab.spinning i { animation: spinGear .6s linear; }
+    @keyframes spinGear {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(180deg); }
+    }
+
+    /* ===================== SETTINGS MODAL ===================== */
+    .settings-modal .modal-content {
+      background: var(--card-bg);
+      border: 1px solid rgba(74,124,89,.2);
+      border-radius: 20px;
+      color: var(--text);
+    }
+    .settings-modal .modal-header {
+      border-bottom: 1px solid rgba(74,124,89,.15);
+      padding: 20px 24px;
+    }
+    .settings-modal .modal-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700; color: var(--primary);
+    }
+    .color-swatch-row {
+      display: flex; align-items: center; gap: 12px;
+    }
+    .color-swatch-row input[type="color"] {
+      width: 44px; height: 44px;
+      border: 2px solid var(--primary);
+      border-radius: 10px; cursor: pointer;
+      padding: 2px;
+      background: none;
+    }
+    .color-label { font-weight: 600; font-size: .88rem; }
+    .color-hex {
+      flex: 1; padding: 6px 12px;
+      border: 1px solid rgba(74,124,89,.25);
+      border-radius: 8px; font-size: .82rem;
+      background: var(--bg); color: var(--text);
+      font-family: monospace;
+    }
+    .btn-reset {
+      background: linear-gradient(135deg, #c0392b, #e74c3c);
+      color: #fff; border: none; border-radius: 50px;
+      padding: 10px 24px; font-weight: 700;
+      letter-spacing: .5px; cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn-reset:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(231,76,60,.35); }
+    .btn-save {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: #fff; border: none; border-radius: 50px;
+      padding: 10px 28px; font-weight: 700;
+      letter-spacing: .5px; cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn-save:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(74,124,89,.4); }
+
+    /* ===================== CAROUSEL / STORY ===================== */
+    .story-card {
+      background: var(--card-bg);
+      border-radius: 20px; overflow: hidden;
+      box-shadow: 0 4px 30px rgba(0,0,0,.1);
+    }
+    .story-card img { width: 100%; height: 260px; object-fit: cover; }
+    .story-body { padding: 24px; }
+    .story-date {
+      font-size: .72rem; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--accent); font-weight: 700;
+    }
+    .story-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem; font-weight: 700;
+      color: var(--text); margin: 8px 0;
+    }
+    .story-excerpt { font-size: .88rem; color: var(--text-muted); line-height: 1.6; }
+    .read-more {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--primary); font-weight: 700; font-size: .85rem;
+      text-decoration: none; margin-top: 12px;
+      transition: gap .3s;
+    }
+    .read-more:hover { gap: 12px; color: var(--accent); }
+
+    /* ===================== MISC UTILITIES ===================== */
+    .text-primary-wild { color: var(--primary) !important; }
+    .text-accent { color: var(--accent) !important; }
+    .bg-surface { background: var(--surface) !important; }
+    .rounded-wild { border-radius: 20px; }
+    .section-padding { padding: 100px 0; }
+    .fw-black { font-weight: 900; }
+
+    /* NEWSLETTER */
+    .newsletter-input {
+      border-radius: 50px 0 0 50px !important;
+      border: 2px solid var(--primary) !important;
+      border-right: none !important;
+      background: var(--bg) !important;
+      color: var(--text) !important;
+      padding: 12px 20px !important;
+      font-size: .88rem;
+    }
+    .newsletter-input:focus { box-shadow: none !important; border-color: var(--accent) !important; }
+    .newsletter-btn {
+      border-radius: 0 50px 50px 0 !important;
+      border: 2px solid var(--primary) !important;
+      background: var(--primary) !important;
+      color: #fff !important; font-weight: 700 !important;
+      padding: 12px 24px !important;
+    }
+    .newsletter-btn:hover { background: var(--accent) !important; border-color: var(--accent) !important; }
+
+    /* CAVEAT FONT HIGHLIGHT */
+    .caveat-text {
+      font-family: 'Caveat', cursive;
+      font-size: 1.3em; color: var(--accent);
+    }
+
+    /* Custom link animation */
+    .animated-link {
+      position: relative;
+      text-decoration: none;
+      color: var(--primary);
+      font-weight: 700;
+      overflow: hidden;
+      display: inline-block;
+    }
+    .animated-link::before {
+      content: attr(data-text);
+      position: absolute; top: 0; left: 0;
+      color: var(--accent);
+      width: 0; overflow: hidden;
+      white-space: nowrap;
+      transition: width .4s ease;
+    }
+    .animated-link:hover::before { width: 100%; }
+
+    /* ===================== RESPONSIVE ===================== */
+    @media (max-width: 768px) {
+      .hero-title { font-size: 2.4rem; }
+      .masonry-grid { columns: 2 180px; }
+      .stat-divider { display: none; }
+      .floating-badge { bottom: -10px; right: -10px; padding: 12px 16px; }
+    }
+    @media (max-width: 480px) {
+      .masonry-grid { columns: 1; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ====================================================== PRELOADER -->
+<div id="preloader">
+  <div class="preloader-paw">
+    <span></span><span></span><span></span><span></span>
+  </div>
+  <div class="preloader-text">WildGuard</div>
+  <div class="preloader-sub">Africa</div>
+</div>
+
+<!-- ====================================================== NAVBAR -->
+<nav class="navbar navbar-expand-lg wildguard-nav fixed-top" id="mainNav">
+  <div class="container">
+    <a class="navbar-brand" href="#">
+      <i class="fas fa-paw me-2" style="color:var(--accent)"></i>Wild<span>Guard</span>
+    </a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarMain">
+      <ul class="navbar-nav mx-auto gap-1">
+        <li class="nav-item"><a class="nav-link squiggle-link" href="#about">About</a></li>
+        <li class="nav-item"><a class="nav-link squiggle-link" href="#impact">Impact</a></li>
+        <li class="nav-item"><a class="nav-link squiggle-link" href="#projects">Projects</a></li>
+        <li class="nav-item"><a class="nav-link squiggle-link" href="#adopt">Adopt</a></li>
+        <li class="nav-item"><a class="nav-link squiggle-link" href="#stories">Stories</a></li>
+        <li class="nav-item"><a class="nav-link squiggle-link" href="#contact">Contact</a></li>
+      </ul>
+      <div class="d-flex align-items-center gap-3">
+        <button class="theme-pill" id="navThemeToggle">
+          <i class="fas fa-moon" id="navThemeIcon"></i>
+          <span id="navThemeLabel">Dark</span>
+        </button>
+        <a href="#adopt" class="btn-wild">
+          <i class="fas fa-heart me-1"></i> Donate Now
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ====================================================== HERO -->
+<section class="hero-section" id="home">
+  <div class="hero-overlay"></div>
+
+  <!-- Animal Parade -->
+  <div class="animal-parade">
+    <!-- LION SVG -->
+    <div class="animal-walk lion-anim" style="bottom:24px">
+      <svg width="120" height="80" viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Body -->
+        <ellipse cx="60" cy="52" rx="34" ry="18" fill="#c8883a"/>
+        <!-- Mane -->
+        <circle cx="28" cy="44" r="19" fill="#8b5e1a"/>
+        <!-- Head -->
+        <circle cx="28" cy="42" r="14" fill="#d4a843"/>
+        <!-- Ears -->
+        <circle cx="18" cy="30" r="5" fill="#c8883a"/>
+        <circle cx="38" cy="29" r="5" fill="#c8883a"/>
+        <!-- Eyes -->
+        <circle cx="23" cy="40" r="2.5" fill="#2c1a00"/>
+        <circle cx="33" cy="40" r="2.5" fill="#2c1a00"/>
+        <circle cx="24" cy="39" r="1" fill="white"/>
+        <circle cx="34" cy="39" r="1" fill="white"/>
+        <!-- Nose -->
+        <ellipse cx="28" cy="46" rx="4" ry="2.5" fill="#8b5e1a"/>
+        <!-- Whisker lines -->
+        <line x1="16" y1="45" x2="24" y2="46" stroke="#fff" stroke-width="0.8" opacity="0.7"/>
+        <line x1="16" y1="48" x2="24" y2="47" stroke="#fff" stroke-width="0.8" opacity="0.7"/>
+        <line x1="40" y1="45" x2="32" y2="46" stroke="#fff" stroke-width="0.8" opacity="0.7"/>
+        <line x1="40" y1="48" x2="32" y2="47" stroke="#fff" stroke-width="0.8" opacity="0.7"/>
+        <!-- Tail -->
+        <g class="lion-tail">
+          <path d="M94 50 Q110 35 115 28" stroke="#c8883a" stroke-width="4" stroke-linecap="round" fill="none"/>
+          <circle cx="115" cy="26" r="6" fill="#8b5e1a"/>
+        </g>
+        <!-- Legs -->
+        <g class="leg">
+          <rect x="38" y="66" width="8" height="18" rx="4" fill="#c8883a"/>
+          <rect x="50" y="66" width="8" height="18" rx="4" fill="#c8883a"/>
+        </g>
+        <g class="leg leg-b">
+          <rect x="68" y="64" width="8" height="18" rx="4" fill="#c8883a"/>
+          <rect x="80" y="64" width="8" height="18" rx="4" fill="#c8883a"/>
+        </g>
+        <!-- Belly -->
+        <ellipse cx="60" cy="65" rx="20" ry="5" fill="#e8c07a" opacity="0.5"/>
+      </svg>
+    </div>
+
+    <!-- ELEPHANT SVG -->
+    <div class="animal-walk elephant-anim" style="bottom:24px">
+      <svg width="160" height="100" viewBox="0 0 160 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Body -->
+        <ellipse cx="95" cy="58" rx="48" ry="30" fill="#7a8e7a"/>
+        <!-- Head -->
+        <circle cx="42" cy="46" r="28" fill="#7a8e7a"/>
+        <!-- Ear -->
+        <g class="elephant-ear">
+          <ellipse cx="22" cy="46" rx="16" ry="22" fill="#9aae9a"/>
+          <ellipse cx="22" cy="46" rx="10" ry="16" fill="#b8ccb8" opacity=".5"/>
+        </g>
+        <!-- Eye -->
+        <circle cx="52" cy="38" r="4" fill="#2c2c2c"/>
+        <circle cx="53" cy="37" r="1.5" fill="white"/>
+        <!-- Trunk -->
+        <path d="M30 58 Q18 72 22 86 Q24 94 30 90 Q36 86 34 78 Q32 70 38 66" stroke="#7a8e7a" stroke-width="10" stroke-linecap="round" fill="none"/>
+        <!-- Tusks -->
+        <path d="M34 62 Q28 72 32 80" stroke="#f5f0e8" stroke-width="4" stroke-linecap="round" fill="none"/>
+        <!-- Tail -->
+        <g class="lion-tail">
+          <path d="M140 52 Q152 42 155 38" stroke="#7a8e7a" stroke-width="4" stroke-linecap="round" fill="none"/>
+          <circle cx="155" cy="36" r="4" fill="#6a7e6a"/>
+        </g>
+        <!-- Legs -->
+        <g class="leg">
+          <rect x="56" y="82" width="14" height="20" rx="6" fill="#6a7e6a"/>
+          <rect x="76" y="82" width="14" height="20" rx="6" fill="#6a7e6a"/>
+        </g>
+        <g class="leg leg-b">
+          <rect x="100" y="80" width="14" height="20" rx="6" fill="#6a7e6a"/>
+          <rect x="120" y="80" width="14" height="20" rx="6" fill="#6a7e6a"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- GIRAFFE SVG -->
+    <div class="animal-walk giraffe-anim" style="bottom:24px">
+      <svg width="80" height="130" viewBox="0 0 80 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Body -->
+        <ellipse cx="40" cy="90" rx="24" ry="28" fill="#d4a843"/>
+        <!-- Spots body -->
+        <circle cx="30" cy="82" r="7" fill="#8b5e1a" opacity=".5"/>
+        <circle cx="50" cy="88" r="6" fill="#8b5e1a" opacity=".5"/>
+        <circle cx="36" cy="100" r="5" fill="#8b5e1a" opacity=".5"/>
+        <!-- Neck -->
+        <g class="giraffe-neck">
+          <rect x="30" y="28" width="20" height="60" rx="10" fill="#d4a843"/>
+          <!-- Neck spots -->
+          <circle cx="38" cy="40" r="5" fill="#8b5e1a" opacity=".5"/>
+          <circle cx="42" cy="60" r="4" fill="#8b5e1a" opacity=".5"/>
+        </g>
+        <!-- Head -->
+        <ellipse cx="40" cy="24" rx="12" ry="10" fill="#d4a843"/>
+        <!-- Horns -->
+        <rect x="35" y="10" width="4" height="10" rx="2" fill="#c8883a"/>
+        <rect x="43" y="10" width="4" height="10" rx="2" fill="#c8883a"/>
+        <!-- Eye -->
+        <circle cx="45" cy="22" r="3" fill="#2c1a00"/>
+        <circle cx="46" cy="21" r="1" fill="white"/>
+        <!-- Muzzle -->
+        <ellipse cx="40" cy="30" rx="6" ry="4" fill="#c8883a"/>
+        <!-- Legs -->
+        <g class="leg">
+          <rect x="22" y="112" width="8" height="22" rx="4" fill="#c8883a"/>
+          <rect x="34" y="112" width="8" height="22" rx="4" fill="#c8883a"/>
+        </g>
+        <g class="leg leg-b">
+          <rect x="46" y="112" width="8" height="22" rx="4" fill="#c8883a"/>
+          <rect x="58" y="112" width="8" height="22" rx="4" fill="#c8883a"/>
+        </g>
+      </svg>
+    </div>
+    <!-- Ground line -->
+    <div class="parade-ground"></div>
+  </div>
+
+  <!-- Hero Content -->
+  <div class="container hero-content">
+    <div class="row min-vh-100 align-items-center">
+      <div class="col-lg-7" data-aos="fade-right" data-aos-duration="1000">
+        <div class="hero-badge mb-3">
+          <i class="fas fa-shield-halved"></i>
+          <span>Protecting Africa's Legacy Since 2008</span>
+        </div>
+        <div class="hero-eyebrow mb-2">WildGuard Africa</div>
+        <h1 class="hero-title mb-4">
+          Every Life <em>Matters</em>.<br>Every Roar<br>Counts.
+        </h1>
+        <p class="hero-sub mb-5">
+          We stand between Africa's magnificent wildlife and extinction. Join thousands of guardians protecting lions, elephants, and rhinos for generations to come.
+        </p>
+        <div class="d-flex flex-wrap gap-3">
+          <a href="#adopt" class="btn-wild px-4 py-3" style="font-size:1rem">
+            <i class="fas fa-heart me-2"></i>Adopt an Animal
+          </a>
+          <a href="#about" class="btn btn-outline-light rounded-pill px-4 py-3" style="font-size:1rem; border-width:2px">
+            <i class="fas fa-play-circle me-2"></i>Our Story
+          </a>
+        </div>
+        <div class="d-flex gap-4 mt-5">
+          <div>
+            <div style="font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:900; color:#fff">48K+</div>
+            <div style="font-size:.75rem; color:rgba(255,255,255,.65); letter-spacing:1.5px; text-transform:uppercase">Animals Protected</div>
+          </div>
+          <div style="width:1px; background:rgba(255,255,255,.2)"></div>
+          <div>
+            <div style="font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:900; color:#fff">120+</div>
+            <div style="font-size:.75rem; color:rgba(255,255,255,.65); letter-spacing:1.5px; text-transform:uppercase">Countries</div>
+          </div>
+          <div style="width:1px; background:rgba(255,255,255,.2)"></div>
+          <div>
+            <div style="font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:900; color:#fff">$12M</div>
+            <div style="font-size:.75rem; color:rgba(255,255,255,.65); letter-spacing:1.5px; text-transform:uppercase">Raised This Year</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll hint -->
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="arrow-down"></div>
+  </div>
+</section>
+
+<!-- Wave Divider -->
+<div class="wave-divider" style="background:var(--bg); margin-top:-2px;">
+  <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="height:60px">
+    <path d="M0,30 C360,60 1080,0 1440,30 L1440,60 L0,60 Z" fill="var(--bg)"/>
+  </svg>
+</div>
+
+<!-- ====================================================== ABOUT -->
+<section class="about-section" id="about">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6" data-aos="fade-right" data-aos-duration="900">
+        <div class="about-img-wrapper" style="height:520px; position:relative">
+          <img src="https://images.unsplash.com/photo-1474511320723-9a56873867b5?w=800&q=80" alt="Lion in golden grass" style="height:100%"/>
+          <div class="floating-badge">
+            <div class="big">16+</div>
+            <div class="small">Years of<br>Impact</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6" data-aos="fade-left" data-aos-duration="900" data-aos-delay="100">
+        <div class="section-label mb-2">Who We Are</div>
+        <h2 class="section-title mb-3">
+          A Guardian for Africa's <span>Wild Souls</span>
+        </h2>
+        <div class="title-line" style="margin-left:0"></div>
+        <p style="color:var(--text-muted); line-height:1.8; margin-bottom:24px;">
+          Founded in 2008 on the savannas of Kenya, WildGuard Africa has grown into one of the continent's most trusted conservation organisations. We deploy rangers, fund research, and build communities that <span class="caveat-text">thrive alongside nature</span>.
+        </p>
+        <div class="d-flex flex-column gap-3">
+          <div class="d-flex gap-3 align-items-start" data-aos="fade-up" data-aos-delay="200">
+            <div class="feature-icon-box"><i class="fas fa-shield-cat"></i></div>
+            <div>
+              <h5 style="font-family:'Playfair Display',serif; color:var(--text); margin-bottom:4px">Anti-Poaching Units</h5>
+              <p style="color:var(--text-muted); font-size:.88rem; line-height:1.6; margin:0">600+ trained rangers protect over 12 million acres across 9 countries, operating 24/7.</p>
+            </div>
+          </div>
+          <div class="d-flex gap-3 align-items-start" data-aos="fade-up" data-aos-delay="300">
+            <div class="feature-icon-box"><i class="fas fa-seedling"></i></div>
+            <div>
+              <h5 style="font-family:'Playfair Display',serif; color:var(--text); margin-bottom:4px">Habitat Restoration</h5>
+              <p style="color:var(--text-muted); font-size:.88rem; line-height:1.6; margin:0">Replanting corridors and restoring water sources to reconnect fragmented ecosystems.</p>
+            </div>
+          </div>
+          <div class="d-flex gap-3 align-items-start" data-aos="fade-up" data-aos-delay="400">
+            <div class="feature-icon-box"><i class="fas fa-users"></i></div>
+            <div>
+              <h5 style="font-family:'Playfair Display',serif; color:var(--text); margin-bottom:4px">Community Empowerment</h5>
+              <p style="color:var(--text-muted); font-size:.88rem; line-height:1.6; margin:0">Turning local communities into conservation champions through education and eco-tourism jobs.</p>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex gap-3 mt-4">
+          <a href="#adopt" class="btn-wild px-4 py-2">
+            <i class="fas fa-leaf me-2"></i>Join the Mission
+          </a>
+          <a href="#impact" class="animated-link mt-2" data-text="See Our Impact →">See Our Impact →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================== IMPACT STATS -->
+<section class="impact-section" id="impact">
+  <div class="container position-relative">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <div class="section-label" style="color:rgba(255,255,255,.7)">Our Numbers</div>
+      <h2 style="font-family:'Playfair Display',serif; color:#fff; font-size:clamp(1.8rem,4vw,2.6rem); font-weight:900; margin-top:8px">
+        The Difference You Make
+      </h2>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="0">
+        <div class="stat-card">
+          <span class="stat-icon"><i class="fas fa-cat"></i></span>
+          <div class="stat-number"><span class="counter" data-target="48000">0</span><span class="stat-suffix">+</span></div>
+          <div class="stat-label">Animals Protected</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="100">
+        <div class="stat-card">
+          <span class="stat-icon"><i class="fas fa-globe-africa"></i></span>
+          <div class="stat-number"><span class="counter" data-target="12">0</span><span class="stat-suffix">M</span></div>
+          <div class="stat-label">Acres Protected</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="200">
+        <div class="stat-card">
+          <span class="stat-icon"><i class="fas fa-user-shield"></i></span>
+          <div class="stat-number"><span class="counter" data-target="600">0</span><span class="stat-suffix">+</span></div>
+          <div class="stat-label">Rangers Deployed</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3" data-aos="zoom-in" data-aos-delay="300">
+        <div class="stat-card">
+          <span class="stat-icon"><i class="fas fa-hand-holding-heart"></i></span>
+          <div class="stat-number">$<span class="counter" data-target="12">0</span><span class="stat-suffix">M</span></div>
+          <div class="stat-label">Raised This Year</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================== PROJECTS GALLERY -->
+<section class="projects-section" id="projects">
+  <div class="container">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <div class="section-label">On The Ground</div>
+      <h2 class="section-title mt-2">Our Active <span>Projects</span></h2>
+      <div class="title-line"></div>
+      <p style="color:var(--text-muted); max-width:520px; margin:0 auto; font-size:.95rem">
+        From the Serengeti to the Okavango Delta — real work, real impact.
+      </p>
+    </div>
+    <div class="masonry-grid">
+      <div class="masonry-item" data-aos="fade-up" data-aos-delay="0">
+        <div class="masonry-tag">Kenya</div>
+        <img src="https://images.unsplash.com/photo-1549366021-9f761d040a94?w=600&q=80" alt="Elephants"/>
+        <div class="masonry-overlay">
+          <div class="masonry-caption">
+            <h5>Amboseli Elephant Corridors</h5>
+            <p>Restoring migration pathways for 1,200+ elephants</p>
+          </div>
+        </div>
+      </div>
+      <div class="masonry-item" data-aos="fade-up" data-aos-delay="100">
+        <div class="masonry-tag">Tanzania</div>
+        <img src="https://images.unsplash.com/photo-1612200028190-a8eb71e74f2f?w=600&q=80" alt="Lion Pride"/>
+        <div class="masonry-overlay">
+          <div class="masonry-caption">
+            <h5>Serengeti Pride Watch</h5>
+            <p>Monitoring & protecting 42 lion prides year-round</p>
+          </div>
+        </div>
+      </div>
+      <div class="masonry-item" data-aos="fade-up" data-aos-delay="50">
+        <div class="masonry-tag">Botswana</div>
+        <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=600&q=80" alt="Rhino"/>
+        <div class="masonry-overlay">
+          <div class="masonry-caption">
+            <h5>Okavango Rhino Shield</h5>
+            <p>24/7 armed protection for critically endangered rhinos</p>
+          </div>
+        </div>
+      </div>
+      <div class="masonry-item" data-aos="fade-up" data-aos-delay="200">
+        <div class="masonry-tag">Uganda</div>
+        <img src="https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=600&q=80" alt="Gorilla"/>
+        <div class="masonry-overlay">
+          <div class="masonry-caption">
+            <h5>Bwindi Gorilla Guard</h5>
+            <p>Protecting the last 1,000 mountain gorillas</p>
+          </div>
+        </div>
+      </div>
+      <div class="masonry-item" data-aos="fade-up" data-aos-delay="150">
+        <div class="masonry-tag">South Africa</div>
+        <img src="https://images.unsplash.com/photo-1504173010664-32509107de4f?w=600&q=80" alt="Cheetah"/>
+        <div class="masonry-overlay">
+          <div class="masonry-caption">
+            <h5>Cape Cheetah Recovery</h5>
+            <p>Breeding and rewilding programme for endangered cheetahs</p>
+          </div>
+        </div>
+      </div>
+      <div class="masonry-item" data-aos="fade-up" data-aos-delay="250">
+        <div class="masonry-tag">Zambia</div>
+        <img src="https://images.unsplash.com/photo-1477885284392-8e9d3a54c31e?w=600&q=80" alt="Wild Africa"/>
+        <div class="masonry-overlay">
+          <div class="masonry-caption">
+            <h5>Kafue Ranger Academy</h5>
+            <p>Training 200 new rangers annually in conservation skills</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="text-center mt-5" data-aos="fade-up">
+      <a href="#" class="btn-wild px-5 py-3" style="font-size:1rem">
+        <i class="fas fa-map-location-dot me-2"></i>View All Projects
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================== ADOPT -->
+<section class="adopt-section" id="adopt">
+  <div class="container">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <div class="section-label">Make A Difference</div>
+      <h2 class="section-title mt-2">
+        <a href="#" class="squiggle-link active-squiggle text-decoration-none" style="color:var(--text)">
+          Adopt an Animal
+        </a>
+      </h2>
+      <div class="title-line"></div>
+      <p style="color:var(--text-muted); max-width:520px; margin:0 auto; font-size:.95rem">
+        Your monthly contribution gives a wild animal a <span class="caveat-text">fighting chance</span> at survival. Every adoption includes updates, a certificate & photo pack.
+      </p>
+    </div>
+
+    <div class="row g-4">
+      <!-- Lion -->
+      <div class="col-md-6 col-xl-3" data-aos="fade-up" data-aos-delay="0">
+        <div class="adopt-card">
+          <div class="adopt-card-img">
+            <img src="https://images.unsplash.com/photo-1534188753412-3e26d0d618d6?w=500&q=80" alt="Lion"/>
+            <div style="position:absolute; top:12px; right:12px; background:var(--accent); color:#fff; border-radius:50%; width:44px; height:44px; display:flex; align-items:center; justify-content:center; font-size:1.3rem">
+              <i class="fas fa-cat"></i>
+            </div>
+          </div>
+          <div class="adopt-card-body">
+            <div class="adopt-card-title mb-1">Simba — Lion</div>
+            <div style="color:var(--text-muted); font-size:.78rem; margin-bottom:16px">Masai Mara, Kenya · Age 4</div>
+            <div class="progress-label">
+              <span>Goal Progress</span>
+              <span class="progress-val">76%</span>
+            </div>
+            <div class="wild-progress mb-3">
+              <div class="wild-progress-bar" data-width="76"></div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="adopt-price">$18 <small>/mo</small></div>
+              <button class="btn-wild" style="padding:8px 18px; font-size:.82rem">
+                <i class="fas fa-paw me-1"></i>Adopt
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Elephant -->
+      <div class="col-md-6 col-xl-3" data-aos="fade-up" data-aos-delay="100">
+        <div class="adopt-card">
+          <div class="adopt-card-img">
+            <img src="https://images.unsplash.com/photo-1581852017103-68ac65514cf7?w=500&q=80" alt="Elephant"/>
+            <div style="position:absolute; top:12px; right:12px; background:var(--primary); color:#fff; border-radius:50%; width:44px; height:44px; display:flex; align-items:center; justify-content:center; font-size:1.3rem">
+              <i class="fas fa-hippo"></i>
+            </div>
+          </div>
+          <div class="adopt-card-body">
+            <div class="adopt-card-title mb-1">Tembo — Elephant</div>
+            <div style="color:var(--text-muted); font-size:.78rem; margin-bottom:16px">Amboseli, Kenya · Age 12</div>
+            <div class="progress-label">
+              <span>Goal Progress</span>
+              <span class="progress-val">92%</span>
+            </div>
+            <div class="wild-progress mb-3">
+              <div class="wild-progress-bar" data-width="92"></div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="adopt-price">$25 <small>/mo</small></div>
+              <button class="btn-wild" style="padding:8px 18px; font-size:.82rem">
+                <i class="fas fa-paw me-1"></i>Adopt
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rhino -->
+      <div class="col-md-6 col-xl-3" data-aos="fade-up" data-aos-delay="200">
+        <div class="adopt-card">
+          <div class="adopt-card-img">
+            <img src="https://images.unsplash.com/photo-1596496638641-e240cd85ad45?w=500&q=80" alt="Rhino"/>
+            <div style="position:absolute; top:12px; right:12px; background:var(--secondary); color:#fff; border-radius:50%; width:44px; height:44px; display:flex; align-items:center; justify-content:center; font-size:1.3rem">
+              <i class="fas fa-horse"></i>
+            </div>
+          </div>
+          <div class="adopt-card-body">
+            <div class="adopt-card-title mb-1">Kiazi — Rhino</div>
+            <div style="color:var(--text-muted); font-size:.78rem; margin-bottom:16px">Ol Pejeta, Kenya · Age 7</div>
+            <div class="progress-label">
+              <span>Goal Progress</span>
+              <span class="progress-val">54%</span>
+            </div>
+            <div class="wild-progress mb-3">
+              <div class="wild-progress-bar" data-width="54"></div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="adopt-price">$30 <small>/mo</small></div>
+              <button class="btn-wild" style="padding:8px 18px; font-size:.82rem">
+                <i class="fas fa-paw me-1"></i>Adopt
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cheetah -->
+      <div class="col-md-6 col-xl-3" data-aos="fade-up" data-aos-delay="300">
+        <div class="adopt-card">
+          <div class="adopt-card-img">
+            <img src="https://images.unsplash.com/photo-1456926631375-92c8ce872def?w=500&q=80" alt="Cheetah"/>
+            <div style="position:absolute; top:12px; right:12px; background:var(--accent); color:#fff; border-radius:50%; width:44px; height:44px; display:flex; align-items:center; justify-content:center; font-size:1.3rem">
+              <i class="fas fa-otter"></i>
+            </div>
+          </div>
+          <div class="adopt-card-body">
+            <div class="adopt-card-title mb-1">Duma — Cheetah</div>
+            <div style="color:var(--text-muted); font-size:.78rem; margin-bottom:16px">Kruger NP, S.Africa · Age 3</div>
+            <div class="progress-label">
+              <span>Goal Progress</span>
+              <span class="progress-val">38%</span>
+            </div>
+            <div class="wild-progress mb-3">
+              <div class="wild-progress-bar" data-width="38"></div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="adopt-price">$22 <small>/mo</small></div>
+              <button class="btn-wild" style="padding:8px 18px; font-size:.82rem">
+                <i class="fas fa-paw me-1"></i>Adopt
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Overall campaign progress -->
+    <div class="mt-5 p-4 rounded-wild" style="background:var(--card-bg); box-shadow:0 4px 30px rgba(0,0,0,.07)" data-aos="fade-up">
+      <div class="row align-items-center g-3">
+        <div class="col-md-6">
+          <h4 style="font-family:'Playfair Display',serif; color:var(--text); margin-bottom:4px">2025 Annual Campaign</h4>
+          <p style="color:var(--text-muted); font-size:.88rem; margin:0">Help us reach our $500,000 goal before year-end</p>
+        </div>
+        <div class="col-md-6">
+          <div class="progress-label">
+            <span style="font-weight:700; color:var(--primary)">$347,200 raised</span>
+            <span style="font-weight:700; color:var(--accent)">69%</span>
+          </div>
+          <div class="wild-progress" style="height:16px">
+            <div class="wild-progress-bar" data-width="69" style="height:16px"></div>
+          </div>
+          <div style="font-size:.75rem; color:var(--text-muted); margin-top:6px">Goal: $500,000 · 1,847 donors · 42 days left</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================== TESTIMONIALS -->
+<section class="testimonials-section" id="stories">
+  <div class="container">
+    <div class="text-center mb-5" data-aos="fade-up">
+      <div class="section-label">Voices</div>
+      <h2 class="section-title mt-2">From the <span>Field & Heart</span></h2>
+      <div class="title-line"></div>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="0">
+        <div class="testi-card">
+          <div class="testi-quote">"</div>
+          <p class="testi-text">I adopted Tembo the elephant three years ago. Last month I received photos of her newest calf. I cried. WildGuard Africa doesn't just protect animals — they create miracles.</p>
+          <div class="stars mb-3"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+          <div class="d-flex align-items-center gap-3">
+            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="" style="width:44px; height:44px; border-radius:50%; object-fit:cover; border:2px solid var(--accent)"/>
+            <div>
+              <div class="testi-author">Sarah Whitmore</div>
+              <div class="testi-role">Donor · UK</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="150">
+        <div class="testi-card">
+          <div class="testi-quote">"</div>
+          <p class="testi-text">As a ranger trained by WildGuard, I now protect 50,000 acres of savanna. This organisation didn't just give me a job — it gave me a purpose larger than myself.</p>
+          <div class="stars mb-3"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+          <div class="d-flex align-items-center gap-3">
+            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="" style="width:44px; height:44px; border-radius:50%; object-fit:cover; border:2px solid var(--accent)"/>
+            <div>
+              <div class="testi-author">James Ochieng</div>
+              <div class="testi-role">Head Ranger · Kenya</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+        <div class="testi-card">
+          <div class="testi-quote">"</div>
+          <p class="testi-text">Our corporate partnership with WildGuard Africa transformed our CSR. Employees volunteer, morale skyrocketed, and we're genuinely contributing to a liveable planet.</p>
+          <div class="stars mb-3"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-stroke"></i></div>
+          <div class="d-flex align-items-center gap-3">
+            <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="" style="width:44px; height:44px; border-radius:50%; object-fit:cover; border:2px solid var(--accent)"/>
+            <div>
+              <div class="testi-author">Dr. Priya Nair</div>
+              <div class="testi-role">CEO · EcoVentures Ltd.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stories Carousel -->
+    <div class="row mt-5 g-4">
+      <div class="col-12 text-center mb-3" data-aos="fade-up">
+        <div class="section-label">Latest Stories</div>
+        <h3 class="section-title mt-1">From the <span>Savanna</span></h3>
+        <div class="title-line"></div>
+      </div>
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="0">
+        <div class="story-card">
+          <img src="https://images.unsplash.com/photo-1551316679-9c6ae9dec224?w=500&q=80" alt="Story"/>
+          <div class="story-body">
+            <div class="story-date">June 12, 2025</div>
+            <h4 class="story-title">The Lion Who Came Back From the Brink</h4>
+            <p class="story-excerpt">Rescued as a cub after poachers killed his mother, Simba now leads a pride of eleven across the Mara plains...</p>
+            <a href="#" class="read-more squiggle-link">Read Story <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="150">
+        <div class="story-card">
+          <img src="https://images.unsplash.com/photo-1521651201144-634f700b36ef?w=500&q=80" alt="Story"/>
+          <div class="story-body">
+            <div class="story-date">May 28, 2025</div>
+            <h4 class="story-title">Elephants Return to Ancient Watering Holes</h4>
+            <p class="story-excerpt">After decades of absence, three herds now trek the restored Amboseli corridor every dry season...</p>
+            <a href="#" class="read-more squiggle-link">Read Story <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+        <div class="story-card">
+          <img src="https://images.unsplash.com/photo-1474511320723-9a56873867b5?w=500&q=80" alt="Story"/>
+          <div class="story-body">
+            <div class="story-date">May 5, 2025</div>
+            <h4 class="story-title">Women Rangers Break New Ground in Botswana</h4>
+            <p class="story-excerpt">Meet the Akashinga — the all-female ranger unit rewriting conservation history one patrol at a time...</p>
+            <a href="#" class="read-more squiggle-link">Read Story <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================== CTA -->
+<section class="cta-section">
+  <div class="cta-overlay"></div>
+  <div class="container cta-content">
+    <div class="row justify-content-center">
+      <div class="col-lg-8" data-aos="zoom-in">
+        <div style="font-size:.75rem; letter-spacing:5px; text-transform:uppercase; color:rgba(255,255,255,.7); margin-bottom:12px">Act Now</div>
+        <h2 class="cta-title mb-4">
+          Africa's Wildlife Can't<br><em style="color:var(--accent)">Wait</em> Any Longer
+        </h2>
+        <p style="color:rgba(255,255,255,.85); font-size:1.05rem; max-width:560px; margin:0 auto 32px; line-height:1.7">
+          A lion disappears every 20 hours. An elephant every 15 minutes. Your donation today becomes a ranger's salary, a protected corridor, a future.
+        </p>
+        <div class="d-flex flex-wrap gap-3 justify-content-center">
+          <a href="#adopt" class="btn-wild px-5 py-3" style="font-size:1.05rem">
+            <i class="fas fa-heart me-2"></i>Donate Today
+          </a>
+          <a href="#" class="btn btn-outline-light rounded-pill px-5 py-3" style="font-size:1.05rem">
+            <i class="fas fa-share-nodes me-2"></i>Spread the Word
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================== CONTACT / NEWSLETTER -->
+<section style="padding:80px 0; background:var(--bg)" id="contact">
+  <div class="container">
+    <div class="row g-5 align-items-center">
+      <div class="col-lg-6" data-aos="fade-right">
+        <div class="section-label">Stay Connected</div>
+        <h2 class="section-title mt-2 mb-3">Join Our <span>Wild Family</span></h2>
+        <div class="title-line" style="margin-left:0"></div>
+        <p style="color:var(--text-muted); line-height:1.8; margin-bottom:28px">
+          Get monthly updates from the field — stories, photos, and ways to help — delivered to your inbox. No spam, just wild truth.
+        </p>
+        <form class="d-flex gap-0 mb-4" onsubmit="handleNewsletter(event)">
+          <input type="email" class="form-control newsletter-input" placeholder="your@email.com" required/>
+          <button type="submit" class="btn newsletter-btn">
+            <i class="fas fa-paper-plane me-2"></i>Subscribe
+          </button>
+        </form>
+        <div class="d-flex flex-wrap gap-3">
+          <div class="d-flex align-items-center gap-2" style="font-size:.82rem; color:var(--text-muted)">
+            <i class="fas fa-check-circle" style="color:var(--primary)"></i>
+            <span>Monthly field reports</span>
+          </div>
+          <div class="d-flex align-items-center gap-2" style="font-size:.82rem; color:var(--text-muted)">
+            <i class="fas fa-check-circle" style="color:var(--primary)"></i>
+            <span>Exclusive wildlife photos</span>
+          </div>
+          <div class="d-flex align-items-center gap-2" style="font-size:.82rem; color:var(--text-muted)">
+            <i class="fas fa-check-circle" style="color:var(--primary)"></i>
+            <span>Impact transparency</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6" data-aos="fade-left">
+        <div style="background:var(--card-bg); border-radius:24px; padding:40px; box-shadow:0 8px 40px rgba(0,0,0,.1)">
+          <h4 style="font-family:'Playfair Display',serif; color:var(--text); margin-bottom:24px">Send Us a Message</h4>
+          <form onsubmit="handleContact(event)">
+            <div class="row g-3">
+              <div class="col-6">
+                <input type="text" class="form-control" placeholder="First Name" style="background:var(--bg); color:var(--text); border:1.5px solid rgba(74,124,89,.2); border-radius:12px; padding:12px 16px" required/>
+              </div>
+              <div class="col-6">
+                <input type="text" class="form-control" placeholder="Last Name" style="background:var(--bg); color:var(--text); border:1.5px solid rgba(74,124,89,.2); border-radius:12px; padding:12px 16px" required/>
+              </div>
+              <div class="col-12">
+                <input type="email" class="form-control" placeholder="Email Address" style="background:var(--bg); color:var(--text); border:1.5px solid rgba(74,124,89,.2); border-radius:12px; padding:12px 16px" required/>
+              </div>
+              <div class="col-12">
+                <select class="form-select" style="background:var(--bg); color:var(--text); border:1.5px solid rgba(74,124,89,.2); border-radius:12px; padding:12px 16px">
+                  <option>I want to volunteer</option>
+                  <option>Corporate partnership</option>
+                  <option>Media enquiry</option>
+                  <option>General question</option>
+                </select>
+              </div>
+              <div class="col-12">
+                <textarea class="form-control" rows="3" placeholder="Your message..." style="background:var(--bg); color:var(--text); border:1.5px solid rgba(74,124,89,.2); border-radius:12px; padding:12px 16px; resize:none"></textarea>
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn-wild w-100 py-3">
+                  <i class="fas fa-paper-plane me-2"></i>Send Message
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================== FOOTER -->
+<footer>
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-4 col-md-6">
+        <div class="footer-brand mb-3"><i class="fas fa-paw me-2"></i>WildGuard<span style="color:rgba(255,255,255,.6)"> Africa</span></div>
+        <p style="font-size:.88rem; line-height:1.7; margin-bottom:20px">Standing guard over Africa's wild heritage since 2008. Every donation, every adoption, every share — it all counts.</p>
+        <div class="d-flex gap-2">
+          <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-btn"><i class="fab fa-x-twitter"></i></a>
+          <a href="#" class="social-btn"><i class="fab fa-youtube"></i></a>
+          <a href="#" class="social-btn"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-6">
+        <div class="footer-title">Explore</div>
+        <a href="#about" class="footer-link">About Us</a>
+        <a href="#impact" class="footer-link">Our Impact</a>
+        <a href="#projects" class="footer-link">Projects</a>
+        <a href="#adopt" class="footer-link">Adopt</a>
+        <a href="#stories" class="footer-link">Stories</a>
+      </div>
+      <div class="col-lg-2 col-md-6">
+        <div class="footer-title">Support</div>
+        <a href="#" class="footer-link">Donate</a>
+        <a href="#" class="footer-link">Volunteer</a>
+        <a href="#" class="footer-link">Partnerships</a>
+        <a href="#" class="footer-link">Shop</a>
+        <a href="#contact" class="footer-link">Contact</a>
+      </div>
+      <div class="col-lg-4 col-md-6">
+        <div class="footer-title">Find Us</div>
+        <div style="font-size:.85rem; line-height:1.9">
+          <div><i class="fas fa-location-dot me-2" style="color:var(--accent)"></i>WildGuard HQ, Karen, Nairobi, Kenya</div>
+          <div><i class="fas fa-phone me-2" style="color:var(--accent)"></i>+254 700 WILD (9453)</div>
+          <div><i class="fas fa-envelope me-2" style="color:var(--accent)"></i>hello@wildguardafrica.org</div>
+        </div>
+        <div class="mt-3 p-3 rounded" style="background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1)">
+          <div style="font-size:.72rem; letter-spacing:1.5px; text-transform:uppercase; color:rgba(255,255,255,.5); margin-bottom:8px">Certified By</div>
+          <div class="d-flex gap-3 align-items-center" style="font-size:.82rem; color:rgba(255,255,255,.7)">
+            <span><i class="fas fa-award" style="color:var(--accent)"></i> GuideStar Gold</span>
+            <span><i class="fas fa-check-double" style="color:var(--accent)"></i> 4-Star Charity</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr class="footer-divider"/>
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3" style="font-size:.78rem; color:rgba(255,255,255,.45)">
+      <div>© 2025 WildGuard Africa. All rights reserved. Registered NGO KE-2008-WGA</div>
+      <div class="d-flex gap-3">
+        <a href="#" class="footer-link" style="padding:0">Privacy Policy</a>
+        <a href="#" class="footer-link" style="padding:0">Terms of Use</a>
+        <a href="#" class="footer-link" style="padding:0">Cookie Policy</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ====================================================== SETTINGS FAB -->
+<button id="settings-fab" title="Settings">
+  <i class="fas fa-gear"></i>
+</button>
+
+<!-- ====================================================== SETTINGS MODAL -->
+<div class="modal fade settings-modal" id="settingsModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="fas fa-sliders me-2"></i>Site Settings</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" style="filter:var(--text)=='#fff'?'invert(1)':'none'"></button>
+      </div>
+      <div class="modal-body p-4">
+
+        <!-- Theme Toggle -->
+        <div class="mb-4">
+          <div class="d-flex align-items-center justify-content-between p-3 rounded-wild" style="background:var(--bg)">
+            <div>
+              <div style="font-weight:700; color:var(--text)">Theme Mode</div>
+              <div style="font-size:.78rem; color:var(--text-muted)">Switch between light and dark</div>
+            </div>
+            <button class="theme-pill" id="modalThemeToggle">
+              <i class="fas fa-moon" id="modalThemeIcon"></i>
+              <span id="modalThemeLabel">Dark</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Color Pickers -->
+        <div class="mb-4">
+          <div style="font-weight:700; color:var(--text); margin-bottom:14px; font-size:.9rem; letter-spacing:1px; text-transform:uppercase">
+            <i class="fas fa-palette me-2" style="color:var(--accent)"></i>Color Customizer
+          </div>
+
+          <div class="d-flex flex-column gap-3">
+            <div class="color-swatch-row">
+              <input type="color" id="colorPrimary" value="#4a7c59" title="Primary Color"/>
+              <div class="flex-grow-1">
+                <div class="color-label">Primary</div>
+                <div style="font-size:.72rem; color:var(--text-muted)">Nav underline, icons, buttons</div>
+              </div>
+              <input type="text" class="color-hex" id="hexPrimary" value="#4a7c59" maxlength="7"/>
+            </div>
+            <div class="color-swatch-row">
+              <input type="color" id="colorSecondary" value="#8b5e3c" title="Secondary Color"/>
+              <div class="flex-grow-1">
+                <div class="color-label">Secondary</div>
+                <div style="font-size:.72rem; color:var(--text-muted)">Gradients, hover states</div>
+              </div>
+              <input type="text" class="color-hex" id="hexSecondary" value="#8b5e3c" maxlength="7"/>
+            </div>
+            <div class="color-swatch-row">
+              <input type="color" id="colorAccent" value="#d4a843" title="Accent Color"/>
+              <div class="flex-grow-1">
+                <div class="color-label">Accent</div>
+                <div style="font-size:.72rem; color:var(--text-muted)">Squiggles, highlights, stats</div>
+              </div>
+              <input type="text" class="color-hex" id="hexAccent" value="#d4a843" maxlength="7"/>
+            </div>
+          </div>
+        </div>
+
+        <!-- Preview -->
+        <div class="mb-4 p-3 rounded-wild" style="background:var(--bg)">
+          <div style="font-size:.72rem; color:var(--text-muted); letter-spacing:1.5px; text-transform:uppercase; margin-bottom:10px">Live Preview</div>
+          <div class="d-flex gap-2 align-items-center flex-wrap">
+            <div style="width:36px; height:36px; border-radius:8px; background:var(--primary)"></div>
+            <div style="width:36px; height:36px; border-radius:8px; background:var(--secondary)"></div>
+            <div style="width:36px; height:36px; border-radius:8px; background:var(--accent)"></div>
+            <span class="btn-wild ms-2" style="padding:6px 16px; font-size:.78rem; pointer-events:none">Button</span>
+            <span class="squiggle-link active-squiggle ms-2" style="font-size:.88rem">Link Style</span>
+          </div>
+        </div>
+
+        <!-- Notifications -->
+        <div id="settingsMsg" class="alert d-none" role="alert"></div>
+      </div>
+      <div class="modal-footer" style="border-top:1px solid rgba(74,124,89,.15); padding:16px 24px">
+        <button class="btn-reset" onclick="resetSettings()">
+          <i class="fas fa-rotate-left me-2"></i>Reset to Default
+        </button>
+        <button class="btn-save" onclick="saveSettings()">
+          <i class="fas fa-floppy-disk me-2"></i>Save Settings
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Notification -->
+<div id="wildToast" style="position:fixed; bottom:80px; right:1rem; z-index:9998; min-width:240px; display:none">
+  <div style="background:var(--primary); color:#fff; border-radius:12px; padding:14px 20px; box-shadow:0 8px 30px rgba(0,0,0,.3); font-size:.88rem; display:flex; align-items:center; gap:10px">
+    <i class="fas fa-check-circle" style="color:var(--accent); font-size:1.1rem"></i>
+    <span id="toastMsg">Done!</span>
+  </div>
+</div>
+
+<!-- Bootstrap 5 JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- AOS -->
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+<script>
+/* ======================================================
+   DEFAULTS & STORAGE
+====================================================== */
+const DEFAULTS = {
+  theme: 'light',
+  primary:   '#4a7c59',
+  secondary: '#8b5e3c',
+  accent:    '#d4a843'
+};
+
+function loadSettings() {
+  const saved = JSON.parse(localStorage.getItem('wgSettings') || '{}');
+  return Object.assign({}, DEFAULTS, saved);
+}
+function persistSettings(obj) {
+  localStorage.setItem('wgSettings', JSON.stringify(obj));
+}
+
+/* ======================================================
+   APPLY THEME
+====================================================== */
+function applyTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  const isDark = theme === 'dark';
+  const label = isDark ? 'Light' : 'Dark';
+  const icon  = isDark ? 'fa-sun' : 'fa-moon';
+  ['navThemeIcon','modalThemeIcon'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.className = 'fas ' + icon; }
+  });
+  ['navThemeLabel','modalThemeLabel'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = label;
+  });
+}
+
+function applyColors(p, s, a) {
+  const r = document.documentElement.style;
+  r.setProperty('--primary',   p);
+  r.setProperty('--secondary', s);
+  r.setProperty('--accent',    a);
+}
+
+/* ======================================================
+   THEME TOGGLE
+====================================================== */
+function toggleTheme() {
+  const current = document.documentElement.getAttribute('data-theme');
+  const next = current === 'dark' ? 'light' : 'dark';
+  applyTheme(next);
+  const s = loadSettings();
+  s.theme = next;
+  persistSettings(s);
+}
+document.getElementById('navThemeToggle').addEventListener('click', toggleTheme);
+document.getElementById('modalThemeToggle').addEventListener('click', toggleTheme);
+
+/* ======================================================
+   COLOR PICKERS SYNC
+====================================================== */
+function syncPicker(pickerId, hexId, cssVar) {
+  const picker = document.getElementById(pickerId);
+  const hex    = document.getElementById(hexId);
+  picker.addEventListener('input', () => {
+    hex.value = picker.value;
+    document.documentElement.style.setProperty(cssVar, picker.value);
+  });
+  hex.addEventListener('input', () => {
+    if (/^#[0-9a-fA-F]{6}$/.test(hex.value)) {
+      picker.value = hex.value;
+      document.documentElement.style.setProperty(cssVar, hex.value);
+    }
+  });
+}
+syncPicker('colorPrimary',   'hexPrimary',   '--primary');
+syncPicker('colorSecondary', 'hexSecondary', '--secondary');
+syncPicker('colorAccent',    'hexAccent',    '--accent');
+
+/* ======================================================
+   SAVE / RESET
+====================================================== */
+function saveSettings() {
+  const s = {
+    theme:     document.documentElement.getAttribute('data-theme'),
+    primary:   document.getElementById('colorPrimary').value,
+    secondary: document.getElementById('colorSecondary').value,
+    accent:    document.getElementById('colorAccent').value
+  };
+  persistSettings(s);
+  showToast('Settings saved! 🎉');
+}
+
+function resetSettings() {
+  persistSettings(DEFAULTS);
+  applyTheme(DEFAULTS.theme);
+  applyColors(DEFAULTS.primary, DEFAULTS.secondary, DEFAULTS.accent);
+  document.getElementById('colorPrimary').value   = DEFAULTS.primary;
+  document.getElementById('colorSecondary').value = DEFAULTS.secondary;
+  document.getElementById('colorAccent').value    = DEFAULTS.accent;
+  document.getElementById('hexPrimary').value     = DEFAULTS.primary;
+  document.getElementById('hexSecondary').value   = DEFAULTS.secondary;
+  document.getElementById('hexAccent').value      = DEFAULTS.accent;
+  showToast('Reset to defaults ✅');
+}
+
+/* ======================================================
+   SETTINGS FAB
+====================================================== */
+const fab = document.getElementById('settings-fab');
+fab.addEventListener('click', () => {
+  fab.classList.add('spinning');
+  setTimeout(() => fab.classList.remove('spinning'), 700);
+  const modal = new bootstrap.Modal(document.getElementById('settingsModal'));
+  modal.show();
+});
+
+/* ======================================================
+   TOAST
+====================================================== */
+function showToast(msg) {
+  const t = document.getElementById('wildToast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.style.display = 'block';
+  t.style.opacity = '1';
+  setTimeout(() => {
+    t.style.transition = 'opacity .5s';
+    t.style.opacity = '0';
+    setTimeout(() => { t.style.display = 'none'; t.style.opacity = '1'; t.style.transition = ''; }, 500);
+  }, 2500);
+}
+
+/* ======================================================
+   VANILLA COUNTERS
+====================================================== */
+function animateCounter(el) {
+  const target = parseInt(el.getAttribute('data-target'));
+  const duration = 2000;
+  const step = target / (duration / 16);
+  let current = 0;
+  const timer = setInterval(() => {
+    current += step;
+    if (current >= target) {
+      el.textContent = target.toLocaleString();
+      clearInterval(timer);
+    } else {
+      el.textContent = Math.floor(current).toLocaleString();
+    }
+  }, 16);
+}
+
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      animateCounter(entry.target);
+      counterObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.5 });
+document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el));
+
+/* ======================================================
+   PROGRESS BARS
+====================================================== */
+const progressObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const bar = entry.target;
+      const width = bar.getAttribute('data-width');
+      setTimeout(() => { bar.style.width = width + '%'; }, 300);
+      progressObserver.unobserve(bar);
+    }
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('.wild-progress-bar').forEach(bar => progressObserver.observe(bar));
+
+/* ======================================================
+   NAVBAR SCROLL EFFECT
+====================================================== */
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('mainNav');
+  if (window.scrollY > 60) {
+    nav.style.boxShadow = '0 4px 30px rgba(0,0,0,.15)';
+  } else {
+    nav.style.boxShadow = 'none';
+  }
+  // Active nav link
+  const sections = document.querySelectorAll('section[id]');
+  let current = '';
+  sections.forEach(sec => {
+    if (window.scrollY >= sec.offsetTop - 120) current = sec.id;
+  });
+  document.querySelectorAll('.nav-link').forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+  });
+});
+
+/* ======================================================
+   FORMS
+====================================================== */
+function handleNewsletter(e) {
+  e.preventDefault();
+  showToast('You\'re in! Welcome to the wild family 🌿');
+  e.target.reset();
+}
+function handleContact(e) {
+  e.preventDefault();
+  showToast('Message sent! We\'ll be in touch soon 🦁');
+  e.target.reset();
+}
+
+/* ======================================================
+   PRELOADER
+====================================================== */
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('preloader').classList.add('hidden');
+  }, 1400);
+});
+
+/* ======================================================
+   AOS INIT
+====================================================== */
+AOS.init({
+  duration: 800,
+  easing: 'ease-out-cubic',
+  once: true,
+  offset: 80
+});
+
+/* ======================================================
+   BOOT: LOAD SAVED SETTINGS
+====================================================== */
+(function boot() {
+  const s = loadSettings();
+  applyTheme(s.theme);
+  applyColors(s.primary, s.secondary, s.accent);
+  document.getElementById('colorPrimary').value   = s.primary;
+  document.getElementById('colorSecondary').value = s.secondary;
+  document.getElementById('colorAccent').value    = s.accent;
+  document.getElementById('hexPrimary').value     = s.primary;
+  document.getElementById('hexSecondary').value   = s.secondary;
+  document.getElementById('hexAccent').value      = s.accent;
+})();
+</script>
+</body>
+</html>
