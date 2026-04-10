@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SpiceRoute — Flavors Delivered to Your Door</title>
+<link rel="icon" href="https://i.ibb.co/whvDkTsR/spice-log.png">
 
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -444,12 +445,6 @@ section { padding: 5rem 0; position:relative; }
   position:absolute; inset:0;
   background: linear-gradient(135deg, rgba(255,107,53,0.2), rgba(230,57,70,0.15));
 }
-.dish-svg-icon {
-  position:relative; z-index:1;
-  width:80px; height:80px;
-  color: var(--primary);
-  transition: transform 0.4s;
-}
 .dish-card:hover .dish-svg-icon { transform:scale(1.15) rotate(5deg); }
 .dish-badge {
   position:absolute; top:12px; right:12px; z-index:2;
@@ -541,9 +536,6 @@ section { padding: 5rem 0; position:relative; }
   height:220px; display:flex; align-items:center; justify-content:center;
   background: linear-gradient(135deg, rgba(255,107,53,0.1), rgba(255,209,102,0.08));
   position:relative;
-}
-.chef-avatar-svg {
-  width:100px; height:100px; color:var(--primary);
 }
 .chef-specialty {
   position:absolute; bottom:10px; right:10px;
@@ -1126,7 +1118,9 @@ section { padding: 5rem 0; position:relative; }
       <div class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="0">
         <div class="dish-card">
           <div class="dish-img-wrap">
-            <div class="dish-img-bg"></div>
+            <div class="dish-img-bg">
+              <img src="https://images.unsplash.com/photo-1549611016-3a70d82b5040?w=360&fit=crop&q=60">
+            </div>
             <svg class="dish-svg-icon" viewBox="0 0 100 100"><circle cx="50" cy="55" r="30" fill="none" stroke="currentColor" stroke-width="2"/><path d="M30,50 Q40,35 50,50 Q60,65 70,50" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><ellipse cx="50" cy="40" rx="8" ry="5" fill="currentColor" opacity="0.3"/><line x1="50" y1="20" x2="50" y2="30" stroke="currentColor" stroke-width="2" stroke-linecap="round"><animate attributeName="y1" values="20;15;20" dur="1.5s" repeatCount="indefinite"/></line></svg>
             <span class="dish-badge"><i class="bi bi-fire"></i> Bestseller</span>
             <button class="dish-fav" onclick="this.classList.toggle('liked')"><i class="bi bi-heart"></i></button>
@@ -1150,8 +1144,9 @@ section { padding: 5rem 0; position:relative; }
       <div class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="100">
         <div class="dish-card">
           <div class="dish-img-wrap">
-            <div class="dish-img-bg" style="background:linear-gradient(135deg,rgba(255,209,102,0.2),rgba(255,107,53,0.15))"></div>
-            <svg class="dish-svg-icon" viewBox="0 0 100 100"><rect x="30" y="40" width="40" height="30" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M25,55 L50,30 L75,55" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="42" cy="52" r="3" fill="currentColor" opacity="0.4"/><circle cx="58" cy="55" r="4" fill="currentColor" opacity="0.3"/><line x1="45" y1="25" x2="42" y2="18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.5"><animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite"/></line><line x1="55" y1="23" x2="57" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.4"><animate attributeName="opacity" values="0.4;0.9;0.4" dur="2.3s" repeatCount="indefinite"/></line></svg>
+            <div class="dish-img-bg">
+              <img src="https://images.unsplash.com/photo-1712192674556-4a89f20240c1?w=360&fit=crop&q=60">
+            </div>
             <span class="dish-badge" style="background:var(--accent);color:#333"><i class="bi bi-trophy"></i> #2 Pick</span>
             <button class="dish-fav" onclick="this.classList.toggle('liked')"><i class="bi bi-heart"></i></button>
           </div>
@@ -1174,8 +1169,9 @@ section { padding: 5rem 0; position:relative; }
       <div class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="200">
         <div class="dish-card">
           <div class="dish-img-wrap">
-            <div class="dish-img-bg" style="background:linear-gradient(135deg,rgba(230,57,70,0.2),rgba(255,107,53,0.15))"></div>
-            <svg class="dish-svg-icon" viewBox="0 0 100 100"><ellipse cx="50" cy="60" rx="25" ry="18" fill="none" stroke="currentColor" stroke-width="2"/><path d="M35,55 Q42,45 50,55 Q58,65 65,55" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="45" cy="52" r="4" fill="currentColor" opacity="0.3"/><circle cx="55" cy="58" r="3" fill="currentColor" opacity="0.4"/><path d="M50,42 Q48,35 52,30" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"><animate attributeName="d" values="M50,42 Q48,35 52,30;M50,42 Q52,33 48,28;M50,42 Q48,35 52,30" dur="3s" repeatCount="indefinite"/></path></svg>
+            <div class="dish-img-bg">
+              <img src="https://plus.unsplash.com/premium_photo-1723708871094-2c02cf5f5394?w=360&fit=crop&q=60">
+            </div>
             <span class="dish-badge"><i class="bi bi-lightning"></i> New</span>
             <button class="dish-fav" onclick="this.classList.toggle('liked')"><i class="bi bi-heart"></i></button>
           </div>
@@ -1198,8 +1194,9 @@ section { padding: 5rem 0; position:relative; }
       <div class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="0">
         <div class="dish-card">
           <div class="dish-img-wrap">
-            <div class="dish-img-bg" style="background:linear-gradient(135deg,rgba(76,175,80,0.15),rgba(255,209,102,0.1))"></div>
-            <svg class="dish-svg-icon" viewBox="0 0 100 100"><path d="M35,65 Q35,45 50,35 Q65,45 65,65 Z" fill="none" stroke="currentColor" stroke-width="2"/><line x1="50" y1="35" x2="50" y2="65" stroke="currentColor" stroke-width="1.5" opacity="0.5"/><path d="M40,50 Q45,45 50,50" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.5"/><circle cx="55" cy="52" r="3" fill="currentColor" opacity="0.3"/></svg>
+            <div class="dish-img-bg">
+              <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=360&fit=crop&q=60">
+            </div>
             <span class="dish-badge" style="background:#4CAF50"><i class="bi bi-leaf"></i> Vegan</span>
             <button class="dish-fav" onclick="this.classList.toggle('liked')"><i class="bi bi-heart"></i></button>
           </div>
@@ -1222,8 +1219,9 @@ section { padding: 5rem 0; position:relative; }
       <div class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="100">
         <div class="dish-card">
           <div class="dish-img-wrap">
-            <div class="dish-img-bg" style="background:linear-gradient(135deg,rgba(255,107,53,0.25),rgba(230,57,70,0.15))"></div>
-            <svg class="dish-svg-icon" viewBox="0 0 100 100"><path d="M30,65 L50,35 L70,65 Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="50" cy="52" r="6" fill="currentColor" opacity="0.3"/><line x1="40" y1="58" x2="60" y2="58" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/><path d="M50,30 Q47,22 53,18" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.4"><animate attributeName="opacity" values="0.4;0.9;0.4" dur="2s" repeatCount="indefinite"/></path></svg>
+            <div class="dish-img-bg">
+              <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=360&fit=crop&q=60">
+            </div>
             <span class="dish-badge"><i class="bi bi-fire"></i> Spicy AF</span>
             <button class="dish-fav" onclick="this.classList.toggle('liked')"><i class="bi bi-heart"></i></button>
           </div>
@@ -1246,8 +1244,9 @@ section { padding: 5rem 0; position:relative; }
       <div class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="200">
         <div class="dish-card">
           <div class="dish-img-wrap">
-            <div class="dish-img-bg" style="background:linear-gradient(135deg,rgba(156,39,176,0.15),rgba(255,209,102,0.1))"></div>
-            <svg class="dish-svg-icon" viewBox="0 0 100 100"><rect x="32" y="45" width="36" height="25" rx="8" fill="none" stroke="currentColor" stroke-width="2"/><path d="M38,45 Q50,30 62,45" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="45" cy="55" r="3" fill="currentColor" opacity="0.4"/><circle cx="55" cy="58" r="2.5" fill="currentColor" opacity="0.3"/><path d="M42,42 Q40,36 44,32" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.3"><animate attributeName="opacity" values="0.3;0.8;0.3" dur="2.5s" repeatCount="indefinite"/></path><path d="M58,40 Q60,34 56,30" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.3"><animate attributeName="opacity" values="0.3;0.7;0.3" dur="2s" repeatCount="indefinite"/></path></svg>
+            <div class="dish-img-bg">
+              <img src="https://images.unsplash.com/photo-1432139555190-58524dae6a55?w=360&fit=crop&q=60">
+            </div>
             <span class="dish-badge" style="background:#9C27B0"><i class="bi bi-gem"></i> Premium</span>
             <button class="dish-fav" onclick="this.classList.toggle('liked')"><i class="bi bi-heart"></i></button>
           </div>
@@ -1326,14 +1325,7 @@ section { padding: 5rem 0; position:relative; }
       <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="0">
         <div class="chef-card tilt-card">
           <div class="chef-avatar-wrap">
-            <svg class="chef-avatar-svg" viewBox="0 0 100 100">
-              <circle cx="50" cy="35" r="18" fill="none" stroke="currentColor" stroke-width="2"/>
-              <path d="M30,75 Q30,55 50,50 Q70,55 70,75" fill="none" stroke="currentColor" stroke-width="2"/>
-              <path d="M35,22 Q50,8 65,22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              <circle cx="44" cy="33" r="2" fill="currentColor"/>
-              <circle cx="56" cy="33" r="2" fill="currentColor"/>
-              <path d="M45,40 Q50,44 55,40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            </svg>
+            <img width="" src="https://plus.unsplash.com/premium_photo-1687697861242-03e99059e833?w=350&amp;fit=crop&amp;q=70&amp;format=auto">
             <span class="chef-specialty"><i class="bi bi-fire"></i> Italian</span>
           </div>
           <div class="chef-info">
@@ -1351,14 +1343,7 @@ section { padding: 5rem 0; position:relative; }
       <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="150">
         <div class="chef-card tilt-card">
           <div class="chef-avatar-wrap" style="background:linear-gradient(135deg,rgba(230,57,70,0.1),rgba(255,107,53,0.08))">
-            <svg class="chef-avatar-svg" viewBox="0 0 100 100">
-              <circle cx="50" cy="35" r="18" fill="none" stroke="currentColor" stroke-width="2"/>
-              <path d="M30,75 Q30,55 50,50 Q70,55 70,75" fill="none" stroke="currentColor" stroke-width="2"/>
-              <path d="M32,28 L50,15 L68,28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              <circle cx="44" cy="33" r="2" fill="currentColor"/>
-              <circle cx="56" cy="33" r="2" fill="currentColor"/>
-              <path d="M45,40 Q50,44 55,40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            </svg>
+            <img width="" src="https://plus.unsplash.com/premium_photo-1687697860831-edaf70e279dd?auto=format&w=300&fit=crop&q=60">
             <span class="chef-specialty"><i class="bi bi-fire"></i> Japanese</span>
           </div>
           <div class="chef-info">
@@ -1376,14 +1361,7 @@ section { padding: 5rem 0; position:relative; }
       <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
         <div class="chef-card tilt-card">
           <div class="chef-avatar-wrap" style="background:linear-gradient(135deg,rgba(255,209,102,0.1),rgba(255,107,53,0.08))">
-            <svg class="chef-avatar-svg" viewBox="0 0 100 100">
-              <circle cx="50" cy="35" r="18" fill="none" stroke="currentColor" stroke-width="2"/>
-              <path d="M30,75 Q30,55 50,50 Q70,55 70,75" fill="none" stroke="currentColor" stroke-width="2"/>
-              <ellipse cx="50" cy="20" rx="22" ry="8" fill="none" stroke="currentColor" stroke-width="2"/>
-              <circle cx="44" cy="33" r="2" fill="currentColor"/>
-              <circle cx="56" cy="33" r="2" fill="currentColor"/>
-              <path d="M45,40 Q50,44 55,40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            </svg>
+            <img width="" src="https://plus.unsplash.com/premium_photo-1661349726691-d5efab008d77?auto=format&w=300&fit=crop&q=80">
             <span class="chef-specialty"><i class="bi bi-fire"></i> Indian</span>
           </div>
           <div class="chef-info">
@@ -1510,7 +1488,7 @@ section { padding: 5rem 0; position:relative; }
   </div>
   <div class="container text-center position-relative" style="z-index:2;">
     <div data-aos="zoom-in">
-      <div class="mb-3" style="font-size:3rem;"><i class="bi bi-phone"></i></div>
+      <img src="https://i.ibb.co/whvDkTsR/spice-log.png">
       <h2 style="font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(2rem,4vw,3rem);margin-bottom:1rem;">
         Get the SpiceRoute App
       </h2>
@@ -1603,7 +1581,7 @@ section { padding: 5rem 0; position:relative; }
       </div>
     </div>
     <div class="footer-bottom">
-      <div>&copy; 2026 SpiceRoute. Crafted with <i class="bi bi-heart-fill" style="color:var(--secondary)"></i> and lots of spice.</div>
+      <div>&copy; 2026 SpiceRoute. Crafted by <a href="https://github.com/PMM016/" style="color:var(--secondary)">PMM016</a>with lots of spice.</div>
       <div class="footer-payment">
         <i class="bi bi-credit-card"></i>
         <i class="bi bi-paypal"></i>
