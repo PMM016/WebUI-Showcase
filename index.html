@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WebUI Showcase | Premium UI Components</title>
 
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;900&family=Open+Sans:wght@400;600&family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Modern Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
     
     <!-- CDNs -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -17,42 +19,292 @@
 
     <style>
         :root {
+            --bg: #09090b;
+            --surface: #111114;
+            --surface-hover: #18181b;
+            --border: rgba(255, 255, 255, 0.08);
             --primary: #00ff9f;
-            --accent: #ff00ff;
-            --bg: #0a0a0a;
+            --primary-rgb: 0, 255, 159;
+            --text-main: #e4e4e7;
+            --text-muted: #71717a;
+            --gradient-text: linear-gradient(135deg, #00ff9f 0%, #00bfff 100%);
         }
+
+        * {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
         body {
-            background: var(--bg);
-            color: #e0e0e0;
-            font-family: 'Ubuntu', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
         }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            letter-spacing: -0.02em;
+        }
+
+        /* Navbar */
         .navbar {
-            background: rgba(10,10,10,0.95) !important;
-            backdrop-filter: blur(10px);
+            background: rgba(9, 9, 11, 0.6) !important;
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+            transition: all 0.3s ease;
         }
+
         .brand {
-            font-family: 'Nunito', sans-serif;
-            font-size: 2.8rem;
-            font-weight: 900;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 800;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .nav-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.1);
+            color: var(--primary);
+            border-color: rgba(var(--primary-rgb), 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            padding-top: 160px;
+            padding-bottom: 100px;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(var(--primary-rgb), 0.15) 0%, transparent 60%);
+            z-index: 0;
+        }
+
+        .hero-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 40px 40px;
+            mask-image: radial-gradient(circle at center, black 0%, transparent 70%);
+            -webkit-mask-image: radial-gradient(circle at center, black 0%, transparent 70%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(var(--primary-rgb), 0.1);
+            border: 1px solid rgba(var(--primary-rgb), 0.2);
+            border-radius: 50px;
+            color: var(--primary);
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .gradient-text {
+            background: var(--gradient-text);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+
+        .hero p.lead {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 3rem auto;
+        }
+
+        /* Buttons */
+        .btn-modern {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 600;
+            padding: 0.8rem 1.75rem;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid transparent;
+        }
+
+        .btn-primary-modern {
+            background: var(--primary);
+            color: #000;
+        }
+
+        .btn-primary-modern:hover {
+            background: #00e68d;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(var(--primary-rgb), 0.2);
+            color: #000;
+        }
+
+        .btn-outline-modern {
+            background: transparent;
+            border-color: var(--border);
+            color: var(--text-main);
+        }
+
+        .btn-outline-modern:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Sections */
+        section {
+            padding: 6rem 0;
+            position: relative;
+            z-index: 1;
+        }
+
         .section-title {
-            font-family: 'Nunito', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 900;
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
         }
-        .card-hover {
-            transition: all 0.4s ease;
+
+        .text-muted-custom {
+            color: var(--text-muted) !important;
+            font-size: 1.125rem;
+            line-height: 1.6;
         }
-        .card-hover:hover {
-            transform: translateY(-15px);
-            box-shadow: 0 25px 50px rgba(0, 255, 159, 0.2);
+
+        /* Images & Cards */
+        .preview-img-wrapper {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            transition: all 0.3s ease;
         }
+
+        .preview-img-wrapper:hover {
+            border-color: rgba(var(--primary-rgb), 0.3);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5), 0 0 0 1px rgba(var(--primary-rgb), 0.1);
+        }
+
         .preview-img {
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .preview-img-wrapper:hover .preview-img {
+            transform: scale(1.02);
+        }
+
+        .ui-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 100%;
+        }
+
+        .ui-card:hover {
+            transform: translateY(-5px);
+            background: var(--surface-hover);
+            border-color: rgba(255,255,255,0.15);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .ui-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .ui-card-body {
+            padding: 1.5rem;
+        }
+
+        .tech-badge {
+            display: inline-flex;
+            align-items: center;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            color: var(--text-main);
+            font-weight: 500;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .tech-badge:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: rgba(var(--primary-rgb), 0.05);
+        }
+
+        /* Offcanvas Styling */
+        .offcanvas {
+            background-color: var(--bg) !important;
+            color: var(--text-main) !important;
+            border-left: 1px solid var(--border) !important;
+        }
+        .offcanvas-header {
+            border-bottom: 1px solid var(--border);
+        }
+        .btn-close {
+            filter: invert(1) grayscale(100%) brightness(200%);
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 3rem 0;
+            text-align: center;
         }
     </style>
 </head>
@@ -61,12 +313,13 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
-            <a class="navbar-brand brand" href="#">WebUI</a>
-            <div class="d-flex gap-3">
-                <button class="btn btn-outline-light" id="themeToggle">
+            <a class="brand" href="#">WebUI.</a>
+            <div class="d-flex gap-2 align-items-center">
+                <a href="#collections" class="btn btn-outline-modern d-none d-md-inline-flex">Collections</a>
+                <button class="nav-btn" id="themeToggle" title="Toggle Theme">
                     <i class="bi bi-moon-stars-fill"></i>
                 </button>
-                <button class="btn btn-outline-light" id="settingsTrigger">
+                <button class="nav-btn" id="settingsTrigger" title="Settings" data-bs-toggle="offcanvas" data-bs-target="#settingsOffcanvas">
                     <i class="bi bi-gear-fill"></i>
                 </button>
             </div>
@@ -74,81 +327,93 @@
     </nav>
 
     <!-- Hero -->
-    <section class="py-5 text-center" style="padding-top: 140px; background: linear-gradient(135deg, #1a0033, #000);">
-        <div class="container">
-            <h1 class="brand display-1">WebUI Showcase</h1>
-            <p class="lead mt-3">Premium • Modern • Highly Customizable UI Templates</p>
-            <p class="text-muted">Crafted with passion by a UI Designer</p>
+    <section class="hero">
+        <div class="hero-grid"></div>
+        <div class="container hero-content">
+            <span class="hero-badge"><i class="bi bi-stars me-2"></i>Premium UI Components</span>
+            <h1>Design <span class="gradient-text">Without Limits</span><br>for the Modern Web</h1>
+            <p class="lead">Premium, modern, and highly customizable UI templates crafted with passion. Elevate your projects with sleek, professional designs.</p>
+            <div class="d-flex gap-3 justify-content-center flex-wrap">
+                <a href="#login" class="btn btn-primary-modern">Explore Templates <i class="bi bi-arrow-right"></i></a>
+                <a href="https://github.com/" class="btn btn-outline-modern"><i class="bi bi-github"></i> View on GitHub</a>
+            </div>
         </div>
     </section>
 
     <!-- Login Templates Section -->
-    <section class="py-5">
+    <section id="login" class="py-5">
         <div class="container">
-            <div class="row align-items-center mb-5">
+            <div class="row align-items-center g-5">
                 <div class="col-lg-6" data-aos="fade-right">
-                    <h2 class="section-title text-primary">Login Pages</h2>
-                    <p class="lead">Stunning, 3-in-1 login templates with live theme toggler, color customizer, and smooth animations.</p>
-                    <p class="text-muted">Each template includes Login • Signup • Forgot Password in one beautiful file.</p>
-                    <a href="login/" class="btn btn-primary btn-lg mt-3">
-                        <i class="bi bi-arrow-right-circle"></i> Explore All Login Templates
+                    <span class="text-primary fw-bold text-uppercase tracking-wide" style="font-size: 0.875rem; letter-spacing: 0.1em;">Authentication</span>
+                    <h2 class="section-title mt-2">Beautiful Login Pages</h2>
+                    <p class="text-muted-custom">Stunning, 3-in-1 login templates with live theme toggler, color customizer, and smooth animations. Each template includes Login, Signup, and Forgot Password in one beautiful file.</p>
+                    <a href="login/" class="btn btn-primary-modern mt-3">
+                        Explore All Login Templates <i class="bi bi-arrow-right-circle"></i>
                     </a>
                 </div>
-                <div class="col-lg-6 text-center" data-aos="fade-left">
-                    <img src="https://i.ibb.co/27yWDFmQ/Create-a-futuristic-wide-banne-1.jpg" 
-                         class="preview-img img-fluid" 
-                         alt="Login Templates Preview">
+                <div class="col-lg-6" data-aos="fade-left">
+                    <a href="login/" class="preview-img-wrapper d-block">
+                        <img src="https://i.ibb.co/27yWDFmQ/Create-a-futuristic-wide-banne-1.jpg" class="preview-img" alt="Login Templates Preview">
+                    </a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Landing Pages Section (Updated) -->
-    <section class="py-5 bg-black">
-        <div class="container">
-            <div class="row align-items-center mb-5">
-                <div class="col-lg-6" data-aos="fade-right">
-                    <h2 class="section-title">Landing Pages</h2>
-                    <p class="lead">20 High-converting, beautifully animated landing page templates across multiple industries.</p>
-                    <p class="text-muted">Each template includes Theme Toggler + Advanced Color Manipulator + SVG animations.</p>
-                    <a href="landing/" class="btn btn-success btn-lg mt-3 squiggle">
-                        <i class="bi bi-eye"></i> Browse All Landing Pages
+    <!-- Landing Pages Section -->
+    <section id="collections" style="background-color: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+        <div class="container py-5">
+            <div class="row align-items-center g-5 mb-5">
+                <div class="col-lg-6 order-lg-1 order-2" data-aos="fade-left">
+                    <a href="landing/" class="preview-img-wrapper d-block">
+                        <img src="https://i.ibb.co/WW3fLbrg/Ironforg.png" class="preview-img" alt="Landing Pages Collection">
                     </a>
                 </div>
-                <div class="col-lg-6 text-center" data-aos="fade-left">
-                    <img src="https://i.ibb.co/WW3fLbrg/Ironforg.png" 
-                         class="preview-img img-fluid" alt="Landing Pages Collection">
+                <div class="col-lg-6 order-lg-2 order-1" data-aos="fade-right">
+                    <span class="text-primary fw-bold text-uppercase tracking-wide" style="font-size: 0.875rem; letter-spacing: 0.1em;">Conversion Ready</span>
+                    <h2 class="section-title mt-2">High-Impact Landing Pages</h2>
+                    <p class="text-muted-custom">20 high-converting, beautifully animated landing page templates across multiple industries. Each template includes a Theme Toggler, Advanced Color Manipulator, and SVG animations.</p>
+                    <a href="landing/" class="btn btn-primary-modern mt-3">
+                        <i class="bi bi-eye"></i> Browse All Landing Pages
+                    </a>
                 </div>
             </div>
 
             <!-- Quick Preview Cards -->
-            <div class="row g-4" data-aos="fade-up">
+            <div class="row g-4 mt-4" data-aos="fade-up">
                 <div class="col-md-4">
-                    <div class="card card-hover h-100 text-center border-0">
-                        <img src="https://i.ibb.co/20gHbPLm/nexlify.png" class="card-img-top preview-img" style="height: 180px; object-fit: cover;" alt="Nexlify Finance">
-                        <div class="card-body">
-                            <h5>Nexlify Finance</h5>
-                            <p class="text-muted small">Fintech</p>
+                    <a href="landing/" class="text-decoration-none">
+                        <div class="ui-card">
+                            <img src="https://i.ibb.co/20gHbPLm/nexlify.png" alt="Nexlify Finance">
+                            <div class="ui-card-body">
+                                <h5 class="mb-1 text-light">Nexlify Finance</h5>
+                                <p class="text-muted-custom mb-0" style="font-size: 0.9rem;">Fintech</p>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-md-4">
-                    <div class="card card-hover h-100 text-center border-0">
-                        <img src="https://i.ibb.co/GvvCdPDv/wildgaurdafrica.png" class="card-img-top preview-img" style="height: 180px; object-fit: cover;" alt="WildGuard Africa">
-                        <div class="card-body">
-                            <h5>WildGuard Africa</h5>
-                            <p class="text-muted small">Wildlife Conservation</p>
+                    <a href="landing/" class="text-decoration-none">
+                        <div class="ui-card">
+                            <img src="https://i.ibb.co/GvvCdPDv/wildgaurdafrica.png" alt="WildGuard Africa">
+                            <div class="ui-card-body">
+                                <h5 class="mb-1 text-light">WildGuard Africa</h5>
+                                <p class="text-muted-custom mb-0" style="font-size: 0.9rem;">Wildlife Conservation</p>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
                 <div class="col-md-4">
-                    <div class="card card-hover h-100 text-center border-0">
-                        <img src="https://i.ibb.co/KxNpbbcy/lumina2.png" class="card-img-top preview-img" style="height: 180px; object-fit: cover;" alt="Lumina Wear">
-                        <div class="card-body">
-                            <h5>Lumina Wear</h5>
-                            <p class="text-muted small">Fashion E-commerce</p>
+                    <a href="landing/" class="text-decoration-none">
+                        <div class="ui-card">
+                            <img src="https://i.ibb.co/KxNpbbcy/lumina2.png" alt="Lumina Wear">
+                            <div class="ui-card-body">
+                                <h5 class="mb-1 text-light">Lumina Wear</h5>
+                                <p class="text-muted-custom mb-0" style="font-size: 0.9rem;">Fashion E-commerce</p>
+                            </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
             </div>
         </div>
@@ -156,38 +421,70 @@
 
     <!-- More Sections Placeholder -->
     <section class="py-5">
-        <div class="container text-center">
-            <h3 class="mb-4" data-aos="fade-up">More UI Collections Coming Soon</h3>
+        <div class="container text-center" data-aos="fade-up">
+            <h2 class="section-title">More UI Collections Coming Soon</h2>
+            <p class="text-muted-custom mb-5">We are constantly crafting new components to supercharge your workflow.</p>
             <div class="d-flex flex-wrap justify-content-center gap-3">
-                <span class="badge bg-secondary fs-6 px-4 py-3">Dashboard UI</span>
-                <span class="badge bg-secondary fs-6 px-4 py-3">Mobile Components</span>
-                <span class="badge bg-secondary fs-6 px-4 py-3">Pricing Cards</span>
-                <span class="badge bg-secondary fs-6 px-4 py-3">Navigation Bars</span>
+                <span class="tech-badge"><i class="bi bi-grid-1x2 me-2"></i>Dashboard UI</span>
+                <span class="tech-badge"><i class="bi bi-phone me-2"></i>Mobile Components</span>
+                <span class="tech-badge"><i class="bi bi-tag me-2"></i>Pricing Cards</span>
+                <span class="tech-badge"><i class="bi bi-list me-2"></i>Navigation Bars</span>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="py-5 text-center border-top border-dark">
-        <p class="mb-1">Made with ❤️ for beautiful interfaces</p>
-        <p class="text-muted small">WebUI Showcase • PMM016</p>
+    <footer>
+        <div class="container">
+            <div class="brand mb-3">WebUI.</div>
+            <p class="text-muted-custom mb-2">Made with ❤️ for beautiful interfaces</p>
+            <p class="text-muted-custom small mb-0 opacity-75">WebUI Showcase • PMM016 © 2024</p>
+        </div>
     </footer>
+
+    <!-- Settings Offcanvas -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="settingsOffcanvas" aria-labelledby="settingsOffcanvasLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="settingsOffcanvasLabel">UI Settings</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <p class="text-muted-custom">🎨 Color Customizer coming in future updates!</p>
+            <p class="text-muted-custom">For now, each template has its own settings inside.</p>
+            <div class="mt-4 p-3 rounded" style="background: var(--surface); border: 1px solid var(--border);">
+                <p class="mb-0 text-light">Current Theme: <span id="currentThemeText" class="text-primary">Dark</span></p>
+            </div>
+        </div>
+    </div>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({ once: true });
-
-        // Theme Toggler
-        document.getElementById('themeToggle').addEventListener('click', () => {
-            document.body.classList.toggle('light-mode');
+        AOS.init({ 
+            once: true,
+            duration: 800,
+            easing: 'ease-out-cubic'
         });
 
-        // Settings Panel (Simple)
-        const settingsTrigger = document.getElementById('settingsTrigger');
-        settingsTrigger.addEventListener('click', () => {
-            alert("🎨 Color Customizer coming in future updates!\n\nFor now, each template has its own settings inside.");
+        // Theme Toggler
+        const themeToggle = document.getElementById('themeToggle');
+        const currentThemeText = document.getElementById('currentThemeText');
+        const themeIcon = themeToggle.querySelector('i');
+
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-mode');
+            
+            // Simple visual feedback for theme toggle (can be expanded)
+            if(document.body.classList.contains('light-mode')) {
+                themeIcon.classList.remove('bi-moon-stars-fill');
+                themeIcon.classList.add('bi-sun-fill');
+                if(currentThemeText) currentThemeText.textContent = 'Light';
+            } else {
+                themeIcon.classList.remove('bi-sun-fill');
+                themeIcon.classList.add('bi-moon-stars-fill');
+                if(currentThemeText) currentThemeText.textContent = 'Dark';
+            }
         });
     </script>
 </body>
