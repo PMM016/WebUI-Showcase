@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Templates • WebUI Showcase</title>
 
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;900&family=Open+Sans:wght@400;600&family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Modern Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
     
     <!-- CDNs -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -16,62 +18,254 @@
 
     <style>
         :root {
+            --bg: #09090b;
+            --surface: #111114;
+            --surface-hover: #18181b;
+            --border: rgba(255, 255, 255, 0.08);
             --primary: #00ff9f;
-            --accent: #ff00ff;
-            --bg: #0a0a0a;
+            --primary-rgb: 0, 255, 159;
+            --text-main: #e4e4e7;
+            --text-muted: #71717a;
+            --gradient-text: linear-gradient(135deg, #00ff9f 0%, #00bfff 100%);
         }
+
+        * {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
         body {
-            background: var(--bg);
-            color: #e0e0e0;
-            font-family: 'Ubuntu', sans-serif;
-            min-height: 100vh;
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
         }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            letter-spacing: -0.02em;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(9, 9, 11, 0.6) !important;
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+        }
+
         .brand {
-            font-family: 'Nunito', sans-serif;
-            font-size: 2.8rem;
-            font-weight: 900;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .nav-link-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .nav-link-btn:hover {
+            background: rgba(255,255,255,0.1);
+            color: var(--primary);
+            border-color: rgba(var(--primary-rgb), 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            padding-top: 160px;
+            padding-bottom: 80px;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(var(--primary-rgb), 0.15) 0%, transparent 60%);
+            z-index: 0;
+        }
+
+        .hero-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 40px 40px;
+            mask-image: radial-gradient(circle at center, black 0%, transparent 70%);
+            -webkit-mask-image: radial-gradient(circle at center, black 0%, transparent 70%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .hero-content { position: relative; z-index: 2; }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .gradient-text {
+            background: var(--gradient-text);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .card {
-            background: #111;
-            border: 1px solid #222;
-            transition: all 0.4s ease;
+
+        .hero p.lead {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 0.5rem auto;
         }
-        .card:hover {
-            transform: translateY(-12px);
-            border-color: var(--primary);
-            box-shadow: 0 20px 40px rgba(0, 255, 159, 0.15);
+
+        .hero p.subtle {
+            color: var(--text-muted);
+            opacity: 0.7;
+            font-size: 0.95rem;
         }
-        .preview-img {
-            height: 320px;
+
+        /* Sections & Cards */
+        section {
+            position: relative;
+            z-index: 1;
+            padding: 4rem 0;
+        }
+
+        .ui-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ui-card:hover {
+            transform: translateY(-5px);
+            background: var(--surface-hover);
+            border-color: rgba(255,255,255,0.15);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .ui-card img {
+            width: 100%;
+            height: 260px;
             object-fit: cover;
-            border-radius: 8px 8px 0 0;
+            border-bottom: 1px solid var(--border);
+            transition: transform 0.5s ease;
         }
-        .section-header {
-            font-family: 'Nunito', sans-serif;
-            font-size: 2.4rem;
-            font-weight: 900;
+
+        .ui-card:hover img {
+            transform: scale(1.03);
+        }
+
+        .ui-card-body {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .text-muted-custom {
+            color: var(--text-muted) !important;
+        }
+
+        /* Buttons */
+        .btn-modern {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 600;
+            padding: 0.65rem 1.25rem;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid transparent;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary-modern {
+            background: var(--primary);
+            color: #000;
+        }
+
+        .btn-primary-modern:hover {
+            background: #00e68d;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(var(--primary-rgb), 0.2);
+            color: #000;
+        }
+
+        .btn-outline-modern {
+            background: transparent;
+            border-color: var(--border);
+            color: var(--text-main);
+        }
+
+        .btn-outline-modern:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: rgba(255,255,255,0.2);
+            color: var(--text-main);
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 3rem 0;
+            text-align: center;
+            margin-top: 2rem;
         }
     </style>
 </head>
 <body>
 
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg fixed-top bg-black border-bottom border-primary">
+    <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
-            <a class="navbar-brand brand" href="../">WebUI</a>
-            <a class="btn btn-outline-light" href="../">← Back to Main</a>
+            <a class="brand" href="../">WebUI.</a>
+            <div class="d-flex gap-2 align-items-center">
+                <a href="../" class="nav-link-btn">
+                    <i class="bi bi-arrow-left"></i> Back to Home
+                </a>
+            </div>
         </div>
     </nav>
 
     <!-- Hero Banner -->
-    <section class="py-5 text-center" style="margin-top: 100px;padding-top: 120px; background: linear-gradient(135deg, #1a0033, #000);">
-        <div class="container">
-            <h1 class="brand">Login Templates</h1>
-            <p class="lead text-muted">Beautiful • Interactive • Fully Customizable</p>
-            <p class="text-light">Each template includes Login • Signup • Forgot Password with live color customizer &amp; theme toggler</p>
+    <section class="hero">
+        <div class="hero-grid"></div>
+        <div class="container hero-content">
+            <h1>Login <span class="gradient-text">Templates</span></h1>
+            <p class="lead">Beautiful • Interactive • Fully Customizable</p>
+            <p class="subtle">Each template includes Login • Signup • Forgot Password with live color customizer &amp; theme toggler</p>
         </div>
     </section>
 
@@ -79,22 +273,24 @@
     <section class="py-5">
         <div class="container">
             <div class="row g-4" id="templatesGrid">
-                <!-- Cards will be injected by JS -->
+                <!-- Cards injected by JS -->
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="py-5 text-center border-top border-dark">
-        <p>Made with ❤️ for beautiful interfaces</p>
-        <p class="text-muted small">WebUI Showcase • Login Collection</p>
+    <footer>
+        <div class="container">
+            <div class="brand mb-2">WebUI.</div>
+            <p class="text-muted-custom mb-0">Crafted with passion for modern web design.</p>
+        </div>
     </footer>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({ once: true });
+        AOS.init({ once: true, duration: 800, easing: 'ease-out-cubic' });
 
         const templates = [
             { 
@@ -151,7 +347,6 @@
                 desc: "Secure Authentication Portal",
                 img: "https://i.ibb.co/Y74BCd7M/Screenshot-2026-04-09-at-11-49-03-login2.png"
             }
-
         ];
 
         const grid = document.getElementById('templatesGrid');
@@ -159,16 +354,16 @@
         templates.forEach(t => {
             const cardHTML = `
                 <div class="col-md-6 col-lg-4" data-aos="fade-up">
-                    <div class="card h-100 card-hover">
-                        <img src="${t.img}" class="preview-img w-100" alt="${t.name}">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">${t.name}</h5>
-                            <p class="card-text text-muted flex-grow-1">${t.desc}</p>
-                            <div class="d-flex gap-2">
-                                <a href="${t.file}" target="_blank" class="btn btn-primary flex-fill">
+                    <div class="ui-card">
+                        <img src="${t.img}" alt="${t.name}">
+                        <div class="ui-card-body">
+                            <h5 class="mb-1 text-light">${t.name}</h5>
+                            <p class="text-muted-custom mb-4" style="font-size: 0.95rem;">${t.desc}</p>
+                            <div class="mt-auto d-flex gap-2">
+                                <a href="${t.file}" target="_blank" class="btn btn-primary-modern flex-fill">
                                     <i class="bi bi-eye"></i> View Live
                                 </a>
-                                <a href="${t.file}" class="btn btn-outline-light flex-fill" download>
+                                <a href="${t.file}" class="btn btn-outline-modern px-3" download>
                                     <i class="bi bi-download"></i>
                                 </a>
                             </div>
