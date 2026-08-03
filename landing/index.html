@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Landing Pages Showcase | WebUI Collection</title>
     
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&family=Ubuntu:wght@500;600&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Modern Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
     
     <!-- CDNs -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -17,110 +19,347 @@
 
     <style>
         :root {
-            --primary: #1a3c2f;
-            --secondary: #4ade80;
-            --accent: #eab308;
+            --bg: #09090b;
+            --surface: #111114;
+            --surface-hover: #18181b;
+            --border: rgba(255, 255, 255, 0.08);
+            --primary: #00ff9f;
+            --primary-rgb: 0, 255, 159;
+            --text-main: #e4e4e7;
+            --text-muted: #71717a;
+            --gradient-text: linear-gradient(135deg, #00ff9f 0%, #00bfff 100%);
         }
-        body {
-            font-family: 'Open Sans', sans-serif;
-        }
-        h1, h2, h3, h4, h5 { font-family: 'Nunito', sans-serif; }
-        .title-font { font-family: 'Ubuntu', sans-serif; }
 
-        .card {
-            transition: all 0.4s ease;
-            overflow: hidden;
+        * {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
-        .card:hover {
-            transform: translateY(-12px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
         }
-        .screenshot {
-            height: 240px;
-            object-fit: cover;
-            transition: transform 0.5s ease;
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            letter-spacing: -0.02em;
         }
-        .card:hover .screenshot {
-            transform: scale(1.08);
+
+        /* Navbar */
+        .navbar {
+            background: rgba(9, 9, 11, 0.6) !important;
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+            transition: all 0.3s ease;
         }
-        .squiggle {
-            background-image: linear-gradient(to bottom, var(--primary) 0%, var(--primary) 100%);
-            background-position: 0 100%;
-            background-repeat: repeat-x;
-            background-size: 2px 2px;
-            color: inherit;
+
+        .brand {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             text-decoration: none;
         }
-        .squiggle:hover {
-            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 4'%3E%3Cstyle type='text/css'%3E.squiggle{animation:shift .3s linear infinite;}@keyframes shift {from {transform:translateX(0);}to {transform:translateX(-15px);}}%3C/style%3E%3Cpath fill='none' stroke='%231a3c2f' stroke-width='2' class='squiggle' d='M0,3.5 c 5,0,5,-3,10,-3 s 5,3,10,3 c 5,0,5,-3,10,-3 s 5,3,10,3'/%3E%3C/svg%3E");
-            background-size: auto 4px;
+
+        .nav-btn, .nav-link-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .nav-btn:hover, .nav-link-btn:hover {
+            background: rgba(255,255,255,0.1);
+            color: var(--primary);
+            border-color: rgba(var(--primary-rgb), 0.3);
+        }
+
+        .icon-btn {
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            justify-content: center;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            padding-top: 160px;
+            padding-bottom: 80px;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(var(--primary-rgb), 0.15) 0%, transparent 60%);
+            z-index: 0;
+        }
+
+        .hero-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 40px 40px;
+            mask-image: radial-gradient(circle at center, black 0%, transparent 70%);
+            -webkit-mask-image: radial-gradient(circle at center, black 0%, transparent 70%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .hero-content { position: relative; z-index: 2; }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .gradient-text {
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p.lead {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 1rem auto;
+        }
+
+        /* Sections & Cards */
+        section {
+            position: relative;
+            z-index: 1;
+        }
+
+        .ui-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ui-card:hover {
+            transform: translateY(-5px);
+            background: var(--surface-hover);
+            border-color: rgba(255,255,255,0.15);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .ui-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-bottom: 1px solid var(--border);
+            transition: transform 0.5s ease;
+        }
+
+        .ui-card:hover img {
+            transform: scale(1.03);
+        }
+
+        .ui-card-body {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .text-muted-custom {
+            color: var(--text-muted) !important;
+        }
+
+        .tech-badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border);
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            color: var(--text-main);
+            font-weight: 500;
+            font-size: 0.75rem;
+            text-decoration: none;
+        }
+
+        /* Buttons */
+        .btn-modern {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 600;
+            padding: 0.65rem 1.25rem;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid transparent;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary-modern {
+            background: var(--primary);
+            color: #000;
+        }
+
+        .btn-primary-modern:hover {
+            background: #00e68d;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(var(--primary-rgb), 0.2);
+            color: #000;
+        }
+
+        .btn-outline-modern {
+            background: transparent;
+            border-color: var(--border);
+            color: var(--text-main);
+        }
+
+        .btn-outline-modern:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: rgba(255,255,255,0.2);
+            color: var(--text-main);
+        }
+
+        /* Modal Styling */
+        .modal-content {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            color: var(--text-main);
+        }
+        .modal-header, .modal-footer {
+            border-color: var(--border);
+        }
+        .btn-close {
+            filter: invert(1) grayscale(100%) brightness(200%);
+        }
+        .form-control-color {
+            height: 40px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            cursor: pointer;
+        }
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 3rem 0;
+            text-align: center;
+            margin-top: 4rem;
         }
     </style>
 </head>
-<body class="bg-light">
+<body>
 
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
-            <a class="navbar-brand fw-bold title-font" href="#">WebUI Showcase</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto align-items-center">
-                    <li class="nav-item"><a class="nav-link" href="../">← Back to Home</a></li>
-                    <li class="nav-item">
-                        <button id="themeToggle" class="btn btn-outline-light ms-3">
-                            <i class="bi bi-sun-fill"></i>
-                        </button>
-                    </li>
-                    <li class="nav-item">
-                        <button id="settingsBtn" class="btn btn-outline-light ms-2">
-                            <i class="bi bi-gear-fill"></i>
-                        </button>
-                    </li>
-                </ul>
+            <a class="brand" href="../">WebUI.</a>
+            <div class="d-flex gap-2 align-items-center">
+                <a href="../" class="nav-link-btn d-none d-md-inline-flex">
+                    <i class="bi bi-arrow-left"></i> Back to Home
+                </a>
+                <button id="themeToggle" class="nav-btn icon-btn" title="Toggle Theme">
+                    <i class="bi bi-moon-stars-fill"></i>
+                </button>
+                <button id="settingsBtn" class="nav-btn icon-btn" title="Customize Theme" data-bs-toggle="modal" data-bs-target="#settingsModal">
+                    <i class="bi bi-gear-fill"></i>
+                </button>
             </div>
         </div>
     </nav>
 
     <!-- Hero -->
-    <section class="bg-dark text-white py-5">
-        <div class="container text-center py-4" data-aos="fade-down">
-            <h1 class="display-4 fw-bold title-font">Landing Pages Collection</h1>
-            <p class="lead mb-0">20 Premium, Fully Customizable Landing Page Templates</p>
-            <p class="text-muted">Built with Bootstrap 5 • AOS • Swiper • Modern Animations</p>
+    <section class="hero">
+        <div class="hero-grid"></div>
+        <div class="container hero-content">
+            <h1>Landing Pages <span class="gradient-text">Collection</span></h1>
+            <p class="lead">20 Premium, Fully Customizable Landing Page Templates</p>
+            <p class="text-muted-custom">Built with Bootstrap 5 • AOS • Swiper • Modern Animations</p>
         </div>
     </section>
 
-    <div class="container py-5">
-        <div class="row g-4" id="templatesContainer">
-            <!-- Populated by JavaScript -->
+    <!-- Templates Grid -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row g-4" id="templatesContainer">
+                <!-- Populated by JavaScript -->
+            </div>
         </div>
-    </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="brand mb-2">WebUI.</div>
+            <p class="text-muted-custom mb-0">Crafted with passion for modern web design.</p>
+        </div>
+    </footer>
 
     <!-- Settings Modal -->
     <div class="modal fade" id="settingsModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title title-font">Customize Theme</h5>
+                    <h5 class="modal-title">Customize Theme</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="form-label">Primary Color</label>
-                        <input type="color" id="colorPrimary" class="form-control form-control-color w-100" value="#1a3c2f">
+                        <input type="color" id="colorPrimary" class="form-control form-control-color w-100" value="#00ff9f">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Secondary Color</label>
-                        <input type="color" id="colorSecondary" class="form-control form-control-color w-100" value="#4ade80">
+                        <input type="color" id="colorSecondary" class="form-control form-control-color w-100" value="#00bfff">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Accent Color</label>
-                        <input type="color" id="colorAccent" class="form-control form-control-color w-100" value="#eab308">
+                        <input type="color" id="colorAccent" class="form-control form-control-color w-100" value="#ff00ff">
                     </div>
-                    <button id="resetColors" class="btn btn-outline-secondary w-100">Reset to Default</button>
+                </div>
+                <div class="modal-footer">
+                    <button id="resetColors" class="btn btn-outline-modern w-100">Reset to Default</button>
                 </div>
             </div>
         </div>
@@ -160,7 +399,7 @@
             {
                 number: 4,
                 name: "SpiceRoute",
-                industry: "Food Delivery / Restaurant",
+                industry: "Food Delivery",
                 desc: "Appetizing food delivery and restaurant landing page",
                 img: "https://i.ibb.co/zTDKm4SY/spiceroute.png",
                 demo1: "https://pmm016.github.io/WebUI-Showcase/landing/spiceroute",
@@ -193,24 +432,22 @@
             templates.forEach(template => {
                 const cardHTML = `
                     <div class="col-lg-6 col-xl-4" data-aos="fade-up">
-                        <div class="card h-100 shadow-sm border-0">
-                            <img src="${template.img}" class="card-img-top screenshot" alt="${template.name}">
-                            <div class="card-body d-flex flex-column">
-                                <div class="d-flex justify-content-between align-items-start">
-                                    <div>
-                                        <span class="badge bg-dark mb-2">#${template.number}</span>
-                                        <h5 class="card-title title-font fw-bold">${template.name}</h5>
-                                        <p class="text-muted small mb-2">${template.industry}</p>
-                                    </div>
+                        <div class="ui-card">
+                            <img src="${template.img}" alt="${template.name}">
+                            <div class="ui-card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <span class="tech-badge">#${template.number}</span>
+                                    <span class="text-muted-custom small">${template.industry}</span>
                                 </div>
-                                <p class="card-text flex-grow-1">${template.desc}</p>
+                                <h5 class="mb-2 text-light">${template.name}</h5>
+                                <p class="text-muted-custom mb-4" style="font-size: 0.95rem;">${template.desc}</p>
                                 
-                                <div class="mt-auto">
-                                    <a href="${template.demo1}" target="_blank" class="btn btn-dark w-100 mb-2">
+                                <div class="mt-auto d-flex flex-column gap-2">
+                                    <a href="${template.demo1}" target="_blank" class="btn btn-primary-modern">
                                         <i class="bi bi-eye"></i> View Demo 1
                                     </a>
                                     ${template.demo2 ? `
-                                    <a href="${template.demo2}" target="_blank" class="btn btn-outline-dark w-100">
+                                    <a href="${template.demo2}" target="_blank" class="btn btn-outline-modern">
                                         <i class="bi bi-eye"></i> View Demo 2
                                     </a>` : ''}
                                 </div>
@@ -225,21 +462,17 @@
         // Theme Toggler
         const themeToggle = document.getElementById('themeToggle');
         themeToggle.addEventListener('click', () => {
-            document.documentElement.classList.toggle('dark');
-            themeToggle.innerHTML = document.documentElement.classList.contains('dark') 
-                ? '<i class="bi bi-moon-fill"></i>' 
-                : '<i class="bi bi-sun-fill"></i>';
+            document.body.classList.toggle('light-mode');
+            themeToggle.innerHTML = document.body.classList.contains('light-mode') 
+                ? '<i class="bi bi-sun-fill"></i>' 
+                : '<i class="bi bi-moon-stars-fill"></i>';
         });
-
-        // Settings Modal
-        const settingsModal = new bootstrap.Modal(document.getElementById('settingsModal'));
-        document.getElementById('settingsBtn').addEventListener('click', () => settingsModal.show());
 
         // Color Picker Logic
         function updateColors() {
-            document.documentElement.style.setProperty('--primary', document.getElementById('colorPrimary').value);
-            document.documentElement.style.setProperty('--secondary', document.getElementById('colorSecondary').value);
-            document.documentElement.style.setProperty('--accent', document.getElementById('colorAccent').value);
+            const p = document.getElementById('colorPrimary').value;
+            document.documentElement.style.setProperty('--primary', p);
+            // Extract RGB for dynamic alpha usage if needed, but simple hex works for most properties
         }
 
         document.getElementById('colorPrimary').addEventListener('input', updateColors);
@@ -247,15 +480,15 @@
         document.getElementById('colorAccent').addEventListener('input', updateColors);
 
         document.getElementById('resetColors').addEventListener('click', () => {
-            document.getElementById('colorPrimary').value = '#1a3c2f';
-            document.getElementById('colorSecondary').value = '#4ade80';
-            document.getElementById('colorAccent').value = '#eab308';
+            document.getElementById('colorPrimary').value = '#00ff9f';
+            document.getElementById('colorSecondary').value = '#00bfff';
+            document.getElementById('colorAccent').value = '#ff00ff';
             updateColors();
         });
 
         // Initialize
         window.onload = () => {
-            AOS.init({ once: true });
+            AOS.init({ once: true, duration: 800, easing: 'ease-out-cubic' });
             renderTemplates();
         };
     </script>
